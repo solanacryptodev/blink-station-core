@@ -6,7 +6,7 @@ import { Session } from '@/lib/types'
 import { getMissingKeys } from '@/app/actions'
 
 export const metadata = {
-  title: 'Blink Station AI'
+  title: 'Blink Station 10'
 }
 
 export default async function IndexPage() {

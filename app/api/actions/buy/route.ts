@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PublicKey } from '@solana/web3.js';
 import { ActionGetResponse, ActionPostRequest, ACTIONS_CORS_HEADERS } from "@solana/actions";
 import { CONNECTION, gmClientService, parseCombinedParams, PROGRAM_ID } from '@/lib/chat/blinks/actions';
-import { AssetMetadata, assets } from '@/app/api/actions/buy/const';
+import { AssetMetadata, assets } from '@/lib/metadata';
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
     const requestURL = new URL(req.url);
+    // console.log('Full request URL:', requestURL.href);
     const getAssetParam = requestURL.searchParams.get("asset") as string;
 
     const params = parseCombinedParams(getAssetParam);
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest) {
             actions: [
                 {
                     label: `${params.price} ATLAS/NFT`,
-                    href: `${requestURL}?asset=${getAssetParam}&quantity={quantity}`,
+                    href: `${requestURL.href}&quantity={quantity}`,
                     parameters: [
                         {
                             name: "quantity",

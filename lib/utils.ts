@@ -1,6 +1,29 @@
 import { clsx, type ClassValue } from 'clsx'
 import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
+import { PublicKey } from "@solana/web3.js";
+import { assets } from "@/lib/metadata";
+import { BN } from "@coral-xyz/anchor";
+
+export function getNftMint(assetQuery: string): PublicKey | null {
+  const asset = assets.find(asset => asset.param.toLowerCase() === assetQuery.toLowerCase())
+  const mint = asset?.mint
+  return mint ? new PublicKey(mint) : null;
+}
+
+// Utility function to convert BN to a readable number
+export const bnToNumber = (bn: BN): number => {
+  const decimals = 8;
+  const divisor = new BN(10).pow(new BN(decimals));
+  const wholePart = bn.div(divisor);
+  const fractionalPart = bn.mod(divisor);
+
+  const fractionalStr = fractionalPart.toString().padStart(decimals, '0');
+  const result = parseFloat(wholePart.toString() + '.' + fractionalStr);
+
+  // Round to 6 decimal places for display
+  return Number(result.toFixed(6));
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -87,3 +110,17 @@ export const getMessageFromCode = (resultCode: string) => {
       return 'Logged in!'
   }
 }
+
+export const formatPriceForQuery = (price: string): string => {
+  if (price.startsWith('0')) {
+    // Find the first non-zero digit
+    const firstNonZero = price.split('').findIndex(char => char !== '0');
+    if (firstNonZero === -1) {
+      // If all zeros, return "0.0"
+      return "0.0";
+    }
+    // Insert the decimal point after the first zero
+    return '0.' + price.slice(1);
+  }
+  return price;
+};
