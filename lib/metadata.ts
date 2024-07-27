@@ -55,5 +55,11 @@ export const assets: AssetMetadata[] = [
         param: 'carbon',
         image: '',
         mint: 'CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X'
+    },
+    {
+        name: 'Steel',
+        param: 'steel',
+        image: '',
+        mint: ''
     }
 ]
