@@ -1,4 +1,3 @@
-export const ATLAS: string = 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx';
 const shdwStorageAcct = process.env.SHDW_STORAGE_ACCT as string;
 
 export interface AssetMetadata {
@@ -44,5 +43,17 @@ export const assets: AssetMetadata[] = [
         param: 'calicomaxhog',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicomaxhog%20(1).png`,
         mint: 'GxpbUDxYYvxiUejHcAMzeV2rzdHf6KZZvT86ACrpFgXa',
+    },
+    {
+        name: 'Ammunition',
+        param: 'ammunition',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/ammunition.png`,
+        mint: 'ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK'
+    },
+    {
+        name: 'Carbon',
+        param: 'carbon',
+        image: '',
+        mint: 'CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X'
     }
 ]

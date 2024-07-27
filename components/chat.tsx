@@ -11,6 +11,7 @@ import { Message, Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
+import { useMarketplaceClient } from "@/lib/hooks/useMarketplaceClient";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -27,6 +28,22 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const [aiState] = useAIState()
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
+  // const { findOpenOrdersByAsset, isLoading, error } = useMarketplaceClient();
+
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   const fetchOrders = async () => {
+  //     if (isMounted) {
+  //       await findOpenOrdersByAsset('ammunition');
+  //     }
+  //   };
+  //
+  //   fetchOrders().then();
+  //
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, [findOpenOrdersByAsset]);
 
   useEffect(() => {
     if (session?.user) {
