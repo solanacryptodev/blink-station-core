@@ -25,7 +25,10 @@ import { Events } from '@/components/stocks/events'
 import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
 import { Stocks } from '@/components/stocks/stocks'
 import { StockSkeleton } from '@/components/stocks/stock-skeleton'
+import { Orders } from "@/components/marketplace/Orders";
 import { OpenOrdersSkeleton } from '@/components/marketplace/OpenOrdersSkeleton'
+import { Blink } from '@/components/marketplace/Blink'
+import { BlinkSkeleton } from '@/components/marketplace/BlinkSkeleton'
 import {
   formatNumber,
   runAsyncFnWithoutBlocking,
@@ -36,7 +39,6 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
-import { Orders } from "@/components/marketplace/Orders";
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -144,7 +146,7 @@ async function submitUserMessage(content: string) {
       call \`get_open_orders_for_asset_by_pubkey\` to show the list of open orders in the UI. Once you return data from the Solana
       program, inform the player that in order to generate a blink, you'll need them to choose an Order ID.
       
-    If the user just wants the price, call \`show_stock_price\` to show the price.
+    If the user has an Order ID and wants to generate a blink, call \`create_blink\` to show the blink URL.
     If you want to show trending stocks, call \`list_stocks\`.
     If you want to show events, call \`get_events\`.
     If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
@@ -237,6 +239,28 @@ async function submitUserMessage(content: string) {
           return (
               <BotCard>
                 <Orders userAsset={asset}/>
+              </BotCard>
+          )
+        }
+      },
+      createBlink: {
+        description: 'Create a blink for a user.',
+        parameters: z.object({
+          orderId: z.string().describe('The Order ID of the open order in the Galactic Marketplace')
+        }),
+        generate: async function* ({ orderId }) {
+          yield (
+              <BotCard>
+                <BlinkSkeleton />
+              </BotCard>
+          )
+
+          await sleep( 1000 )
+          const toolCallId = nanoid()
+
+          return (
+              <BotCard>
+                <Blink orderID={orderId}/>
               </BotCard>
           )
         }
@@ -641,6 +665,11 @@ export const getUIStateFromAIState = (aiState: Chat) => {
                 {/* @ts-expect-error */}
                 <Events props={tool.result} />
               </BotCard>
+            ) : tool.toolName === 'getOpenOrdersForAssetByPubkey' ? (
+                <BotCard>
+                  {/* @ts-expect-error */}
+                  <Orders userAsset={tool.result} />
+                </BotCard>
             ) : null
           })
         ) : message.role === 'user' ? (

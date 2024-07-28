@@ -45,7 +45,7 @@ export interface ReturnedOrders {
   assetName: string
   orderType: OrderSide
   orderId: string
-  price: number
+  price: number | string
   quantity: number
   owner: string
 }

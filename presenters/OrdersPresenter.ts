@@ -5,6 +5,7 @@ import { bnToNumber, getNftMint, getNftName } from "@/lib/utils";
 import { PublicKey } from "@solana/web3.js";
 import { ATLAS, CONNECTION, PROGRAM_ID } from "@/lib/constants";
 import { BN } from "@coral-xyz/anchor";
+import { assets } from "@/lib/metadata";
 
 export class OrdersPresenter {
     private static instance: OrdersPresenter | null = null;
@@ -12,19 +13,24 @@ export class OrdersPresenter {
     isLoading: boolean;
     isFetchComplete: boolean;
     error: string | null;
+    blinkURL: string;
 
     constructor() {
         this.orders = [];
         this.isLoading = false;
         this.isFetchComplete = false;
         this.error = '';
+        this.blinkURL = '';
 
         makeAutoObservable(this, {
             orders: observable,
             isLoading: observable,
             isFetchComplete: observable,
+            error: observable,
+            blinkURL: observable,
 
-            fetchOrders: action.bound
+            fetchOrders: action.bound,
+            buildBlinkUrl: action.bound
         });
     }
 
@@ -56,17 +62,17 @@ export class OrdersPresenter {
             }
 
             const openOrders: ReturnedOrders[] = userOrders.map(order => ({
-                assetName: name,
+                assetName: name.toLowerCase(),
                 orderType: order.orderType,
                 orderId: order.id.toString(),
-                price: bnToNumber(new BN(order.price)),
+                price: bnToNumber(new BN(order.price), true),
                 quantity: order.orderQtyRemaining,
                 owner: order.owner.toString()
             }));
             console.log('openOrders: ', openOrders);
 
             runInAction(() => {
-                this.orders = openOrders;
+                this.orders.push(...openOrders);
                 this.isFetchComplete = true;
                 this.isLoading = false;
             });
@@ -76,5 +82,39 @@ export class OrdersPresenter {
                 this.isLoading = false;
             });
         }
+    }
+
+    async buildBlinkUrl(orderID: string): Promise<string> {
+        try {
+            if ( this.orders.length === 0 ) {
+                const gmClientService = new GmClientService();
+                const getOrder = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
+                const name = assets.filter((asset) => asset.mint === getOrder.orderMint);
+                this.orders.push({
+                    assetName: name[0].name.toLowerCase(),
+                    orderType: getOrder.orderType,
+                    orderId: getOrder.id.toString(),
+                    price: bnToNumber(new BN(getOrder.price)),
+                    quantity: getOrder.orderQtyRemaining,
+                    owner: getOrder.owner.toString()
+                });
+            }
+
+            const orders = this.orders.filter(order => order.orderId === orderID);
+            // console.log('orders: ', orders);
+
+            runInAction(() => {
+                this.blinkURL = `https://blinkstationx.com/blink?asset=${orders[0].assetName}|${orders[0].orderId}|${orders[0].price}|${orders[0].quantity}`;
+                // console.log('blinkURL: ', this.blinkURL);
+            });
+
+        } catch (error) {
+            runInAction(() => {
+                this.error = error as string;
+                this.isLoading = false;
+            });
+        }
+
+        return this.blinkURL;
     }
 }
