@@ -84,9 +84,5 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.5.2"
   },
-  "packageManager": "pnpm@8.6.3",
-  "browser": {
-      "crypto": false,
-      "stream": false
-  }
+  "packageManager": "pnpm@8.6.3"
 }
