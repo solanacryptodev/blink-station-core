@@ -1,4 +1,5 @@
 import { CoreMessage } from 'ai'
+import { OrderSide } from "@staratlas/factory";
 
 export type Message = CoreMessage & {
   id: string
@@ -38,4 +39,18 @@ export interface User extends Record<string, any> {
   email: string
   password: string
   salt: string
+}
+
+export interface ReturnedOrders {
+  assetName: string
+  orderType: OrderSide
+  orderId: string
+  price: number
+  quantity: number
+  owner: string
+}
+
+export interface OpenOrders {
+  ownerKey: string
+  assetName: string
 }

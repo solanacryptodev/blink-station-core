@@ -92,6 +92,12 @@ dependencies:
   i:
     specifier: ^0.3.7
     version: 0.3.7
+  mobx:
+    specifier: ^6.13.1
+    version: 6.13.1
+  mobx-react-lite:
+    specifier: 2.2.0
+    version: 2.2.0(mobx@6.13.1)(react-dom@18.3.1)(react@18.3.1)
   nanoid:
     specifier: ^5.0.7
     version: 5.0.7
@@ -137,6 +143,9 @@ dependencies:
   sonner:
     specifier: ^1.5.0
     version: 1.5.0(react-dom@18.3.1)(react@18.3.1)
+  tsyringe:
+    specifier: ^4.8.0
+    version: 4.8.0
   usehooks-ts:
     specifier: ^3.1.0
     version: 3.1.0(react@18.3.1)
@@ -5153,6 +5162,24 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
 
+  /mobx-react-lite@2.2.0(mobx@6.13.1)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-FUPacb4bk21qp/wrEv2vPcqC314nGRgHQzzIPHVBGAT5GtzaYiwvMHx192/Vy8TyI4+8H5JY9689jnvDOvLRuQ==}
+    peerDependencies:
+      mobx: ^4.0.0 || ^5.0.0
+      react: ^16.8.0
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      mobx: 6.13.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
   /mobx-utils@6.0.8(mobx@6.13.1):
     resolution: {integrity: sha512-fPNt0vJnHwbQx9MojJFEnJLfM3EMGTtpy4/qOOW6xueh1mPofMajrbYAUvByMYAvCJnpy1A5L0t+ZVB5niKO4g==}
     peerDependencies:
@@ -6578,8 +6605,19 @@ packages:
       strip-bom: 3.0.0
     dev: true
 
+  /tslib@1.14.1:
+    resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: false
+
   /tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
+    dev: false
+
+  /tsyringe@4.8.0:
+    resolution: {integrity: sha512-YB1FG+axdxADa3ncEtRnQCFq/M0lALGLxSZeVNbTU8NqhOVc51nnv2CISTcvc1kyv6EGPtXVr0v6lWeDxiijOA==}
+    engines: {node: '>= 6.0.0'}
+    dependencies:
+      tslib: 1.14.1
     dev: false
 
   /tweetnacl@1.0.3:

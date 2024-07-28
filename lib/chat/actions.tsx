@@ -25,6 +25,7 @@ import { Events } from '@/components/stocks/events'
 import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
 import { Stocks } from '@/components/stocks/stocks'
 import { StockSkeleton } from '@/components/stocks/stock-skeleton'
+import { OpenOrdersSkeleton } from '@/components/marketplace/OpenOrdersSkeleton'
 import {
   formatNumber,
   runAsyncFnWithoutBlocking,
@@ -35,6 +36,7 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
+import { Orders } from "@/components/marketplace/Orders";
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -127,17 +129,21 @@ async function submitUserMessage(content: string) {
   let textNode: undefined | React.ReactNode
 
   const result = await streamUI({
-    model: openai('gpt-3.5-turbo'),
+    model: openai('gpt-4o'),
     initial: <SpinnerMessage />,
     system: `\
-    You are a stock trading conversation bot and you can help users buy stocks, step by step.
-    You and the user can discuss stock prices and the user can adjust the amount of stocks they want to buy, or place an order, in the UI.
+    You are an AI assistant named Atlasson. Your primary directive is to provide information about the game called Star Atlas.
+    You get this data directly from the Solana blockchain through the numerous programs dedicated to the Star Atlas game.
     
     Messages inside [] means that it's a UI element or a user event. For example:
     - "[Price of AAPL = 100]" means that an interface of the stock price of AAPL is shown to the user.
     - "[User has changed the amount of AAPL to 10]" means that the user has changed the amount of AAPL to 10 in the UI.
     
-    If the user requests purchasing a stock, call \`show_stock_purchase_ui\` to show the purchase UI.
+    If the user requests you to make a blink, but doesn't provide any information, respond that you need the asset name and the 
+      public key of a user with an open order in that market. Once they respond with those two things,
+      call \`get_open_orders_for_asset_by_pubkey\` to show the list of open orders in the UI. Once you return data from the Solana
+      program, inform the player that in order to generate a blink, you'll need them to choose an Order ID.
+      
     If the user just wants the price, call \`show_stock_price\` to show the price.
     If you want to show trending stocks, call \`list_stocks\`.
     If you want to show events, call \`get_events\`.
@@ -177,6 +183,64 @@ async function submitUserMessage(content: string) {
       return textNode
     },
     tools: {
+      getOpenOrdersForAssetByPubkey: {
+        description: 'Get all open orders for a Galactic Marketplace asset by searching based on the assets name and the pubkey of the player.',
+        parameters: z.object({
+            asset: z.array(
+                z.object({
+                    assetName: z.string().describe('The name of the asset'),
+                    ownerKey: z.string().describe('The pubkey of the player')
+                })
+            )
+        }),
+        generate: async function* ({ asset }) {
+          yield (
+              <BotCard>
+                <OpenOrdersSkeleton />
+              </BotCard>
+          )
+
+          await sleep( 1000 )
+          const toolCallId = nanoid()
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'getOpenOrdersForAssetByPubkey',
+                    toolCallId,
+                    args: { asset }
+                  }
+                ]
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'getOpenOrdersForAssetByPubkey',
+                    toolCallId,
+                    result: asset
+                  }
+                ]
+              }
+            ]
+          })
+
+          return (
+              <BotCard>
+                <Orders userAsset={asset}/>
+              </BotCard>
+          )
+        }
+      },
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({
