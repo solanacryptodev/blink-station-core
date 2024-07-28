@@ -131,7 +131,7 @@ async function submitUserMessage(content: string) {
   let textNode: undefined | React.ReactNode
 
   const result = await streamUI({
-    model: openai('gpt-4o'),
+    model: openai('gpt-4o-mini-2024-07-18'),
     initial: <SpinnerMessage />,
     system: `\
     You are an AI assistant named Atlasson. Your primary directive is to provide information about the game called Star Atlas.

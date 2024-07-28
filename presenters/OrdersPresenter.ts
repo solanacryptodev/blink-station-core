@@ -65,7 +65,7 @@ export class OrdersPresenter {
                 assetName: name.toLowerCase(),
                 orderType: order.orderType,
                 orderId: order.id.toString(),
-                price: bnToNumber(new BN(order.price), true),
+                price: bnToNumber(new BN(order.price)),
                 quantity: order.orderQtyRemaining,
                 owner: order.owner.toString()
             }));

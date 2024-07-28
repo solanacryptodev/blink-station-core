@@ -18,22 +18,17 @@ export function getNftName(name: string): string | null {
 }
 
 // Utility function to convert BN to a readable number
-export const bnToNumber = (bn: BN, fromDecimal: boolean = false): string | number => {
+export const bnToNumber = (bn: BN): number => {
   const decimals = 8;
   const divisor = new BN(10).pow(new BN(decimals));
   const wholePart = bn.div(divisor);
   const fractionalPart = bn.mod(divisor);
 
   const fractionalStr = fractionalPart.toString().padStart(decimals, '0');
+  const result = parseFloat(wholePart.toString() + '.' + fractionalStr);
 
-  if (fromDecimal) {
-    // Remove the decimal point and return as a string
-    return (wholePart.toString() + fractionalStr).replace(/^0+/, '');
-  } else {
-    const result = parseFloat(wholePart.toString() + '.' + fractionalStr);
-    // Round to 6 decimal places for display
-    return Number(result.toFixed(6));
-  }
+  // Round to 6 decimal places for display
+  return Number(result.toFixed(6));
 };
 
 export function cn(...inputs: ClassValue[]) {
