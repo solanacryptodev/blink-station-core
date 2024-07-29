@@ -6,13 +6,13 @@ export const GET = async () => {
             // map all root level routes to an action
             {
                 pathPattern: "/blink",
-                apiPath: "/blink",
+                apiPath: "/api/actions/buy",
             },
             // fallback path
             // TODO: fetch quantity from on-chain. Currently hardcoded to 618.
             {
                 pathPattern: "/blink?asset=:assetId",
-                apiPath: "/blink?asset=:assetId",
+                apiPath: "/api/actions/buy?asset=:assetId",
             },
         ],
     };
