@@ -25,6 +25,10 @@ import { Events } from '@/components/stocks/events'
 import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
 import { Stocks } from '@/components/stocks/stocks'
 import { StockSkeleton } from '@/components/stocks/stock-skeleton'
+import { Orders } from "@/components/marketplace/Orders";
+import { OpenOrdersSkeleton } from '@/components/marketplace/OpenOrdersSkeleton'
+import { Blink } from '@/components/marketplace/Blink'
+import { BlinkSkeleton } from '@/components/marketplace/BlinkSkeleton'
 import {
   formatNumber,
   runAsyncFnWithoutBlocking,
@@ -127,18 +131,22 @@ async function submitUserMessage(content: string) {
   let textNode: undefined | React.ReactNode
 
   const result = await streamUI({
-    model: openai('gpt-3.5-turbo'),
+    model: openai('gpt-4o-mini-2024-07-18'),
     initial: <SpinnerMessage />,
     system: `\
-    You are a stock trading conversation bot and you can help users buy stocks, step by step.
-    You and the user can discuss stock prices and the user can adjust the amount of stocks they want to buy, or place an order, in the UI.
+    You are an AI assistant named Atlasson. Your primary directive is to provide information about the game called Star Atlas.
+    You get this data directly from the Solana blockchain through the numerous programs dedicated to the Star Atlas game.
     
     Messages inside [] means that it's a UI element or a user event. For example:
     - "[Price of AAPL = 100]" means that an interface of the stock price of AAPL is shown to the user.
     - "[User has changed the amount of AAPL to 10]" means that the user has changed the amount of AAPL to 10 in the UI.
     
-    If the user requests purchasing a stock, call \`show_stock_purchase_ui\` to show the purchase UI.
-    If the user just wants the price, call \`show_stock_price\` to show the price.
+    If the user requests you to make a blink, but doesn't provide any information, respond that you need the asset name and the 
+      public key of a user with an open order in that market. Once they respond with those two things,
+      call \`get_open_orders_for_asset_by_pubkey\` to show the list of open orders in the UI. Once you return data from the Solana
+      program, inform the player that in order to generate a blink, you'll need them to choose an Order ID.
+      
+    If the user has an Order ID and wants to generate a blink, call \`create_blink\` to show the blink URL.
     If you want to show trending stocks, call \`list_stocks\`.
     If you want to show events, call \`get_events\`.
     If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
@@ -177,6 +185,86 @@ async function submitUserMessage(content: string) {
       return textNode
     },
     tools: {
+      getOpenOrdersForAssetByPubkey: {
+        description: 'Get all open orders for a Galactic Marketplace asset by searching based on the assets name and the pubkey of the player.',
+        parameters: z.object({
+            asset: z.array(
+                z.object({
+                    assetName: z.string().describe('The name of the asset'),
+                    ownerKey: z.string().describe('The pubkey of the player')
+                })
+            )
+        }),
+        generate: async function* ({ asset }) {
+          yield (
+              <BotCard>
+                <OpenOrdersSkeleton />
+              </BotCard>
+          )
+
+          await sleep( 1000 )
+          const toolCallId = nanoid()
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'getOpenOrdersForAssetByPubkey',
+                    toolCallId,
+                    args: { asset }
+                  }
+                ]
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'getOpenOrdersForAssetByPubkey',
+                    toolCallId,
+                    result: asset
+                  }
+                ]
+              }
+            ]
+          })
+
+          return (
+              <BotCard>
+                <Orders userAsset={asset}/>
+              </BotCard>
+          )
+        }
+      },
+      createBlink: {
+        description: 'Create a blink for a user.',
+        parameters: z.object({
+          orderId: z.string().describe('The Order ID of the open order in the Galactic Marketplace')
+        }),
+        generate: async function* ({ orderId }) {
+          yield (
+              <BotCard>
+                <BlinkSkeleton />
+              </BotCard>
+          )
+
+          await sleep( 1000 )
+          const toolCallId = nanoid()
+
+          return (
+              <BotCard>
+                <Blink orderID={orderId}/>
+              </BotCard>
+          )
+        }
+      },
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({
@@ -577,6 +665,16 @@ export const getUIStateFromAIState = (aiState: Chat) => {
                 {/* @ts-expect-error */}
                 <Events props={tool.result} />
               </BotCard>
+            ) : tool.toolName === 'getOpenOrdersForAssetByPubkey' ? (
+                <BotCard>
+                  {/* @ts-expect-error */}
+                  <Orders userAsset={tool.result} />
+                </BotCard>
+            ) : tool.toolName === 'createBlink' ? (
+                <BotCard>
+                  {/* @ts-expect-error */}
+                  <Blink orderID={tool.result} />
+                </BotCard>
             ) : null
           })
         ) : message.role === 'user' ? (

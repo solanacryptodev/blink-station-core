@@ -11,6 +11,12 @@ export function getNftMint(assetQuery: string): PublicKey | null {
   return mint ? new PublicKey(mint) : null;
 }
 
+export function getNftName(name: string): string | null {
+  const asset = assets.find(asset => asset.param.toLowerCase() === name.toLowerCase())
+  const mint = asset?.name
+  return mint ? mint : null;
+}
+
 // Utility function to convert BN to a readable number
 export const bnToNumber = (bn: BN): number => {
   const decimals = 8;

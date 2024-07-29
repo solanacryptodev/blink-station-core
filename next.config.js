@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
+const webpack = require('webpack');
+
 module.exports = {
+  serverRuntimeConfig: {
+    HELIUS_RPC_URL: process.env.HELIUS_RPC_URL,
+  },
   images: {
     remotePatterns: [
       {
@@ -9,5 +14,21 @@ module.exports = {
         pathname: '**'
       }
     ]
+  },
+  webpack: (config) => {
+    config.resolve.fallback = {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      vm: require.resolve('vm-browserify'),
+    };
+
+    config.plugins.push(
+        new webpack.ProvidePlugin({
+          process: 'process/browser',
+          Buffer: ['buffer', 'Buffer']
+        })
+    );
+
+    return config;
   }
-}
+};
