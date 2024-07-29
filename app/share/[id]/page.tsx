@@ -1,3 +1,4 @@
+import React from 'react'
 // import { type Metadata } from 'next'
 // import { notFound } from 'next/navigation'
 // import dynamic from 'next/dynamic'
@@ -59,3 +60,12 @@
 //       </>
 //   )
 // }
+
+export default function SharePage() {
+    return (
+        <div>
+            <h1>Share Page</h1>
+            <p>This is a placeholder for the share page content.</p>
+        </div>
+    )
+}
