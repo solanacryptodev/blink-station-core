@@ -5,14 +5,14 @@ export const GET = async () => {
         rules: [
             // map all root level routes to an action
             {
-                pathPattern: "/blink?asset=*",
-                apiPath: "/api/actions/buy?asset=*",
+                pathPattern: "/blink",
+                apiPath: "/blink",
             },
             // fallback path
             // TODO: fetch quantity from on-chain. Currently hardcoded to 618.
             {
-                pathPattern: "/blink?asset=calicoatsenforcer|DgkAjeQvA1eJbq9YPvzCJojuKmNqBYYC7mcwDonCNYWz|790866|618",
-                apiPath: "/api/actions/buy?asset=calicoatsenforcer|DgkAjeQvA1eJbq9YPvzCJojuKmNqBYYC7mcwDonCNYWz|790866|618",
+                pathPattern: "/blink?asset=:assetId",
+                apiPath: "/blink?asset=:assetId",
             },
         ],
     };
