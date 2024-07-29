@@ -7,6 +7,9 @@ import { kv } from '@vercel/kv'
 import { auth } from '@/auth'
 import { type Chat } from '@/lib/types'
 
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
+
 export async function getChats(userId?: string | null) {
   if (!userId) {
     return []
@@ -151,6 +154,6 @@ export async function refreshHistory(path: string) {
 export async function getMissingKeys() {
   const keysRequired = ['OPENAI_API_KEY']
   return keysRequired
-    .map(key => (process.env[key] ? '' : key))
+    .map(key => (serverRuntimeConfig[key] ? '' : key))
     .filter(key => key !== '')
 }

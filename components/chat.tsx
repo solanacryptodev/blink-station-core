@@ -28,6 +28,9 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
+  console.log('aiState...', aiState)
+  console.log('messages...', messages)
+
   useEffect(() => {
     if (session?.user) {
       if (!path.includes('chat') && messages.length === 1) {

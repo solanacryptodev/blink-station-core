@@ -4,6 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   serverRuntimeConfig: {
     HELIUS_RPC_URL: process.env.HELIUS_RPC_URL,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY
   },
   images: {
     remotePatterns: [
@@ -18,16 +19,16 @@ module.exports = {
   webpack: (config) => {
     config.resolve.fallback = {
       crypto: require.resolve('crypto-browserify'),
-      stream: require.resolve('stream-browserify'),
       vm: require.resolve('vm-browserify'),
+      stream: require.resolve('stream-browserify'),
     };
 
-    config.plugins.push(
-        new webpack.ProvidePlugin({
-          process: 'process/browser',
-          Buffer: ['buffer', 'Buffer']
-        })
-    );
+    // config.plugins.push(
+    //     new webpack.ProvidePlugin({
+    //       process: 'process/browser',
+    //       Buffer: ['buffer', 'Buffer']
+    //     })
+    // );
 
     return config;
   }
