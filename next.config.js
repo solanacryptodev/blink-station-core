@@ -4,6 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   serverRuntimeConfig: {
     HELIUS_RPC_URL: process.env.HELIUS_RPC_URL,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY
   },
   images: {
     remotePatterns: [

@@ -28,6 +28,8 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
+  console.log('missingKeys...', missingKeys)
+
   useEffect(() => {
     if (session?.user) {
       if (!path.includes('chat') && messages.length === 1) {
