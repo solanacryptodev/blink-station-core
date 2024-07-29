@@ -2,6 +2,9 @@
 const webpack = require('webpack');
 
 module.exports = {
+  serverRuntimeConfig: {
+    HELIUS_RPC_URL: process.env.HELIUS_RPC_URL,
+  },
   images: {
     remotePatterns: [
       {
@@ -16,13 +19,7 @@ module.exports = {
     config.resolve.fallback = {
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
-      assert: require.resolve('assert'),
-      http: require.resolve('stream-http'),
-      https: require.resolve('https-browserify'),
-      os: require.resolve('os-browserify/browser'),
-      url: require.resolve('url'),
-      process: require.resolve('process/browser'),
-      vm: require.resolve('vm-browserify')
+      vm: require.resolve('vm-browserify'),
     };
 
     config.plugins.push(

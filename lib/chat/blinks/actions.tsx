@@ -4,9 +4,11 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { GmClientService } from '@staratlas/factory';
 import { assets } from '@/lib/metadata';
 import { formatPriceForQuery } from "@/lib/utils";
+import getConfig from 'next/config';
 
+const { serverRuntimeConfig } = getConfig();
 export const PROGRAM_ID = new PublicKey('traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg');
-export const CONNECTION = new Connection(process.env.HELIUS_RPC!);
+export const CONNECTION = new Connection(serverRuntimeConfig.HELIUS_RPC_URL);
 export const gmClientService = new GmClientService();
 
 export function isValidNftName(nftName: string): boolean {

@@ -6,7 +6,7 @@ import { OpenOrders } from "@/lib/types";
 import { FunctionComponent, useEffect, useId } from "react";
 import { useAIState } from "ai/rsc";
 
-export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer(async ({ userAsset }: { userAsset: OpenOrders[] }) => {
+export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer( ({ userAsset }: { userAsset: OpenOrders[] }) => {
     // create a new orders presenter instance if one doesn't exist, or return the existing one
     const ordersPresenter = OrdersPresenter.getInstance();
     const id = useId();
@@ -15,38 +15,32 @@ export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer(a
     const [aiState, setAIState] = useAIState()
     // console.log('current ai state... ', aiState)
 
+    if ( !ordersPresenter.isLoading && !ordersPresenter.isFetchComplete ){
+        ordersPresenter.fetchOrders(userAsset[0].assetName.toLowerCase(), userAsset[0].ownerKey).then();
+    }
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (!ordersPresenter.isLoading && !ordersPresenter.isFetchComplete) {
-                await ordersPresenter.fetchOrders(userAsset[0].assetName.toLowerCase(), userAsset[0].ownerKey);
+        if (ordersPresenter.isFetchComplete && !ordersPresenter.isLoading) {
+            const ordersString = JSON.stringify(ordersPresenter.orders, null, 2);
+            const message = {
+                id,
+                role: 'system' as const,
+                content: `[Player has generated these open orders based on ${userAsset[0].assetName} and ${userAsset[0].ownerKey}]: ${ordersString}`
             }
-        };
 
-        fetchData();
-    }, [ordersPresenter, userAsset]);
-
-    // useEffect(() => {
-    //     if (ordersPresenter.isFetchComplete && !ordersPresenter.isLoading) {
-    //         const ordersString = JSON.stringify(ordersPresenter.orders, null, 2);
-    //         const message = {
-    //             id,
-    //             role: 'system' as const,
-    //             content: `[Player has generated these open orders based on ${userAsset[0].assetName} and ${userAsset[0].ownerKey}]: ${ordersString}`
-    //         }
-    //
-    //         if (aiState.messages[aiState.messages.length - 1]?.id === id) {
-    //             setAIState({
-    //                 ...aiState,
-    //                 messages: [...aiState.messages.slice(0, -1), message]
-    //             })
-    //         } else {
-    //             setAIState({
-    //                 ...aiState,
-    //                 messages: [...aiState.messages, message]
-    //             })
-    //         }
-    //     }
-    // }, [ordersPresenter.isFetchComplete, ordersPresenter.isLoading])
+            if (aiState.messages[aiState.messages.length - 1]?.id === id) {
+                setAIState({
+                    ...aiState,
+                    messages: [...aiState.messages.slice(0, -1), message]
+                })
+            } else {
+                setAIState({
+                    ...aiState,
+                    messages: [...aiState.messages, message]
+                })
+            }
+        }
+    }, [ordersPresenter.isFetchComplete, ordersPresenter.isLoading])
     // console.log('new ai state... ', aiState)
 
     return (

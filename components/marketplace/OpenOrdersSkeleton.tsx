@@ -1,3 +1,5 @@
+'use client'
+
 export const OpenOrdersSkeleton = () => {
     return (
         <div className='container flex-col mx-auto bg-blue-950 shadow-lg rounded-lg overflow-hidden'>

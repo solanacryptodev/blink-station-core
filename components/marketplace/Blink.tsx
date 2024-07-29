@@ -2,10 +2,11 @@
 
 import { observer } from "mobx-react-lite";
 import { OrdersPresenter } from "@/presenters/OrdersPresenter";
+import { FunctionComponent } from "react";
 
-async function BlinkComponent({ orderID }: { orderID: string }) {
+export const Blink: FunctionComponent<{ orderID: string }> = observer(({ orderID }: { orderID: string }) => {
     const ordersPresenter = OrdersPresenter.getInstance();
-    await ordersPresenter.buildBlinkUrl(orderID);
+    ordersPresenter.buildBlinkUrl(orderID).then();
 
     return (
         <div className='container flex flex-col mx-auto bg-gradient-to-r from-amber-900 via-neutral-900 to-amber-900 shadow-lg rounded-lg overflow-hidden'>
@@ -15,6 +16,4 @@ async function BlinkComponent({ orderID }: { orderID: string }) {
             </div>
         </div>
     )
-}
-
-export const Blink = observer( BlinkComponent );
+});

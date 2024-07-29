@@ -670,6 +670,11 @@ export const getUIStateFromAIState = (aiState: Chat) => {
                   {/* @ts-expect-error */}
                   <Orders userAsset={tool.result} />
                 </BotCard>
+            ) : tool.toolName === 'createBlink' ? (
+                <BotCard>
+                  {/* @ts-expect-error */}
+                  <Blink orderID={tool.result} />
+                </BotCard>
             ) : null
           })
         ) : message.role === 'user' ? (

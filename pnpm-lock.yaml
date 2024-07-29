@@ -128,9 +128,6 @@ dependencies:
   openai:
     specifier: ^4.52.2
     version: 4.52.2
-  os-browserify:
-    specifier: ^0.3.0
-    version: 0.3.0
   process:
     specifier: ^0.11.10
     version: 0.11.10
@@ -5792,10 +5789,6 @@ packages:
       type-check: 0.4.0
       word-wrap: 1.2.5
     dev: true
-
-  /os-browserify@0.3.0:
-    resolution: {integrity: sha512-gjcpUc3clBf9+210TRaDWbf+rZZZEshZ+DlXMRCeAjp0xhTrnQsKHypIy1J3d5hKdUzj69t708EHtU8P6bUn0A==}
-    dev: false
 
   /p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
