@@ -5,7 +5,6 @@ module.exports = {
   serverRuntimeConfig: {
     HELIUS_RPC_URL: process.env.HELIUS_RPC_URL,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-    SHDW_STORAGE_ACCT: process.env.SHDW_STORAGE_ACCT
   },
   images: {
     remotePatterns: [

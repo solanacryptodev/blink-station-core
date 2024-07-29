@@ -1,6 +1,4 @@
 import { Connection, PublicKey } from "@solana/web3.js";
-import getConfig from 'next/config';
-const { serverRuntimeConfig } = getConfig();
 const newConnection = process.env.NEXT_PUBLIC_HELIUS_RPC_URL as string;
 
 export const ATLAS: string = 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx';
