@@ -1,4 +1,7 @@
-const shdwStorageAcct = process.env.SHDW_STORAGE_ACCT as string;
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
+
+const shdwStorageAcct = serverRuntimeConfig.SHDW_STORAGE_ACCT;
 
 export interface AssetMetadata {
     name: string;
