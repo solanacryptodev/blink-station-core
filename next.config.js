@@ -20,6 +20,7 @@ module.exports = {
     config.resolve.fallback = {
       crypto: require.resolve('crypto-browserify'),
       vm: require.resolve('vm-browserify'),
+      stream: require.resolve('stream-browserify'),
     };
 
     // config.plugins.push(
@@ -32,4 +33,3 @@ module.exports = {
     return config;
   }
 };
-// stream: require.resolve('stream-browserify'),
