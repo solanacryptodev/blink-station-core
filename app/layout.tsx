@@ -17,8 +17,8 @@ export const metadata = {
     ? new URL(`https://${process.env.VERCEL_URL}`)
     : undefined,
   title: {
-    default: 'Blink Station AI',
-    template: `%s - SAU`
+    default: 'Blink Station 10',
+    template: `%s `
   },
   description: 'An AI-powered chatbot for the Star Atlas Universe.',
   icons: {
