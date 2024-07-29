@@ -1,4 +1,4 @@
-const shdwStorageAcct = process.env.SHDW_STORAGE_ACCT as string;
+const shdwStorageAcct = process.env.SHDW_STORAGE_ACCT!;
 
 export interface AssetMetadata {
     name: string;
