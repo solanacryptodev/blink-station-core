@@ -70,4 +70,4 @@ the SA community to build upon can be fused with Blink Station 10. The sky is th
 
 This library was created and is maintained by:
 
-- Brian (MGD) ([@SolanaMetaDev](https://twitter.com/jaredpalmer))
+- Brian (MGD on Discord) ([@SolanaMetaDev](https://x.com/SolanaMetaDev))
