@@ -211,6 +211,31 @@ export const Lore: LoreMetadata[] = [
                             'their fate for their convictions.'
                     }
                 ],
+                locations: [
+                    {
+                        Outpost39: [
+                            {
+                                Name: 'Outpost 39',
+                                Description: 'Deep in the outer rim of the explored galaxy lies an ancient outpost that has many secrets. This place, this planet ' +
+                                    'has no name, no insignia, no creeds, no allegiances to anyone. Outpost 39 is known to the galaxy as a place for all, and a place ' +
+                                    'to test, and try new things. What most do not know about the Armstrong material based Base is that it is built on top of ' +
+                                    'ancient ruins, a long since gone civilization that once ruled the galaxy. A civilization thought to be at least 19 million ' +
+                                    'years extinct.\n' +
+                                    '\n' +
+                                    'The ruins were hidden from all, some say they held secrets that should not be uncovered, some say the elder civilization still ' +
+                                    'has species thriving today, others think the whole thing is folklore.\n' +
+                                    '\n' +
+                                    'While those who believe the site is that of legend, one cannot dismiss the mni flowers that spawn here. Archeologists in the ' +
+                                    'galaxy note that these ancient sites typically have some form of inexplicable energy, a tale-tell sign of a civilization ' +
+                                    'lost to time.\n' +
+                                    '\n' +
+                                    'But the one thing that is true is the Outpost does not want this to be tested, and has decreed death to any who excavates ' +
+                                    'the lands. A pretty price to pay for the truth, but that’s how it works sometimes, sometimes the truth is priced at your life. ' +
+                                    'Welcome to Outpost 39. '
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

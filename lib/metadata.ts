@@ -1,5 +1,10 @@
 const shdwStorageAcct = process.env.SHDW_STORAGE_ACCT!;
 
+export interface AtlassonProfile {
+    name: string
+    description: string
+}
+
 export interface LoreMetadata {
     name: string;
     description: string;
@@ -81,6 +86,16 @@ export interface LoreMetadata {
                     Future: string
                 }
             ],
+            locations: [
+                {
+                    Outpost39: [
+                        {
+                            Name: string
+                            Description: string
+                        }
+                    ]
+                },
+            ]
         }
     ];
 }
