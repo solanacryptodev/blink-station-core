@@ -65,7 +65,7 @@ export class OrdersPresenter {
             const userOrders = atlasSellOrders.filter(order => order.owner.toString() === ownerKey);
 
             if (userOrders.length === 0) {
-                this.error = 'No open orders found';
+                this.error = 'No open orders found for this user in this market.';
                 return;
             }
 
@@ -77,7 +77,7 @@ export class OrdersPresenter {
                 quantity: order.orderQtyRemaining,
                 owner: order.owner.toString()
             }));
-            console.log('openOrders: ', openOrders);
+            // console.log('openOrders: ', openOrders);
 
             runInAction(() => {
                 this.orders.push(...openOrders);
