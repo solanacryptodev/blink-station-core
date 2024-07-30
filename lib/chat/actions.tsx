@@ -29,6 +29,8 @@ import { Orders } from "@/components/marketplace/Orders";
 import { OpenOrdersSkeleton } from '@/components/marketplace/OpenOrdersSkeleton'
 import { Blink } from '@/components/marketplace/Blink'
 import { BlinkSkeleton } from '@/components/marketplace/BlinkSkeleton'
+import { Lore } from '@/components/lore/Lore'
+import { LoreSkeleton } from '@/components/lore/LoreSkeleton'
 import {
   formatNumber,
   runAsyncFnWithoutBlocking,
@@ -39,6 +41,7 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
+import { Atlasson } from '@/lib/chat/Atlasson';
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -133,9 +136,8 @@ async function submitUserMessage(content: string) {
   const result = await streamUI({
     model: openai('gpt-4o-mini-2024-07-18'),
     initial: <SpinnerMessage />,
-    system: `\
-    You are an AI assistant named Atlasson. Your primary directive is to provide information about the game called Star Atlas.
-    You get this data directly from the Solana blockchain through the numerous programs dedicated to the Star Atlas game.
+    system: `\ 
+    ${Atlasson.description}
     
     Messages inside [] means that it's a UI element or a user event. For example:
     - "[Price of AAPL = 100]" means that an interface of the stock price of AAPL is shown to the user.
@@ -147,6 +149,8 @@ async function submitUserMessage(content: string) {
       program, inform the player that in order to generate a blink, you'll need them to choose an Order ID.
       
     If the user has an Order ID and wants to generate a blink, call \`create_blink\` to show the blink URL.
+    If the user wants to know lore about Star Atlas or the Galia Expanse, call \`get_lore\` This includes, but isn't limited to character backstory, 
+      history, factions, and the lore of the Galia Expanse.
     If you want to show trending stocks, call \`list_stocks\`.
     If you want to show events, call \`get_events\`.
     If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
@@ -261,6 +265,28 @@ async function submitUserMessage(content: string) {
           return (
               <BotCard>
                 <Blink orderID={orderId}/>
+              </BotCard>
+          )
+        }
+      },
+      getLore: {
+        description: 'Get lore about Star Atlas or the Galia Expanse.',
+        parameters: z.object({
+          loreData: z.string().describe('The name of the lore to get. Can be history, backstory, or lore of the Galia Expanse, factions, characters.'),
+        }),
+        generate: async function* ({ loreData }) {
+          yield (
+              <BotCard>
+                <LoreSkeleton />
+              </BotCard>
+          )
+
+          await sleep( 1000 )
+          const toolCallId = nanoid()
+
+          return (
+              <BotCard>
+                <Lore lore={loreData}/>
               </BotCard>
           )
         }

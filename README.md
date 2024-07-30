@@ -11,7 +11,7 @@ SA programs and powered by the Solana blockchain.
 
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·
-  <a href="#comingsoon"><strong>Coming Soon</strong></a> ·
+  <a href="#coming soon"><strong>Coming Soon</strong></a> ·
   <a href="#builders"><strong>Builders</strong></a>
 </p>
 <br/>
@@ -27,6 +27,9 @@ expose current and potential new players to your listings!
     open sell orders that they own, including their Order ID's.
   - Then select an Order ID and Atlasson will turn into a blink (blockchain link).
   - Share the blink on X.com.
+- <strong>The Galia Expanse Database:</strong> Atlasson holds all publicly-available knowledge
+pertaining to the Galia Expanse as provided in the SA wiki and will communicate this data
+while in-character. This includes lore about history, characters, factions, and more!
 - <strong>Player Profile Integration V1:</strong> Player profiles will be critical
 for access to current and future feature releases. You will be able to communicate with
 Atlasson in-character if you so desire. Future iterations will allow you to interact more

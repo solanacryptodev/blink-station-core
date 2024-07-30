@@ -1,5 +1,105 @@
 const shdwStorageAcct = process.env.SHDW_STORAGE_ACCT!;
 
+export interface AtlassonProfile {
+    name: string
+    description: string
+}
+
+export interface LoreMetadata {
+    name: string;
+    description: string;
+    metadata: [
+        {
+            factions: [
+                {
+                    MUD: [
+                        {
+                            name: string,
+                            lore: string
+                        }
+                    ]
+                },
+                {
+                    USTUR: [
+                        {
+                            name: string,
+                            lore: string
+                        }
+                    ]
+                },
+                {
+                    ONI: [
+                        {
+                            name: string,
+                            lore: string
+                        }
+                    ]
+                },
+                {
+                    JORVIK: [
+                        {
+                            name: string,
+                            lore: string
+                        }
+                    ]
+                },
+                {
+                    ECOS: [
+                        {
+                            name: string,
+                            lore: string
+                        }
+                    ]
+                },
+                {
+                    TUFA: [
+                        {
+                            name: string,
+                            lore: string
+                        }
+                    ]
+                },
+                {
+                    PHOTOLI: [
+                        {
+                            name: string,
+                            lore: string
+                        }
+                    ]
+                }
+            ];
+            history: [
+                {
+                    Name: string
+                    Cataclysm: string
+                },
+                {
+                    Name: string
+                    War: string
+                },
+                {
+                    Name: string
+                    Exploration: string
+                },
+                {
+                    Name: string
+                    Future: string
+                }
+            ],
+            locations: [
+                {
+                    Outpost39: [
+                        {
+                            Name: string
+                            Description: string
+                        }
+                    ]
+                },
+            ]
+        }
+    ];
+}
+
 export interface AssetMetadata {
     name: string;
     param: string;

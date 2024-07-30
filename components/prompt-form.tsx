@@ -30,6 +30,7 @@ export function PromptForm({
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
+  const inProduction = process.env.NEXT_PUBLIC_IN_PRODUCTION!
 
   React.useEffect(() => {
     if (inputRef.current) {
