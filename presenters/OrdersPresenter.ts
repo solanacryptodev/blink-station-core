@@ -6,7 +6,9 @@ import { PublicKey } from "@solana/web3.js";
 import { ATLAS, CONNECTION, PROGRAM_ID } from "@/lib/constants";
 import { BN } from "@coral-xyz/anchor";
 import { assets } from "@/lib/metadata";
+import { singleton } from 'tsyringe';
 
+@singleton()
 export class OrdersPresenter {
     private static instance: OrdersPresenter | null = null;
     orders: ReturnedOrders[];
@@ -31,6 +33,12 @@ export class OrdersPresenter {
 
             fetchOrders: action.bound,
             buildBlinkUrl: action.bound
+        });
+    }
+
+    componentDidMount() {
+        autorun(() => {
+            console.log('componentDidMount... ');
         });
     }
 

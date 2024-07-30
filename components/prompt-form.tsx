@@ -84,7 +84,6 @@ export function PromptForm({
           <TooltipContent>New Chat</TooltipContent>
         </Tooltip>
         <Textarea
-          disabled
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
