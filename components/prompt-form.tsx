@@ -30,6 +30,7 @@ export function PromptForm({
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
+  const inProduction = process.env.NEXT_PUBLIC_IN_PRODUCTION!
 
   React.useEffect(() => {
     if (inputRef.current) {
@@ -84,6 +85,7 @@ export function PromptForm({
           <TooltipContent>New Chat</TooltipContent>
         </Tooltip>
         <Textarea
+          disabled
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
