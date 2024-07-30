@@ -5,6 +5,7 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
