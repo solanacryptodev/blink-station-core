@@ -48,6 +48,7 @@ export interface ReturnedOrders {
   price: number | string
   quantity: number
   owner: string
+  currency?: string
 }
 
 export interface OpenOrders {
