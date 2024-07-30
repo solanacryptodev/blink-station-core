@@ -36,6 +36,12 @@ one of the primary products of Blink Station 10.
   - Planetary Resource Analysis
   - Fleet Movement Analysis
   - Starbase Progression Analysis
+- <strong>Marketplace Economic Analyzer (MEA):</strong> This tool will
+provide up-to-date market analysis allowing you to spot trends, economic
+opportunities and much more. The MEA tool at launch will include the...
+  - Arbitrage Opportunity Assessment: an automated arbitrage identifier
+    system designed to give you an economic edge by identifying 
+    price discrepancies between different markets.
 
 
 ## Coming Soon
