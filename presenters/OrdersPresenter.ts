@@ -113,7 +113,7 @@ export class OrdersPresenter {
             // console.log('orders: ', orders);
 
             runInAction(() => {
-                this.blinkURL = `https://blinkstationx.com/blink?asset=${orders[0].assetName}|${orders[0].orderId}|${orders[0].price}|${orders[0].quantity}`;
+                this.blinkURL = `https://blinkstationx.com/blink?asset=${orders[0].assetName}|${orders[0].orderId}|${orders[0].price}|${orders[0].quantity}/`;
                 // console.log('blinkURL: ', this.blinkURL);
             });
 

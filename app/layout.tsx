@@ -1,12 +1,12 @@
 import '@/app/globals.css'
-import { Dosis } from 'next/font/google'
+import { Chakra_Petch, Dosis } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
 
-const dosis = Dosis({
+const chakra = Chakra_Petch({
   weight: '400',
   display: 'swap',
   subsets: ['latin'],
@@ -22,9 +22,9 @@ export const metadata = {
   },
   description: 'An AI-powered chatbot for the Star Atlas Universe.',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/blinkIcon.png',
     shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png'
+    apple: '/blinkIcon.png'
   }
 }
 
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={cn(
           'antialiased',
-          dosis.className
+            chakra.className
         )}
       >
         <Toaster position="top-center" />
