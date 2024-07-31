@@ -22,8 +22,8 @@ export const metadata = {
   },
   description: 'An AI-powered chatbot for the Star Atlas Universe.',
   icons: {
-    icon: '/blinkIcon.png',
-    shortcut: '/favicon-16x16.png',
+    icon: '/blinkIcon64.ico',
+    shortcut: '/faviconIcon.png',
     apple: '/blinkIcon.png'
   }
 }
