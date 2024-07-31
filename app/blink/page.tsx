@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation'
 import { ReturnedOrders } from "@/lib/types";
 import { assets } from "@/lib/metadata";
 import { OrderSide } from "@staratlas/factory";
-import { formatPriceForQuery } from "@/lib/utils";
 
 interface PageProps {
     searchParams: { asset?: string }
@@ -24,35 +23,31 @@ export async function generateMetadata(
     const assetImage = assets.filter((asset) => asset.param === assetData.assetName)
 
     return {
-        title: `Blink Station X - The ${assetData.assetName}`,
-        description: `Purchase this ${assetData.assetName} game asset from the Star Atlas Galactic Marketplace 
-            for ${assetData.price} ATLAS!`,
+        title: `Blink Station X - ${assetData.assetName}`,
+        description: `Check out this ${assetData.assetName} on Blink Station X!`,
         openGraph: {
-            title: `Blink Station X - The ${assetData.assetName}`,
-            description: `Purchase this ${assetData.assetName} game asset from the Star Atlas Galactic Marketplace 
-             for ${assetData.price} ATLAS!`,
+            title: `Blink Station X - ${assetData.assetName}`,
+            description: `Check out this ${assetData.assetName} on Blink Station X!`,
             images: [{ url: assetImage[0].image! }],
         },
         twitter: {
             card: 'summary_large_image',
-            title: `Blink Station X - The ${assetData.assetName}`,
-            description: `Purchase this ${assetData.assetName} game asset from the Star Atlas Galactic Marketplace 
-              for ${assetData.price} ATLAS!`,
+            title: `Blink Station X - ${assetData.assetName}`,
+            description: `Check out this ${assetData.assetName} on Blink Station X!`,
             images: [assetImage[0].image!],
         },
     }
 }
 
-async function fetchAssetData(assetId: string): Promise<Partial<ReturnedOrders>> {
-    // Filter out the asset based on the first parameter
-    const asset = assets.filter((asset) => asset.param === assetId.split('|')[0]);
-    const formattedPrice = formatPriceForQuery(assetId.split('|')[2]);
+async function fetchAssetData(assetId: string): Promise<ReturnedOrders> {
+    // Implement this function to fetch asset data from your API or database
 
     return {
+        owner: "",
         orderType: OrderSide.Sell,
-        assetName: asset[0].name,
+        assetName: assetId.split('|')[0],
         orderId: assetId.split('|')[1],
-        price: formattedPrice,
+        price: assetId.split('|')[2],
         quantity: Number(assetId.split('|')[3])
     }
 }
