@@ -1,5 +1,5 @@
 import '@/app/globals.css'
-import { Chakra_Petch, Dosis } from 'next/font/google'
+import { Chakra_Petch } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'

@@ -14,22 +14,14 @@ export function EmptyScreen() {
         <p className="leading-normal text-muted-foreground text-lg">
           Atlasson will be your trusty AI companion as you explore the{' '}
           <ExternalLink href="https://staratlas.com">Star Atlas</ExternalLink>, Universe.{' '}
-          <ExternalLink href="https://sdk.vercel.ai">
-            Vercel AI SDK
-          </ExternalLink>
-          , and{' '}
-          <ExternalLink href="https://vercel.com/storage/kv">
-            Vercel KV
-          </ExternalLink>
-          .
         </p>
         <p className="leading-normal text-muted-foreground text-lg">
           Atlasson uses{' '}
           <ExternalLink href="https://build.staratlas.com">
             real-time data
           </ExternalLink>{' '}
-          from the Solana blockchain to tell you what is happening across Galia. Battles being fought, Starbases being built,
-          resources being mined and so much more.
+          from the Solana blockchain to tell you what is happening across the Galia Expanse. Battles being fought, Starbases being built,
+          resources being mined, lore and so much more. Atlasson is your ally in the galaxy.
         </p>
       </div>
     </div>
