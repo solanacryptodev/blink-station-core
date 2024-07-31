@@ -26,6 +26,7 @@
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@solana/actions": "^1.4.0",
+    "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/web3.js": "^1.95.1",
     "@staratlas/factory": "^0.7.0",
     "@staratlas/player-profile": "^0.9.1",

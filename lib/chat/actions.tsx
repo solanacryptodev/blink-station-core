@@ -262,6 +262,37 @@ async function submitUserMessage(content: string) {
           await sleep( 1000 )
           const toolCallId = nanoid()
 
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'createBlink',
+                    toolCallId,
+                    args: { orderId }
+                  }
+                ]
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'createBlink',
+                    toolCallId,
+                    result: orderId
+                  }
+                ]
+              }
+            ]
+          })
+
           return (
               <BotCard>
                 <Blink orderID={orderId}/>
@@ -283,6 +314,37 @@ async function submitUserMessage(content: string) {
 
           await sleep( 1000 )
           const toolCallId = nanoid()
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'getLore',
+                    toolCallId,
+                    args: { loreData }
+                  }
+                ]
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'getLore',
+                    toolCallId,
+                    result: loreData
+                  }
+                ]
+              }
+            ]
+          })
 
           return (
               <BotCard>
@@ -695,6 +757,11 @@ export const getUIStateFromAIState = (aiState: Chat) => {
                 <BotCard>
                   {/* @ts-expect-error */}
                   <Orders userAsset={tool.result} />
+                </BotCard>
+            ) : tool.toolName === 'getLore' ? (
+                <BotCard>
+                  {/* @ts-expect-error */}
+                  <Lore lore={tool.result} />
                 </BotCard>
             ) : tool.toolName === 'createBlink' ? (
                 <BotCard>

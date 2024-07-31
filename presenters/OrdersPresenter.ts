@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, observable, action, autorun } from 'mobx';
+import { makeAutoObservable, runInAction, observable, action, autorun, toJS } from 'mobx';
 import { ReturnedOrders } from "@/lib/types";
 import { GmClientService } from "@staratlas/factory";
 import { bnToNumber, getNftMint, getNftName } from "@/lib/utils";
@@ -65,7 +65,7 @@ export class OrdersPresenter {
             const userOrders = atlasSellOrders.filter(order => order.owner.toString() === ownerKey);
 
             if (userOrders.length === 0) {
-                this.error = 'No open orders found';
+                this.error = 'No open orders found for this user in this market.';
                 return;
             }
 
@@ -77,10 +77,11 @@ export class OrdersPresenter {
                 quantity: order.orderQtyRemaining,
                 owner: order.owner.toString()
             }));
-            console.log('openOrders: ', openOrders);
+            // console.log('openOrders: ', openOrders);
 
             runInAction(() => {
                 this.orders.push(...openOrders);
+                // console.log('this.orders... ', toJS((this.orders)));
                 this.isFetchComplete = true;
                 this.isLoading = false;
             });
@@ -112,7 +113,7 @@ export class OrdersPresenter {
             // console.log('orders: ', orders);
 
             runInAction(() => {
-                this.blinkURL = `https://blinkstationx.com/blink?asset=${orders[0].assetName}|${orders[0].orderId}|${orders[0].price}|${orders[0].quantity}`;
+                this.blinkURL = `https://blinkstationx.com/blink?asset=${orders[0].assetName}|${orders[0].orderId}|${orders[0].price}|${orders[0].quantity}/`;
                 // console.log('blinkURL: ', this.blinkURL);
             });
 
