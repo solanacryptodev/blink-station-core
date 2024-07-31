@@ -5,8 +5,8 @@ export const GET = async () => {
         rules: [
             // map all root level routes to an action
             {
-                pathPattern: "/blink?asset=:assetId",
-                apiPath: "/api/actions/buy?asset=:assetId",
+                pathPattern: "/blink",
+                apiPath: "/api/actions/buy",
             },
             // fallback path
             // TODO: fetch quantity from on-chain. Currently hardcoded to 618.

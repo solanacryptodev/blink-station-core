@@ -23,17 +23,17 @@ export async function generateMetadata(
     const assetImage = assets.filter((asset) => asset.param === assetData.assetName)
 
     return {
-        title: `Blink Station X - ${assetData.assetName}`,
-        description: `Check out this ${assetData.assetName} on Blink Station X!`,
+        title: `Blink Station X - The ${assetImage[0].name}`,
+        description: `Check out this ${assetImage[0].name} on the Star Atlas Galactic Marketplace!`,
         openGraph: {
-            title: `Blink Station X - ${assetData.assetName}`,
-            description: `Check out this ${assetData.assetName} on Blink Station X!`,
+            title: `Blink Station X - The ${assetImage[0].name}`,
+            description: `Check out this ${assetImage[0].name} on the Star Atlas Galactic Marketplace!`,
             images: [{ url: assetImage[0].image! }],
         },
         twitter: {
             card: 'summary_large_image',
-            title: `Blink Station X - ${assetData.assetName}`,
-            description: `Check out this ${assetData.assetName} on Blink Station X!`,
+            title: `Blink Station X - The ${assetImage[0].name}`,
+            description: `Check out this ${assetImage[0].name} on the Star Atlas Galactic Marketplace!`,
             images: [assetImage[0].image!],
         },
     }
