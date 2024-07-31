@@ -15,6 +15,7 @@ import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
 import { ChatHistory } from './chat-history'
 import { Session } from '@/lib/types'
+import Image from "next/image";
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -28,10 +29,9 @@ async function UserOrLogin() {
           <SidebarToggle />
         </>
       ) : (
-        <Link href="/new" rel="nofollow">
-          <IconNextChat className="size-6 mr-2 dark:hidden" inverted />
-          <IconNextChat className="hidden size-6 mr-2 dark:block" />
-        </Link>
+        <div>
+          <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='bg-amber-900 rounded-full' />
+        </div>
       )}
       <div className="flex items-center">
         <IconSeparator className="size-6 text-muted-foreground/50" />
