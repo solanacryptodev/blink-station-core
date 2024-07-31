@@ -12,6 +12,7 @@ SA programs and powered by the Solana blockchain.
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#coming soon"><strong>Coming Soon</strong></a> ·
+  <a href="#commands"><strong>Commands</strong></a> ·
   <a href="#builders"><strong>Builders</strong></a>
 </p>
 <br/>
@@ -63,11 +64,23 @@ voice capabilities of OpenAI's Gpt-4o model once voice capabilities are released
 This will become a top priority as the vision of Blink Station 10 is for it 
 to be voice-compatible.
 - <strong>Various AI Agents:</strong> Once the gpt-4o models voice api is released,
-assuming multiple voices are allowed, uses of Blink Station 10 will be able to chat with
+assuming multiple voices are allowed, users of Blink Station 10 will be able to chat with
 different assistants that will have different duties. One assistant may be for crafting data
 analysis and construction, while another may be for marketplace activities.
 - <strong>And Much More...</strong>Truly anything that is on-chain and open source for
 the SA community to build upon can be fused with Blink Station 10. The sky is the limit!
+
+## Commands
+To get the best results out of Atlasson, it is important to use the right
+words that will trigger the best response from the AI. Here is a growing list of commands
+to use for that purpose.
+- Blink Generation Example: "Generate a blink for me for the <strong>Ammunition</strong>
+asset and the public key of the owner <strong>123Xyz...123Xyz</strong>."
+  - Before Atlasson can generate a blink it needs an Order ID. You get that from this first
+  command that displays all open orders by owner for any given market. The key is to use the
+  word 'asset' with the market and the word 'key' or 'public key' before or after you paste
+  the owner's public key that you want to create a blink out of.
+- Galia Expanse Database Example: 
 
 ## Builders
 

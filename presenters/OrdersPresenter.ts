@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, observable, action, autorun } from 'mobx';
+import { makeAutoObservable, runInAction, observable, action, autorun, toJS } from 'mobx';
 import { ReturnedOrders } from "@/lib/types";
 import { GmClientService } from "@staratlas/factory";
 import { bnToNumber, getNftMint, getNftName } from "@/lib/utils";
@@ -81,6 +81,7 @@ export class OrdersPresenter {
 
             runInAction(() => {
                 this.orders.push(...openOrders);
+                // console.log('this.orders... ', toJS((this.orders)));
                 this.isFetchComplete = true;
                 this.isLoading = false;
             });
