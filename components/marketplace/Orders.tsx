@@ -11,13 +11,14 @@ import { nanoid } from "nanoid";
 export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer( ({ userAsset }: { userAsset: OpenOrders[] }) => {
     // create a new orders presenter instance if one doesn't exist, or return the existing one
     const ordersPresenter = OrdersPresenter.getInstance();
+    ordersPresenter.componentDidMount();
     const id = useId();
 
     // get the AI state and update it
     const [aiState, setAIState] = useAIState()
     // console.log('current ai state... ', aiState)
 
-    if ( !ordersPresenter.isLoading && !ordersPresenter.isFetchComplete ){
+    if ( !ordersPresenter.fetchStatus.isLoading && !ordersPresenter.fetchStatus.isFetchComplete ) {
         ordersPresenter.fetchOrders(userAsset[0].assetName.toLowerCase(), userAsset[0].ownerKey).then();
     }
 

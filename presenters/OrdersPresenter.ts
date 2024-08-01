@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, observable, action, autorun, toJS } from 'mobx';
+import { makeAutoObservable, runInAction, observable, action, autorun, computed } from 'mobx';
 import { ReturnedOrders } from "@/lib/types";
 import { GmClientService } from "@staratlas/factory";
 import { bnToNumber, formatOrderNumber, getNftMint, getNftName, getNftParam, removeDecimal } from "@/lib/utils";
@@ -13,6 +13,7 @@ export class OrdersPresenter {
     private static instance: OrdersPresenter | null = null;
     orders: ReturnedOrders[];
     isLoading: boolean;
+    isFetchingOrders: boolean;
     isFetchComplete: boolean;
     error: string | null;
     blinkURL: string;
@@ -20,6 +21,7 @@ export class OrdersPresenter {
     constructor() {
         this.orders = [];
         this.isLoading = false;
+        this.isFetchingOrders = false;
         this.isFetchComplete = false;
         this.error = '';
         this.blinkURL = '';
@@ -27,20 +29,48 @@ export class OrdersPresenter {
         makeAutoObservable(this, {
             orders: observable,
             isLoading: observable,
+            isFetchingOrders: observable,
             isFetchComplete: observable,
             error: observable,
             blinkURL: observable,
 
             fetchOrders: action.bound,
-            buildBlinkUrl: action.bound
+            buildBlinkUrl: action.bound,
+
+            fetchStatus: computed
+        });
+    }
+
+    componentDidMount() {
+        autorun(() => {
+            if ( !this.fetchStatus.isFetchingOrders ) {
+                // this.fetchOrders();
+                runInAction(() => {
+
+                })
+            } else {
+                runInAction(() => {
+
+                })
+            }
+            // console.log('lore component mounted...', toJS(this.lore));
         });
     }
 
     static getInstance(): OrdersPresenter {
         if (!OrdersPresenter.instance) {
             OrdersPresenter.instance = new OrdersPresenter();
+            // console.log('OrdersPresenter instance created...', OrdersPresenter.instance);
         }
         return OrdersPresenter.instance;
+    }
+
+    get fetchStatus() {
+        return {
+            isLoading: this.isLoading,
+            isFetchingOrders: this.isFetchingOrders,
+            isFetchComplete: this.isFetchComplete
+        }
     }
 
     async fetchOrders(assetName: string, ownerKey: string): Promise<void> {
