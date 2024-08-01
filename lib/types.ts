@@ -43,6 +43,7 @@ export interface User extends Record<string, any> {
 
 export interface ReturnedOrders {
   assetName: string
+  assetParam?: string
   orderType: OrderSide
   orderId: string
   price: number | string

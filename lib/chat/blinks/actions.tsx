@@ -15,10 +15,10 @@ export function isValidNftName(nftName: string): boolean {
     return assets.some(asset => asset.name.toLowerCase() === nftName.toLowerCase());
 }
 
-export function parseCombinedParams(param: string): { asset: string, orderId: string, price: string, quantity: string } {
-    const [asset, orderId, rawPrice, quantity] = param.split('|');
+export function parseCombinedParams(param: string): { asset: string, orderId: string, price: string, quantity: string, currency: string } {
+    const [asset, orderId, rawPrice, quantity, currency] = param.split('|');
     const price = formatPriceForQuery(rawPrice);
-    return { asset, orderId, price, quantity };
+    return { asset, orderId, price, quantity, currency };
 }
 
 export function validatedQueryParams(requestUrl: URL) {

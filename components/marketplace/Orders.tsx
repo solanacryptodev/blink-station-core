@@ -11,13 +11,14 @@ import { nanoid } from "nanoid";
 export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer( ({ userAsset }: { userAsset: OpenOrders[] }) => {
     // create a new orders presenter instance if one doesn't exist, or return the existing one
     const ordersPresenter = OrdersPresenter.getInstance();
+    ordersPresenter.componentDidMount();
     const id = useId();
 
     // get the AI state and update it
     const [aiState, setAIState] = useAIState()
     // console.log('current ai state... ', aiState)
 
-    if ( !ordersPresenter.isLoading && !ordersPresenter.isFetchComplete ){
+    if ( !ordersPresenter.fetchStatus.isLoading && !ordersPresenter.fetchStatus.isFetchComplete ) {
         ordersPresenter.fetchOrders(userAsset[0].assetName.toLowerCase(), userAsset[0].ownerKey).then();
     }
 
@@ -49,38 +50,43 @@ export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer( 
         <>
             <div className='container flex-col mx-auto bg-gradient-to-r from-blue-900 via-neutral-900 to-blue-900 shadow-lg rounded-lg overflow-hidden'>
                 {ordersPresenter.orders.length > 0 && ordersPresenter.orders.map((order) => (
-                    <div key={ order.orderId } className='flex flex-col bg-blue-900 p-6 m-8 shadow-lg rounded-lg'>
+                    <div key={ nanoid() } className='flex flex-col bg-blue-900 p-6 m-8 shadow-lg rounded-lg'>
                         <div className='text-center text-lg mb-4 font-bold'>{ order.assetName.toUpperCase() }</div>
 
                         <div>
-                            <div className='flex flex-row h-[25px] mb-2 w-full'>
+                            <div className='flex flex-row text-nowrap h-[25px] mb-2 w-full'>
                                 <div className='mr-2'>Owner:</div>
                                 <div>{ order.owner }</div>
                             </div>
 
-                            <div className='flex flex-row h-[25px] mb-2 w-full'>
-                                <div className='mr-2'>Order ID:</div>
+                            <div className='flex flex-row text-nowrap h-[25px] mb-2 w-full'>
+                                <div className='flex mr-2'>Order ID:</div>
                                 <div>{ order.orderId }</div>
                             </div>
 
                             <div className='flex flex-row h-[25px] mb-2 w-full'>
                                 <div className='mr-2'>Price:</div>
-                                <div>{ order.price } ATLAS</div>
+                                <div>{ order.price } { order.currency?.toUpperCase() }</div>
                             </div>
 
                             <div className='flex flex-row h-[25px] mb-2 w-full'>
                                 <div className='mr-2'>Quantity Remaining:</div>
                                 <div>{ order.quantity }</div>
                             </div>
+
+                            <div className='flex flex-row h-[25px] mb-2 w-full'>
+                                <div className='mr-2'>Currency:</div>
+                                <div>{ order.currency?.toUpperCase() }</div>
+                            </div>
                         </div>
                     </div>
 
 
-                ))}
+                ) ) }
             </div>
 
-            {ordersPresenter.orders.length === 0 && ordersPresenter.error?.length! > 0 && (
-                <Error error={ordersPresenter.error!} />
+            { ordersPresenter.orders.length === 0 && ordersPresenter.error?.length! > 0 && (
+                <Error error={ ordersPresenter.error! }/>
             )}
         </>
     )
