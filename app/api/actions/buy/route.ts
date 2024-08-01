@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
     const orderPrice = parseFloat(params.price);
     const orderId = params.orderId;
 
-    console.log('Fetching order...');
+    // console.log('Fetching order...');
     const order = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderId), PROGRAM_ID);
     // console.log('Fetched order:', order);
 
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
         throw new Error('Order not found');
     }
 
-    console.log('Creating exchange transaction...');
+    // console.log('Creating exchange transaction...');
     const exchangeTx = await gmClientService.getCreateExchangeTransaction(
         CONNECTION,
         order,
