@@ -18,15 +18,17 @@ export async function GET(req: NextRequest) {
 
     // const baseHref = new URL(`/api/buy`, requestURL.origin).toString();
 
+    const currency = !params.currency || params.currency.toLowerCase() === 'atlas' ? 'ATLAS' : 'USDC';
+
     const payload: ActionGetResponse = {
         title: `Star Atlas: Buy ${matchingAsset?.name}`,
         icon: `${matchingAsset?.image!}`,
-        description: `Purchase ${matchingAsset?.name} NFT from the Galactic Marketplace`,
-        label: "Buy NFT",
+        description: `Purchase the ${matchingAsset?.name} SFT from the Galactic Marketplace`,
+        label: "Buy SFT",
         links: {
             actions: [
                 {
-                    label: `${params.price} ATLAS/NFT`,
+                    label: `${params.price} ${currency.toUpperCase()}/SFT`,
                     href: `${requestURL.href}&quantity={quantity}`,
                     parameters: [
                         {
@@ -60,6 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     const params = parseCombinedParams(getAssetParam);
+    const currency = !params.currency || params.currency.toLowerCase() === 'atlas' ? 'ATLAS' : 'USDC';
     // console.log('Parsed params:', params);
 
     const matchingAsset: AssetMetadata = assets.find(asset => asset.param === params.asset)!;
@@ -99,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     const payload = {
         transaction: serializedTransaction,
-        message: `Purchase ${purchaseQty} ${matchingAsset.name} for ${orderPrice * purchaseQty} ATLAS`
+        message: `You bought ${purchaseQty} ${matchingAsset.name} for ${orderPrice * purchaseQty} ${currency}.`,
     };
 
     // console.log('Sending payload:', payload);

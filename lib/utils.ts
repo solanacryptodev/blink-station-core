@@ -4,17 +4,25 @@ import { twMerge } from 'tailwind-merge'
 import { PublicKey } from "@solana/web3.js";
 import { assets } from "@/lib/metadata";
 import { BN } from "@coral-xyz/anchor";
+import { Order } from "@staratlas/factory";
+import { ATLAS } from "@/lib/constants";
 
 export function getNftMint(assetQuery: string): PublicKey | null {
-  const asset = assets.find(asset => asset.param.toLowerCase() === assetQuery.toLowerCase())
+  const asset = assets.find(asset => asset.name.toLowerCase() === assetQuery.toLowerCase())
   const mint = asset?.mint
   return mint ? new PublicKey(mint) : null;
 }
 
 export function getNftName(name: string): string | null {
-  const asset = assets.find(asset => asset.param.toLowerCase() === name.toLowerCase())
+  const asset = assets.find(asset => asset.name.toLowerCase() === name.toLowerCase())
   const mint = asset?.name
   return mint ? mint : null;
+}
+
+export function getNftParam(name: string): string | null {
+  const asset = assets.find(asset => asset.name.toLowerCase() === name.toLowerCase())
+  const param = asset?.param
+  return param ? param : null;
 }
 
 // Utility function to convert BN to a readable number
@@ -30,6 +38,35 @@ export const bnToNumber = (bn: BN): number => {
   // Round to 6 decimal places for display
   return Number(result.toFixed(6));
 };
+
+export const formatOrderNumber = (bn: BN, currency: Order) => {
+  const foundCurrency = currency.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
+  let number = 0;
+
+    if (foundCurrency === 'ATLAS') {
+      number = bnToNumber(bn);
+    } else {
+      number = Number(currency.uiPrice.toFixed(2));
+    }
+
+  return number;
+}
+export const removeDecimal = (num: number) => {
+  // Convert the number to a string
+  let numStr = num.toString();
+  // If there's no decimal point, return the original string
+  if (!numStr.includes('.')) {
+    return numStr;
+  }
+  // Split the string into parts before and after the decimal
+  let [integerPart, fractionalPart] = numStr.split('.');
+  // If the integer part is just '0', remove it
+  if (integerPart === '0') {
+    return fractionalPart.padStart(numStr.length - 1, '0');
+  }
+  // Otherwise, combine the parts without the decimal point
+  return integerPart + fractionalPart;
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
