@@ -1,7 +1,7 @@
 import { makeObservable, runInAction, observable, action, autorun, toJS } from 'mobx';
 import { ReturnedOrders } from "@/lib/types";
 import { GmClientService } from "@staratlas/factory";
-import { bnToNumber, getNftMint, getNftName } from "@/lib/utils";
+import { bnToNumber, formatOrderNumber, getNftMint, getNftName } from "@/lib/utils";
 import { PublicKey } from "@solana/web3.js";
 import { ATLAS, CONNECTION, PROGRAM_ID } from "@/lib/constants";
 import { BN } from "@coral-xyz/anchor";
@@ -33,27 +33,6 @@ export class OrdersPresenter {
 
             fetchOrders: action.bound,
             buildBlinkUrl: action.bound,
-            reset: action.bound
-        });
-    }
-
-    reset() {
-        this.orders = [];
-        this.isLoading = false;
-        this.isFetchComplete = false;
-        this.error = null;
-        this.blinkURL = '';
-    }
-
-    componentDidMount() {
-        autorun(() => {
-            console.log('componentDidMount... ');
-            console.log('states...', {
-                orders: toJS(this.orders),
-                isLoading: this.isLoading,
-                isFetchComplete: this.isFetchComplete,
-                error: this.error
-            })
         });
     }
 
@@ -77,15 +56,16 @@ export class OrdersPresenter {
             if (playerOrders.length === 0) {
                 throw new Error('No open orders found for this user in this market.');
             }
+            console.log('playerOrders...', playerOrders);
 
             return playerOrders.map(order => ({
                 assetName: name.toLowerCase(),
                 orderType: order.orderType,
                 orderId: order.id.toString(),
-                price: bnToNumber(new BN(order.price)),
+                price: formatOrderNumber(new BN(order.price), order),
                 quantity: order.orderQtyRemaining,
                 owner: order.owner.toString(),
-                currency: order.orderMint === ATLAS ? 'ATLAS' : 'USDC'
+                currency: order.currencyMint === ATLAS ? 'ATLAS' : 'USDC'
             }));
         } catch (error) {
             throw error;
@@ -94,27 +74,15 @@ export class OrdersPresenter {
 
     async buildBlinkUrl(orderID: string): Promise<string> {
         try {
-            if ( this.orders.length === 0 ) {
-                const gmClientService = new GmClientService();
-                const getOrder = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
-                const name = assets.filter((asset) => asset.mint === getOrder.orderMint);
-                this.orders.push({
-                    assetName: name[0].name.toLowerCase(),
-                    orderType: getOrder.orderType,
-                    orderId: getOrder.id.toString(),
-                    price: bnToNumber(new BN(getOrder.price)),
-                    quantity: getOrder.orderQtyRemaining,
-                    owner: getOrder.owner.toString()
-                });
-            }
+            const gmClientService = new GmClientService();
+            const order = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
+            const name = assets.filter((asset) => asset.mint === order.orderMint);
+            const currency = order.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
 
-            const orders = this.orders.filter(order => order.orderId === orderID);
-            // console.log('orders: ', orders);
+            // console.log('order: ', order);
 
-            runInAction(() => {
-                this.blinkURL = `https://blinkstationx.com/blink?asset=${orders[0].assetName}|${orders[0].orderId}|${orders[0].price}|${orders[0].quantity}/`;
-                // console.log('blinkURL: ', this.blinkURL);
-            });
+           return `https://blinkstationx.com/blink?asset=${name[0].name}|${order.id}|${order.price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}/`;
+            // console.log('blinkURL: ', this.blinkURL);
 
         } catch (error) {
             runInAction(() => {
