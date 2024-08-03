@@ -46,9 +46,9 @@ export function ChatPanel({
       message: 'How many fleets are there in sector MRZ-5?'
     },
     {
-      heading: 'Tell me about the starbase',
-      subheading: 'at sector MRZ-3.',
-      message: `Tell me about the starbase at sector MRZ-3.`
+      heading: 'Tell me about the history of',
+      subheading: 'the Galia Expanse.',
+      message: `Tell me about the history of the Galia Expanse.`
     },
     {
       heading: 'How many hostile sectors',
