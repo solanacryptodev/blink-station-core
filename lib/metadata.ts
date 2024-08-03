@@ -133,6 +133,18 @@ export const assets: AssetMetadata[] = [
         mint: 'Ev3xUhc1Leqi4qR2E5VoG9pcxCvHHmnAaSRVPg485xAT'
     },
     {
+        name: 'Opal Jetjet',
+        param: 'opaljetjet',
+        image: ``,
+        mint: '9ABNesWj7NVdkDgko7UjVaDp5pTh8a6wfXHLWz3bZM6W'
+    },
+    {
+        name: 'Calico Scud',
+        param: 'calicoscud',
+        image: ``,
+        mint: 'F3HitKsp52UPqBMEWSeTFqrGgnfYbS9DMrJCz9dM3w6D'
+    },
+    {
         name: 'Calico ATS Enforcer',
         param: 'calicoatsenforcer',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicoatsenforcer.png`,
@@ -143,6 +155,42 @@ export const assets: AssetMetadata[] = [
         param: 'calicomaxhog',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicomaxhog%20(1).png`,
         mint: 'GxpbUDxYYvxiUejHcAMzeV2rzdHf6KZZvT86ACrpFgXa',
+    },
+    {
+        name: 'Fimbul Lowbie',
+        param: 'fimbullowbie',
+        image: ``,
+        mint: '7Xs3yt9eJPuEexZrKSGVbQMXHwWUKHGeDZnM4ZksZmyS',
+    },
+    {
+        name: 'Fimbul Airbike',
+        param: 'fimbulairbike',
+        image: ``,
+        mint: 'Fw8PqtznYtg4swMk7Yjj89Tsj23u5CJLfW5Bk8ro4G1s',
+    },
+    {
+        name: 'Fimbul ECOS Unibomba',
+        param: 'fimbulecosunibomba',
+        image: ``,
+        mint: '9zrgra3XQkZPt8XNs4fowbqmj7B8bBx76aEmsKSnm9BW',
+    },
+    {
+        name: 'Ogrika Ruch',
+        param: 'ogrikaruch',
+        image: ``,
+        mint: 'RUCHH4AcvodBcndmcT17KUBbd5ee5LQtmpsfvBVNnPH',
+    },
+    {
+        name: 'Ogrika Niruch',
+        param: 'ogrikaniruch',
+        image: ``,
+        mint: '7SUoWHWWJCxCe5g9XqZkCRufGHXRV8nauuz69HPjuewr',
+    },
+    {
+        name: 'VZUS solos',
+        param: 'vzussolos',
+        image: ``,
+        mint: 'HjFijcGWKgfDwGpFX2rqFwEU9jtEgFuRQAJe1ERXFsA3',
     },
     {
         name: 'Ammunition',

@@ -73,24 +73,21 @@ export class OrdersPresenter {
     }
 
     async buildBlinkUrl(orderID: string): Promise<string> {
+        let url = '';
         try {
             const gmClientService = new GmClientService();
             const order = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
-            const name = assets.filter((asset) => asset.mint === order.orderMint);
+            const mint = assets.filter((asset) => asset.mint === order.orderMint);
             const currency = order.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
+            const price = formatOrderNumber(new BN(order.price), order)
+            console.log('order... ', order);
 
-            // console.log('order: ', order);
-
-           return `https://blinkstationx.com/blink?asset=${name[0].name}|${order.id}|${order.price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}/`;
-            // console.log('blinkURL: ', this.blinkURL);
+           url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
 
         } catch (error) {
-            runInAction(() => {
-                this.error = error as string;
-                this.isLoading = false;
-            });
+            throw error
         }
 
-        return this.blinkURL;
+        return url;
     }
 }
