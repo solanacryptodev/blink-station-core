@@ -1,7 +1,7 @@
-import { makeObservable, runInAction, observable, action, autorun, toJS } from 'mobx';
+import { makeObservable, observable, action } from 'mobx';
 import { ReturnedOrders } from "@/lib/types";
 import { GmClientService } from "@staratlas/factory";
-import { bnToNumber, formatOrderNumber, getNftMint, getNftName } from "@/lib/utils";
+import { formatOrderNumber, formatQuantity, getNftMint, getNftName, removeDecimal } from "@/lib/utils";
 import { PublicKey } from "@solana/web3.js";
 import { ATLAS, CONNECTION, PROGRAM_ID } from "@/lib/constants";
 import { BN } from "@coral-xyz/anchor";
@@ -63,7 +63,7 @@ export class OrdersPresenter {
                 orderType: order.orderType,
                 orderId: order.id.toString(),
                 price: formatOrderNumber(new BN(order.price), order),
-                quantity: order.orderQtyRemaining,
+                quantity: formatQuantity(order.orderQtyRemaining),
                 owner: order.owner.toString(),
                 currency: order.currencyMint === ATLAS ? 'ATLAS' : 'USDC'
             }));
@@ -79,10 +79,15 @@ export class OrdersPresenter {
             const order = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
             const mint = assets.filter((asset) => asset.mint === order.orderMint);
             const currency = order.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
-            const price = formatOrderNumber(new BN(order.price), order)
-            console.log('order... ', order);
+            const price = order.uiPrice;
+            const usdcPrice = formatOrderNumber(order.price, order);
+            // console.log('order... ', order);
 
-           url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
+           if (currency === 'ATLAS') {
+               url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
+            } else {
+               url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${usdcPrice}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
+           }
 
         } catch (error) {
             throw error

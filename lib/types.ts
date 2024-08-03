@@ -47,7 +47,7 @@ export interface ReturnedOrders {
   orderType: OrderSide
   orderId: string
   price: number | string
-  quantity: number
+  quantity: number | string
   owner: string
   currency?: string
 }
