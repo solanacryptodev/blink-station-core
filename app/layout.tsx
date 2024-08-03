@@ -6,6 +6,7 @@ import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
 import Starfield from '@/components/ui/backgrounds/Starfield'
+import ThreeStarfield from "@/components/ui/backgrounds/ThreeStarfield";
 
 const chakra = Chakra_Petch({
   weight: '400',
@@ -58,9 +59,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <div className="flex flex-col min-h-screen">
             <Starfield
-                starCount={1000}
+                starCount={2000}
                 starColor={[255, 255, 255]}
-                speedFactor={0.05}
+                speedFactor={0.10}
                 backgroundColor="black"
             />
             <Header />
