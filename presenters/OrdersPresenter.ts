@@ -1,7 +1,7 @@
-import { makeObservable, runInAction, observable, action, autorun, toJS } from 'mobx';
+import { makeObservable, observable, action } from 'mobx';
 import { ReturnedOrders } from "@/lib/types";
 import { GmClientService } from "@staratlas/factory";
-import { bnToNumber, formatOrderNumber, getNftMint, getNftName } from "@/lib/utils";
+import { formatOrderNumber, formatQuantity, getNftMint, getNftName, removeDecimal } from "@/lib/utils";
 import { PublicKey } from "@solana/web3.js";
 import { ATLAS, CONNECTION, PROGRAM_ID } from "@/lib/constants";
 import { BN } from "@coral-xyz/anchor";
@@ -63,7 +63,7 @@ export class OrdersPresenter {
                 orderType: order.orderType,
                 orderId: order.id.toString(),
                 price: formatOrderNumber(new BN(order.price), order),
-                quantity: order.orderQtyRemaining,
+                quantity: formatQuantity(order.orderQtyRemaining),
                 owner: order.owner.toString(),
                 currency: order.currencyMint === ATLAS ? 'ATLAS' : 'USDC'
             }));
@@ -73,24 +73,26 @@ export class OrdersPresenter {
     }
 
     async buildBlinkUrl(orderID: string): Promise<string> {
+        let url = '';
         try {
             const gmClientService = new GmClientService();
             const order = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
-            const name = assets.filter((asset) => asset.mint === order.orderMint);
+            const mint = assets.filter((asset) => asset.mint === order.orderMint);
             const currency = order.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
+            const price = order.uiPrice;
+            const usdcPrice = formatOrderNumber(order.price, order);
+            // console.log('order... ', order);
 
-            // console.log('order: ', order);
-
-           return `https://blinkstationx.com/blink?asset=${name[0].name}|${order.id}|${order.price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}/`;
-            // console.log('blinkURL: ', this.blinkURL);
+           if (currency === 'ATLAS') {
+               url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
+            } else {
+               url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${usdcPrice}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
+           }
 
         } catch (error) {
-            runInAction(() => {
-                this.error = error as string;
-                this.isLoading = false;
-            });
+            throw error
         }
 
-        return this.blinkURL;
+        return url;
     }
 }

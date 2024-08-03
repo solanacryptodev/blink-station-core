@@ -25,8 +25,8 @@ export function getNftParam(name: string): string | null {
   return param ? param : null;
 }
 
-// Utility function to convert BN to a readable number
-export const bnToNumber = (bn: BN): number => {
+// Utility function to convert BN to a readable number with comma separators
+export const bnToNumber = (bn: BN): string => {
   const decimals = 8;
   const divisor = new BN(10).pow(new BN(decimals));
   const wholePart = bn.div(divisor);
@@ -35,22 +35,46 @@ export const bnToNumber = (bn: BN): number => {
   const fractionalStr = fractionalPart.toString().padStart(decimals, '0');
   const result = parseFloat(wholePart.toString() + '.' + fractionalStr);
 
-  // Round to 6 decimal places for display
-  return Number(result.toFixed(6));
+  // Round to 6 decimal places for display and format with comma separators
+  return result.toFixed(6).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export const formatOrderNumber = (bn: BN, currency: Order) => {
+export const formatOrderNumber = (bn: BN, currency: Order): string => {
   const foundCurrency = currency.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
-  let number = 0;
+  let number: number;
+  let formattedNumber: string;
 
-    if (foundCurrency === 'ATLAS') {
-      number = bnToNumber(bn);
-    } else {
-      number = Number(currency.uiPrice.toFixed(2));
-    }
+  if (foundCurrency === 'ATLAS') {
+    number = parseFloat(bnToNumber(bn));
+  } else {
+    number = parseFloat(currency.uiPrice.toFixed(2));
+  }
 
-  return number;
+  // Format the number with comma separators and proper decimal places
+  formattedNumber = number.toLocaleString('en-US', {
+    minimumFractionDigits: foundCurrency === 'USDC' ? 2 : 6,
+    maximumFractionDigits: foundCurrency === 'USDC' ? 2 : 6
+  });
+
+  return `${formattedNumber}`;
 }
+
+export const formatQuantity = (quantity: number | string): string => {
+  // Ensure the input is a number
+  const numericQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
+
+  // Check if the parsed number is valid
+  if (isNaN(numericQuantity)) {
+    throw new Error('Invalid input: quantity must be a number or a numeric string');
+  }
+
+  // Format the number with comma separators and no decimal places
+  return numericQuantity.toLocaleString('en-US', {
+    maximumFractionDigits: 0,
+    useGrouping: true
+  });
+};
+
 export const removeDecimal = (num: number) => {
   // Convert the number to a string
   let numStr = num.toString();
