@@ -5,6 +5,7 @@ import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
+import Starfield from '@/components/ui/backgrounds/Starfield'
 
 const chakra = Chakra_Petch({
   weight: '400',
@@ -56,6 +57,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           <div className="flex flex-col min-h-screen">
+            <Starfield
+                starCount={1000}
+                starColor={[255, 255, 255]}
+                speedFactor={0.05}
+                backgroundColor="black"
+            />
             <Header />
             <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
           </div>
