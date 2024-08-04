@@ -1,7 +1,7 @@
-import { makeAutoObservable, runInAction, observable, action, autorun, toJS } from 'mobx';
+import { makeObservable, observable, action } from 'mobx';
 import { ReturnedOrders } from "@/lib/types";
 import { GmClientService } from "@staratlas/factory";
-import { bnToNumber, getNftMint, getNftName } from "@/lib/utils";
+import { formatOrderNumber, formatQuantity, getNftMint, getNftName, removeDecimal } from "@/lib/utils";
 import { PublicKey } from "@solana/web3.js";
 import { ATLAS, CONNECTION, PROGRAM_ID } from "@/lib/constants";
 import { BN } from "@coral-xyz/anchor";
@@ -24,7 +24,7 @@ export class OrdersPresenter {
         this.error = '';
         this.blinkURL = '';
 
-        makeAutoObservable(this, {
+        makeObservable(this, {
             orders: observable,
             isLoading: observable,
             isFetchComplete: observable,
@@ -32,13 +32,7 @@ export class OrdersPresenter {
             blinkURL: observable,
 
             fetchOrders: action.bound,
-            buildBlinkUrl: action.bound
-        });
-    }
-
-    componentDidMount() {
-        autorun(() => {
-            console.log('componentDidMount... ');
+            buildBlinkUrl: action.bound,
         });
     }
 
@@ -49,81 +43,56 @@ export class OrdersPresenter {
         return OrdersPresenter.instance;
     }
 
-    async fetchOrders(assetName: string, ownerKey: string): Promise<void> {
-        this.isLoading = true;
-        this.error = null;
-
+    async fetchOrders(assetName: string, ownerKey: string): Promise<ReturnedOrders[]> {
         try {
             const gmClientService = new GmClientService();
             const nftMint = getNftMint(assetName) as PublicKey;
             const name = getNftName(assetName) as string;
-            console.log('nftMint: ', nftMint.toString());
-            console.log('name: ', name);
 
             const orders = await gmClientService.getOpenOrdersForAsset(CONNECTION, nftMint, PROGRAM_ID);
-            const atlasSellOrders = orders.filter(order => order.orderType === 'sell' && order.currencyMint === ATLAS);
-            const userOrders = atlasSellOrders.filter(order => order.owner.toString() === ownerKey);
+            const playerSellOrders = orders.filter(order => order.orderType === 'sell');
+            const playerOrders = playerSellOrders.filter(order => order.owner.toString() === ownerKey);
 
-            if (userOrders.length === 0) {
-                this.error = 'No open orders found for this user in this market.';
-                return;
+            if (playerOrders.length === 0) {
+                throw new Error('No open orders found for this user in this market.');
             }
+            console.log('playerOrders...', playerOrders);
 
-            const openOrders: ReturnedOrders[] = userOrders.map(order => ({
+            return playerOrders.map(order => ({
                 assetName: name.toLowerCase(),
                 orderType: order.orderType,
                 orderId: order.id.toString(),
-                price: bnToNumber(new BN(order.price)),
-                quantity: order.orderQtyRemaining,
-                owner: order.owner.toString()
+                price: formatOrderNumber(new BN(order.price), order),
+                quantity: formatQuantity(order.orderQtyRemaining),
+                owner: order.owner.toString(),
+                currency: order.currencyMint === ATLAS ? 'ATLAS' : 'USDC'
             }));
-            // console.log('openOrders: ', openOrders);
-
-            runInAction(() => {
-                this.orders.push(...openOrders);
-                // console.log('this.orders... ', toJS((this.orders)));
-                this.isFetchComplete = true;
-                this.isLoading = false;
-            });
         } catch (error) {
-            runInAction(() => {
-                this.error = error as string;
-                this.isLoading = false;
-            });
+            throw error;
         }
     }
 
     async buildBlinkUrl(orderID: string): Promise<string> {
+        let url = '';
         try {
-            if ( this.orders.length === 0 ) {
-                const gmClientService = new GmClientService();
-                const getOrder = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
-                const name = assets.filter((asset) => asset.mint === getOrder.orderMint);
-                this.orders.push({
-                    assetName: name[0].name.toLowerCase(),
-                    orderType: getOrder.orderType,
-                    orderId: getOrder.id.toString(),
-                    price: bnToNumber(new BN(getOrder.price)),
-                    quantity: getOrder.orderQtyRemaining,
-                    owner: getOrder.owner.toString()
-                });
-            }
+            const gmClientService = new GmClientService();
+            const order = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderID), PROGRAM_ID);
+            const mint = assets.filter((asset) => asset.mint === order.orderMint);
+            const currency = order.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
+            const price = order.uiPrice;
+            const usdcPrice = formatOrderNumber(order.price, order);
+            // console.log('order... ', order);
 
-            const orders = this.orders.filter(order => order.orderId === orderID);
-            // console.log('orders: ', orders);
-
-            runInAction(() => {
-                this.blinkURL = `https://blinkstationx.com/blink?asset=${orders[0].assetName}|${orders[0].orderId}|${orders[0].price}|${orders[0].quantity}/`;
-                // console.log('blinkURL: ', this.blinkURL);
-            });
+           if (currency === 'ATLAS') {
+               url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${price}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
+            } else {
+               url = `https://blinkstationx.com/blink?asset=${mint[0].param}|${order.id}|${usdcPrice}|${order.orderQtyRemaining}|${currency?.toLowerCase()}`;
+           }
 
         } catch (error) {
-            runInAction(() => {
-                this.error = error as string;
-                this.isLoading = false;
-            });
+            throw error
         }
 
-        return this.blinkURL;
+        return url;
     }
 }

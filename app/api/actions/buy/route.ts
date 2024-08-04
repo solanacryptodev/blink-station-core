@@ -18,15 +18,17 @@ export async function GET(req: NextRequest) {
 
     // const baseHref = new URL(`/api/buy`, requestURL.origin).toString();
 
+    const currency = !params.currency || params.currency.toLowerCase() === 'atlas' ? 'ATLAS' : 'USDC';
+
     const payload: ActionGetResponse = {
         title: `Star Atlas: Buy ${matchingAsset?.name}`,
         icon: `${matchingAsset?.image!}`,
-        description: `Purchase ${matchingAsset?.name} NFT from the Galactic Marketplace`,
-        label: "Buy NFT",
+        description: `Purchase the ${matchingAsset?.name} SFT from the Galactic Marketplace`,
+        label: "Buy SFT",
         links: {
             actions: [
                 {
-                    label: `${params.price} ATLAS/NFT`,
+                    label: `${params.price} ${currency.toUpperCase()}/SFT`,
                     href: `${requestURL.href}&quantity={quantity}`,
                     parameters: [
                         {
@@ -60,6 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     const params = parseCombinedParams(getAssetParam);
+    const currency = !params.currency || params.currency.toLowerCase() === 'atlas' ? 'ATLAS' : 'USDC';
     // console.log('Parsed params:', params);
 
     const matchingAsset: AssetMetadata = assets.find(asset => asset.param === params.asset)!;
@@ -75,7 +78,7 @@ export async function POST(req: NextRequest) {
     const orderPrice = parseFloat(params.price);
     const orderId = params.orderId;
 
-    console.log('Fetching order...');
+    // console.log('Fetching order...');
     const order = await gmClientService.getOpenOrder(CONNECTION, new PublicKey(orderId), PROGRAM_ID);
     // console.log('Fetched order:', order);
 
@@ -83,7 +86,7 @@ export async function POST(req: NextRequest) {
         throw new Error('Order not found');
     }
 
-    console.log('Creating exchange transaction...');
+    // console.log('Creating exchange transaction...');
     const exchangeTx = await gmClientService.getCreateExchangeTransaction(
         CONNECTION,
         order,
@@ -99,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     const payload = {
         transaction: serializedTransaction,
-        message: `Purchase ${purchaseQty} ${matchingAsset.name} for ${orderPrice * purchaseQty} ATLAS`
+        message: `You bought ${purchaseQty} ${matchingAsset.name} for ${orderPrice * purchaseQty} ${currency}.`,
     };
 
     // console.log('Sending payload:', payload);

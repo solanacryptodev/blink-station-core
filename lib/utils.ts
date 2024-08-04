@@ -4,21 +4,29 @@ import { twMerge } from 'tailwind-merge'
 import { PublicKey } from "@solana/web3.js";
 import { assets } from "@/lib/metadata";
 import { BN } from "@coral-xyz/anchor";
+import { Order } from "@staratlas/factory";
+import { ATLAS } from "@/lib/constants";
 
 export function getNftMint(assetQuery: string): PublicKey | null {
-  const asset = assets.find(asset => asset.param.toLowerCase() === assetQuery.toLowerCase())
+  const asset = assets.find(asset => asset.name.toLowerCase() === assetQuery.toLowerCase())
   const mint = asset?.mint
   return mint ? new PublicKey(mint) : null;
 }
 
 export function getNftName(name: string): string | null {
-  const asset = assets.find(asset => asset.param.toLowerCase() === name.toLowerCase())
+  const asset = assets.find(asset => asset.name.toLowerCase() === name.toLowerCase())
   const mint = asset?.name
   return mint ? mint : null;
 }
 
-// Utility function to convert BN to a readable number
-export const bnToNumber = (bn: BN): number => {
+export function getNftParam(name: string): string | null {
+  const asset = assets.find(asset => asset.name.toLowerCase() === name.toLowerCase())
+  const param = asset?.param
+  return param ? param : null;
+}
+
+// Utility function to convert BN to a readable number with comma separators
+export const bnToNumber = (bn: BN): string => {
   const decimals = 8;
   const divisor = new BN(10).pow(new BN(decimals));
   const wholePart = bn.div(divisor);
@@ -27,9 +35,62 @@ export const bnToNumber = (bn: BN): number => {
   const fractionalStr = fractionalPart.toString().padStart(decimals, '0');
   const result = parseFloat(wholePart.toString() + '.' + fractionalStr);
 
-  // Round to 6 decimal places for display
-  return Number(result.toFixed(6));
+  // Round to 6 decimal places for display and format with comma separators
+  return result.toFixed(6).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const formatOrderNumber = (bn: BN, currency: Order): string => {
+  const foundCurrency = currency.currencyMint === ATLAS ? 'ATLAS' : 'USDC';
+  let number: number;
+  let formattedNumber: string;
+
+  if (foundCurrency === 'ATLAS') {
+    number = parseFloat(bnToNumber(bn));
+  } else {
+    number = parseFloat(currency.uiPrice.toFixed(2));
+  }
+
+  // Format the number with comma separators and proper decimal places
+  formattedNumber = number.toLocaleString('en-US', {
+    minimumFractionDigits: foundCurrency === 'USDC' ? 2 : 6,
+    maximumFractionDigits: foundCurrency === 'USDC' ? 2 : 6
+  });
+
+  return `${formattedNumber}`;
+}
+
+export const formatQuantity = (quantity: number | string): string => {
+  // Ensure the input is a number
+  const numericQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
+
+  // Check if the parsed number is valid
+  if (isNaN(numericQuantity)) {
+    throw new Error('Invalid input: quantity must be a number or a numeric string');
+  }
+
+  // Format the number with comma separators and no decimal places
+  return numericQuantity.toLocaleString('en-US', {
+    maximumFractionDigits: 0,
+    useGrouping: true
+  });
+};
+
+export const removeDecimal = (num: number) => {
+  // Convert the number to a string
+  let numStr = num.toString();
+  // If there's no decimal point, return the original string
+  if (!numStr.includes('.')) {
+    return numStr;
+  }
+  // Split the string into parts before and after the decimal
+  let [integerPart, fractionalPart] = numStr.split('.');
+  // If the integer part is just '0', remove it
+  if (integerPart === '0') {
+    return fractionalPart.padStart(numStr.length - 1, '0');
+  }
+  // Otherwise, combine the parts without the decimal point
+  return integerPart + fractionalPart;
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

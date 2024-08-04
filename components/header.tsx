@@ -30,7 +30,7 @@ async function UserOrLogin() {
         </>
       ) : (
         <div>
-          <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='bg-amber-900 rounded-full' />
+          <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='rounded-full' />
         </div>
       )}
       <div className="flex items-center">
@@ -38,9 +38,7 @@ async function UserOrLogin() {
         {session?.user ? (
           <UserMenu user={session.user} />
         ) : (
-          <Button variant="link" asChild className="-ml-2">
-            <Link href="/login">Login</Link>
-          </Button>
+            <div>Blink Station 10</div>
         )}
       </div>
     </>
@@ -49,31 +47,21 @@ async function UserOrLogin() {
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
+    <header className="sticky opacity-70 top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
       <div className="flex items-center">
         <React.Suspense fallback={<div className="flex-1 overflow-auto" />}>
           <UserOrLogin />
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-2">
-        <a
-          target="_blank"
-          href="https://github.com/vercel/nextjs-ai-chatbot/"
-          rel="noopener noreferrer"
-          className={cn(buttonVariants({ variant: 'outline' }))}
-        >
-          <IconGitHub />
-          <span className="hidden ml-2 md:flex">GitHub</span>
-        </a>
-        <a
-          href="https://vercel.com/templates/Next.js/nextjs-ai-chatbot"
-          target="_blank"
-          className={cn(buttonVariants())}
-        >
-          <IconVercel className="mr-2" />
-          <span className="hidden sm:block">Deploy to Vercel</span>
-          <span className="sm:hidden">Deploy</span>
-        </a>
+        <IconGitHub />
+        <span className="hidden ml-2 md:flex">Settings</span>
+
+       <Button className='hover:bg-[#C38E3D] bg-[#7F5B32]'>
+           <IconVercel className="mr-2" />
+           <div className="hidden sm:block">Connect Your Wallet</div>
+           <div className="sm:hidden">Connect</div>
+       </Button>
       </div>
     </header>
   )
