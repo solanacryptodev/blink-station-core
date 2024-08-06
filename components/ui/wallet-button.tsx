@@ -43,8 +43,8 @@ export const WalletButton: FunctionComponent<WalletButtonProps> = observer(({ ba
                         width={25}
                         className="mr-2"
                     />
-                    <div className="hidden sm:block">{status}</div>
-                    <div className="sm:hidden">{status}</div>
+                    <div className="text-white hidden sm:block">{status}</div>
+                    <div className="text-white sm:hidden">{status}</div>
                 </Button>
             )}
         </>
