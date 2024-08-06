@@ -19,7 +19,7 @@ SA programs and powered by the Solana blockchain.
 
 ## Features
 
-- <strong>Automated Blink Builder:</strong> Now all open sell orders
+- [x] <strong>Automated Blink Builder:</strong> Now all open sell orders
 on the [Galactic Marketplace](https://play.staratlas.com/market) 
 are shareable on X.com (Twitter). You can now leverage social media to
 expose current and potential new players to your listings!
@@ -28,24 +28,28 @@ expose current and potential new players to your listings!
     open sell orders that they own, including their Order ID's.
   - Then select an Order ID and Atlasson will turn into a blink (blockchain link).
   - Share the blink on X.com.
-- <strong>The Galia Expanse Database:</strong> Atlasson holds all publicly-available knowledge
+- [x] <strong>The Galia Expanse Database:</strong> Atlasson holds all publicly-available knowledge
 pertaining to the Galia Expanse as provided in the SA wiki and will communicate this data
 while in-character. This includes lore about history, characters, factions, and more!
-- <strong>Player Profile Integration V1:</strong> Player profiles will be critical
+- [ ] <strong>Player Profile Integration V1:</strong> Player profiles will be critical
 for access to current and future feature releases. You will be able to communicate with
 Atlasson in-character if you so desire. Future iterations will allow you to interact more
 with things like the crafting program.
-- <strong>Sage Sector Scanner (S3):</strong> S3 v1 will serve as the launchpad of
+- [ ] <strong>Marketplace Economic Analyzer (MEA):</strong> This tool will
+  provide up-to-date market analysis allowing you to spot trends, economic
+  opportunities and much more. The MEA tool at launch will include the...
+  - Galactic Demand Index (GDI): Use this tool to gather data about which marketplace 
+    assets are in high demand and which aren't.
+  - Scarcity Pulse Analyzer (SPA): Use this tool to gather data about supply for a 
+    particular asset.
+  - Arbitrage Opportunity Assessment: an automated arbitrage identifier
+    system designed to give you an economic edge by identifying
+    price discrepancies between different markets.
+- [ ] <strong>Sage Sector Scanner (S3):</strong> S3 v1 will serve as the launchpad of
 one of the primary products of Blink Station 10. 
   - Planetary Resource Analysis
   - Fleet Movement Analysis
   - Starbase Progression Analysis
-- <strong>Marketplace Economic Analyzer (MEA):</strong> This tool will
-provide up-to-date market analysis allowing you to spot trends, economic
-opportunities and much more. The MEA tool at launch will include the...
-  - Arbitrage Opportunity Assessment: an automated arbitrage identifier
-    system designed to give you an economic edge by identifying 
-    price discrepancies between different markets.
 
 
 ## Coming Soon
