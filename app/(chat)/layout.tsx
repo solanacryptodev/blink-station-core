@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { SidebarDesktop } from '@/components/sidebar-desktop'
 
 interface ChatLayoutProps {

@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import '@/app/globals.css'
 import { Chakra_Petch } from 'next/font/google'
 import { cn } from '@/lib/utils'

@@ -11,6 +11,11 @@ import { Message, Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
+import { initializeWallet } from "@/stores/WalletStore";
+import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { WalletPresenter } from "@/presenters/WalletPresenter";
+import { WalletModal } from '@/components/wallet-modal';
+import { observer } from "mobx-react-lite";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -19,17 +24,25 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   missingKeys: string[]
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export const Chat = observer(({ id, className, session, missingKeys }: ChatProps) => {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
+  const wallet = WalletPresenter.getInstance();
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
   // console.log('aiState...', aiState)
   // console.log('messages...', messages)
+
+  useEffect(() => {
+    initializeWallet( {
+      wallets: [ new PhantomWalletAdapter(), new SolflareWalletAdapter() ],
+      defaultAutoConnect: true,
+    } ).then();
+  }, []);
 
   useEffect(() => {
     if (session?.user) {
@@ -73,6 +86,9 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         ) : (
           <EmptyScreen />
         )}
+        {wallet.walletModal && !wallet.isConnected && (
+            <WalletModal />
+        )}
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
       <ChatPanel
@@ -84,4 +100,4 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       />
     </div>
   )
-}
+})

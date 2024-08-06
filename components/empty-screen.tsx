@@ -1,10 +1,13 @@
+'use client'
+
 import { UseChatHelpers } from 'ai/react'
 
-import { Button } from '@/components/ui/button'
 import { ExternalLink } from '@/components/external-link'
-import { IconArrowRight } from '@/components/ui/icons'
+import { observer } from "mobx-react-lite";
+import { FunctionComponent } from "react";
 
-export function EmptyScreen() {
+export const EmptyScreen: FunctionComponent = observer(() => {
+
   return (
     <div className="mx-auto max-w-2xl px-4">
       <div className="flex flex-col gap-2 rounded-lg border bg-background p-8">
@@ -26,4 +29,4 @@ export function EmptyScreen() {
       </div>
     </div>
   )
-}
+})

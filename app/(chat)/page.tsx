@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { nanoid } from '@/lib/utils'
 import { Chat } from '@/components/chat'
 import { AI } from '@/lib/chat/actions'
