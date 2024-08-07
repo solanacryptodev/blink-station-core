@@ -11,6 +11,7 @@ import { useAIState, useActions, useUIState } from 'ai/rsc'
 import type { AI } from '@/lib/chat/actions'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
+import { useAmplitude } from "@/lib/hooks/use-amplitude";
 
 export interface ChatPanelProps {
   id?: string
@@ -33,6 +34,7 @@ export function ChatPanel({
   const [messages, setMessages] = useUIState<typeof AI>()
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
+  const { trackEvent } = useAmplitude();
 
   const exampleMessages = [
     {
@@ -74,6 +76,9 @@ export function ChatPanel({
                   index > 1 && 'hidden md:block'
                 }`}
                 onClick={async () => {
+                  trackEvent('Example Question Clicked', {
+                    question: example.message
+                  });
                   setMessages(currentMessages => [
                     ...currentMessages,
                     {

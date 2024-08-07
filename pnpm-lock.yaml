@@ -8,6 +8,9 @@ dependencies:
   '@ai-sdk/openai':
     specifier: ^0.0.34
     version: 0.0.34(zod@3.23.8)
+  '@amplitude/analytics-browser':
+    specifier: ^2.10.0
+    version: 2.10.0
   '@coral-xyz/anchor':
     specifier: ^0.30.1
     version: 0.30.1
@@ -116,6 +119,9 @@ dependencies:
   i:
     specifier: ^0.3.7
     version: 0.3.7
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   mobx:
     specifier: ^6.13.1
     version: 6.13.1
@@ -208,6 +214,9 @@ devDependencies:
   '@types/d3-scale':
     specifier: ^4.0.8
     version: 4.0.8
+  '@types/lodash':
+    specifier: ^4.17.7
+    version: 4.17.7
   '@types/node':
     specifier: ^20.14.9
     version: 20.14.9
@@ -380,6 +389,69 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
     dev: true
+
+  /@amplitude/analytics-browser@2.10.0:
+    resolution: {integrity: sha512-rnRDc87NOIX66pIHOXiiwX3YuFo/Y2vcY08t1JgbRwGs+n8Yk5FwtuirpR4/uoNq6f7TgnXlYIc9Bkvvkir+yA==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.0
+      '@amplitude/analytics-core': 2.4.0
+      '@amplitude/analytics-remote-config': 0.3.4
+      '@amplitude/analytics-types': 2.7.0
+      '@amplitude/plugin-autocapture-browser': 1.0.0
+      '@amplitude/plugin-page-view-tracking-browser': 2.2.18
+      tslib: 2.6.3
+    dev: false
+
+  /@amplitude/analytics-client-common@2.3.0:
+    resolution: {integrity: sha512-av9OW/n+WqJibREe1bselu/Ib4adZsm0WAbJS3Dzx53/9LMHVxhA1ZQeh+gTg4OOEL1YD0w9tjgbNfuQHGV1aA==}
+    dependencies:
+      '@amplitude/analytics-connector': 1.5.0
+      '@amplitude/analytics-core': 2.4.0
+      '@amplitude/analytics-types': 2.7.0
+      tslib: 2.6.3
+    dev: false
+
+  /@amplitude/analytics-connector@1.5.0:
+    resolution: {integrity: sha512-T8mOYzB9RRxckzhL0NTHwdge9xuFxXEOplC8B1Y3UX3NHa3BLh7DlBUZlCOwQgMc2nxDfnSweDL5S3bhC+W90g==}
+    dev: false
+
+  /@amplitude/analytics-core@2.4.0:
+    resolution: {integrity: sha512-Szd1Wai/CF4pjXUmN/zdPtO41uC2VBa6e2dN739jkPjB4Yd8+cgUpFlZ1UG/ob7VJaB+x7J0cONHXAWmRtUXGg==}
+    dependencies:
+      '@amplitude/analytics-types': 2.7.0
+      tslib: 2.6.3
+    dev: false
+
+  /@amplitude/analytics-remote-config@0.3.4:
+    resolution: {integrity: sha512-IdGJTJiHzkpUJtIOK3zmPtmMQ6p2z1U7Yxc4oC3kFK5+7MMZKDY1eFjszRzk/wQhCumPEp9MyGVd/SiN3LoBUQ==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.0
+      '@amplitude/analytics-core': 2.4.0
+      '@amplitude/analytics-types': 2.7.0
+      idb: 8.0.0
+      tslib: 2.6.3
+    dev: false
+
+  /@amplitude/analytics-types@2.7.0:
+    resolution: {integrity: sha512-ngcS79An7NXOQ+/YsRIRUZyUmWwanyJqYASzWNaxsMjJjUXSDGERvj2ZMWBNsNDLq3c3LmJbaMmVyAeTGsAotQ==}
+    dev: false
+
+  /@amplitude/plugin-autocapture-browser@1.0.0:
+    resolution: {integrity: sha512-qPlR5e1XMPvus32dJTsd8dgFyentR3ugiPv8obwe/bSqpD0Kem31DQic+JadPwG+L3e4UE4QO08hz2lEl9GHMg==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.0
+      '@amplitude/analytics-types': 2.7.0
+      rxjs: 7.8.1
+      tslib: 2.6.3
+    dev: false
+
+  /@amplitude/plugin-page-view-tracking-browser@2.2.18:
+    resolution: {integrity: sha512-PM4/5MxGC9XOpsyRHAc9jjBSim946I87QbMomb5KxtltOBJ8X9Hs2dNiBq8qoqa8oeqv6o37MHXxmClxMynaLg==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.0
+      '@amplitude/analytics-types': 2.7.0
+      tslib: 2.6.3
+    dev: false
 
   /@ampproject/remapping@2.3.0:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -3926,7 +3998,6 @@ packages:
 
   /@types/lodash@4.17.7:
     resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
-    dev: false
 
   /@types/mdast@3.0.15:
     resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
@@ -7142,6 +7213,10 @@ packages:
     resolution: {integrity: sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==}
     dev: false
 
+  /idb@8.0.0:
+    resolution: {integrity: sha512-l//qvlAKGmQO31Qn7xdzagVPPaHTxXx199MhrAFuVBTPqydcPYBWjkrbv4Y0ktB+GmWOiwHl237UUOrLmQxLvw==}
+    dev: false
+
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
     dev: false
@@ -9877,6 +9952,12 @@ packages:
     engines: {npm: '>=2.0.0'}
     dependencies:
       tslib: 1.14.1
+    dev: false
+
+  /rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+    dependencies:
+      tslib: 2.6.3
     dev: false
 
   /sade@1.8.1:
