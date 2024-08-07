@@ -34,7 +34,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
-  console.log('aiState...', aiState)
+  // console.log('aiState...', aiState)
   // console.log('messages...', messages)
 
   useEffect(() => {
