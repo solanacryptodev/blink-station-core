@@ -34,7 +34,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
-  // console.log('aiState...', aiState)
+  console.log('aiState...', aiState)
   // console.log('messages...', messages)
 
   useEffect(() => {
@@ -43,21 +43,6 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
       defaultAutoConnect: true,
     } ).then();
   }, []);
-
-  useEffect(() => {
-    if (session?.user) {
-      if (!path.includes('chat') && messages.length === 1) {
-        window.history.replaceState({}, '', `/chat/${id}`)
-      }
-    }
-  }, [id, path, session?.user, messages])
-
-  useEffect(() => {
-    const messagesLength = aiState.messages?.length
-    if (messagesLength === 2) {
-      router.refresh()
-    }
-  }, [aiState.messages, router])
 
   useEffect(() => {
     setNewChatId(id)
@@ -86,9 +71,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
         ) : (
           <EmptyScreen />
         )}
-        {wallet.walletModal && !wallet.isConnected && (
-            <WalletModal />
-        )}
+        {wallet.walletModal && !wallet.isConnected && <WalletModal /> }
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
       <ChatPanel
