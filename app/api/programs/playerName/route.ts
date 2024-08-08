@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
         const seed = new Uint8Array(EMPTY_NODE_WALLET);
         const payer = Keypair.fromSecretKey(seed)
         // const payer = Keypair.generate();
-        console.log('connection...', connection.rpcEndpoint);
-        console.log('new keypair...', payer.publicKey.toString());
+        // console.log('connection...', connection.rpcEndpoint);
+        // console.log('new keypair...', payer.publicKey.toString());
 
         // Create a NodeWallet instance instead of using new Wallet()
         const wallet: Wallet = {

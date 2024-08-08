@@ -86,7 +86,7 @@ export class WalletPresenter {
     }
 
     get player(): string {
-        console.log('player name...', this.playerName);
+        // console.log('player name...', this.playerName);
         return this.playerName as string;
     }
 
