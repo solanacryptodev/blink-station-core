@@ -31,7 +31,7 @@ expose current and potential new players to your listings!
 - [x] <strong>The Galia Expanse Database:</strong> Atlasson holds all publicly-available knowledge
 pertaining to the Galia Expanse as provided in the SA wiki and will communicate this data
 while in-character. This includes lore about history, characters, factions, and more!
-- [ ] <strong>Player Profile Integration V1:</strong> Player profiles will be critical
+- [x] <strong>Player Profile Integration V1:</strong> Player profiles will be critical
 for access to current and future feature releases. You will be able to communicate with
 Atlasson in-character if you so desire. Future iterations will allow you to interact more
 with things like the crafting program.
