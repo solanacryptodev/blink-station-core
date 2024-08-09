@@ -6,6 +6,10 @@ import { readAllFromRPC } from "@staratlas/data-source";
 import { PLAYER_PROGRAM_ID } from '@/lib/constants';
 import getConfig from 'next/config';
 
+export const config = {
+    runtime: 'edge',
+};
+
 export async function POST(req: NextRequest) {
     const { serverRuntimeConfig } = getConfig();
 
@@ -14,32 +18,17 @@ export async function POST(req: NextRequest) {
         // console.log('request body...', body);
 
         const connection = new Connection(serverRuntimeConfig.HELIUS_RPC_URL);
-        const seed = new Uint8Array(serverRuntimeConfig.EMPTY_NODE_WALLET);
-        const payer = Keypair.fromSecretKey(seed)
+        // const seed = new Uint8Array(serverRuntimeConfig.EMPTY_NODE_WALLET);
+        // const payer = Keypair.fromSecretKey(seed)
         // const payer = Keypair.generate();
-        console.log('connection...', connection.rpcEndpoint);
-        console.log('new keypair...', payer.publicKey.toString());
+        // console.log('connection...', connection.rpcEndpoint);
+        // console.log('new keypair...', payer.publicKey.toString());
 
         // Create a NodeWallet instance instead of using new Wallet()
-        const wallet: Wallet = {
-            payer: payer,
-            publicKey: payer.publicKey,
-            signTransaction: async (transaction: any) => {
-                transaction.partialSign(payer);
-                return transaction;
-            },
-            signAllTransactions: async (transactions: any) => {
-                transactions.forEach((transaction: any) => {
-                    transaction.partialSign(payer);
-                });
-                return transactions;
-            },
-        };
-
         const provider = new AnchorProvider(
             connection,
-            wallet as any,
-            AnchorProvider.defaultOptions(),
+            {} as any,
+            AnchorProvider.defaultOptions()
         );
 
         // wallet address of the player
