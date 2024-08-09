@@ -6,9 +6,7 @@ import { readAllFromRPC } from "@staratlas/data-source";
 import { PLAYER_PROGRAM_ID } from '@/lib/constants';
 import getConfig from 'next/config';
 
-export const config = {
-    runtime: 'edge',
-};
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
     const { serverRuntimeConfig } = getConfig();
