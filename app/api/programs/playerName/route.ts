@@ -1,21 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { KeyedAccountInfo, Keypair, PublicKey } from "@solana/web3.js";
+import { Connection, KeyedAccountInfo, Keypair, PublicKey } from "@solana/web3.js";
 import { AnchorProvider, Wallet } from "@coral-xyz/anchor";
 import { PlayerProfileProgram, PlayerName } from "@staratlas/player-profile";
 import { readAllFromRPC } from "@staratlas/data-source";
-import { EMPTY_NODE_WALLET, CONNECTION, PLAYER_PROGRAM_ID } from '@/lib/constants';
+import { PLAYER_PROGRAM_ID } from '@/lib/constants';
+import getConfig from 'next/config';
 
 export async function POST(req: NextRequest) {
+    const { serverRuntimeConfig } = getConfig();
+
     try {
         const body = await req.json();
         // console.log('request body...', body);
 
-        const connection = CONNECTION;
-        const seed = new Uint8Array(EMPTY_NODE_WALLET);
+        const connection = new Connection(serverRuntimeConfig.HELIUS_RPC_URL);
+        const seed = new Uint8Array(serverRuntimeConfig.EMPTY_NODE_WALLET);
         const payer = Keypair.fromSecretKey(seed)
         // const payer = Keypair.generate();
-        // console.log('connection...', connection.rpcEndpoint);
-        // console.log('new keypair...', payer.publicKey.toString());
+        console.log('connection...', connection.rpcEndpoint);
+        console.log('new keypair...', payer.publicKey.toString());
 
         // Create a NodeWallet instance instead of using new Wallet()
         const wallet: Wallet = {
