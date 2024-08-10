@@ -6,8 +6,10 @@ import { readAllFromRPC } from "@staratlas/data-source";
 import { PLAYER_PROGRAM_ID } from '@/lib/constants';
 import getConfig from 'next/config';
 
+/*TODO: remove later. Logic has been relocated to PlayerStore.loadPlayerName*/
 export async function POST(req: NextRequest) {
     const { serverRuntimeConfig } = getConfig();
+
 
     try {
         const body = await req.json();

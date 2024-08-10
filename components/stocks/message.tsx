@@ -11,13 +11,13 @@ import { StreamableValue, useStreamableValue } from 'ai/rsc'
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import PulsingIcon from "@/components/ui/pulsing-icon";
 import { observer } from "mobx-react-lite";
-import { WalletPresenter } from "@/presenters/WalletPresenter";
+import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { Power } from "react-feather";
 
 // Different types of message bubbles.
 
 export const UserMessage = observer(({ children }: { children: React.ReactNode }) => {
-    const walletPresenter = WalletPresenter.getInstance();
+    const playerPresenter = PlayerPresenter.getInstance();
   return (
     <div className="group relative flex items-start md:-ml-12">
       <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md border bg-background shadow-sm">
@@ -30,7 +30,7 @@ export const UserMessage = observer(({ children }: { children: React.ReactNode }
             <div className="flex flex-row items-center text-[#d1aa0f] float-right text-lg">
                 <Power size={18} className="mr-2" />
                 <div>
-                    { walletPresenter.player ? `${walletPresenter.player}` : 'No Name Detected' }
+                    { playerPresenter.playerName ? `${playerPresenter.playerName}` : 'No Name Detected' }
                 </div>
             </div>
         </div>

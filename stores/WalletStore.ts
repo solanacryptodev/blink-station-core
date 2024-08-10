@@ -28,6 +28,7 @@ import {
     getDerivationPath,
 } from '@solana/wallet-adapter-wallets';
 import { singleton } from "tsyringe";
+import { RootStore } from "@/stores/RootStore";
 
 // import { WalletNotSelectedError } from './errors';
 
@@ -56,6 +57,7 @@ export const MAIN_WALLETS = [
 
 @singleton()
 export class WalletStore {
+    // rootStore: RootStore;
     // Props
     defaultAutoConnect: boolean = false;
     wallets: Wallet[] = [];
@@ -83,6 +85,7 @@ export class WalletStore {
     ];
 
     constructor() {
+        // this.rootStore = new RootStore();
         this.connected = false;
         this.connecting = false;
         this.disconnecting = false;
@@ -102,6 +105,7 @@ export class WalletStore {
             ready: observable,
             name: observable,
             wallet: observable,
+            // rootStore: observable,
 
             setConnecting: action.bound,
             setConnected: action.bound,
@@ -251,6 +255,15 @@ export class WalletStore {
         } finally {
             this.setConnecting(false);
         }
+    }
+
+    async initialize(): Promise<void> {
+        await initializeWallet({
+            wallets: this.adaptors,
+            defaultAutoConnect: true,
+            localStorageKey: this.localStorageKey,
+            // onError: this.onError,
+        });
     }
 
     async connect(walletName: WalletName): Promise<void> {
