@@ -30,6 +30,8 @@ import {
 import { singleton } from "tsyringe";
 import { RootStore } from "@/stores/RootStore";
 
+// const rootStore = RootStore.getInstance();
+
 // import { WalletNotSelectedError } from './errors';
 
 interface Wallet {
@@ -85,7 +87,7 @@ export class WalletStore {
     ];
 
     constructor() {
-        // this.rootStore = new RootStore();
+        // this.rootStore = RootStore.getInstance();
         this.connected = false;
         this.connecting = false;
         this.disconnecting = false;

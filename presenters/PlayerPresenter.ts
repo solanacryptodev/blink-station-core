@@ -1,15 +1,9 @@
 import 'reflect-metadata';
-import { action, reaction, computed, makeObservable, observable, toJS } from "mobx";
+import { action, reaction, computed, makeObservable, observable } from "mobx";
 import { singleton } from "tsyringe";
 import { Adapter, WalletAdapter } from "@solana/wallet-adapter-base";
 import { MAIN_WALLETS, walletOrder } from "@/stores/WalletStore";
 import { RootStore } from "@/stores/RootStore";
-import { AnchorProvider } from "@coral-xyz/anchor";
-import { Connection, KeyedAccountInfo, PublicKey } from "@solana/web3.js";
-import { PLAYER_PROGRAM_ID } from "@/lib/constants";
-import { PlayerName, PlayerProfileProgram } from "@staratlas/player-profile";
-import { readAllFromRPC } from "@staratlas/data-source";
-import { CONNECTION } from '@/lib/constants';
 
 /* Presents relevant data about the Player to various Views
 *  - Wallet data
@@ -77,6 +71,7 @@ export class PlayerPresenter {
         this.rootStore.walletStore.disconnect();
         this.setConnected(false);
         localStorage.removeItem('walletAdapter');
+        this.rootStore.playerStore.setPlayerName(null);
         // console.log('connection status...', this.connected);
     }
 

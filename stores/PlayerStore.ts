@@ -29,7 +29,7 @@ export class PlayerStore {
         })
     }
 
-    setPlayerName(name: string) {
+    setPlayerName(name: string | null) {
         this.playerName = name;
     }
 

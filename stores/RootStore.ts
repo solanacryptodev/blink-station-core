@@ -1,7 +1,8 @@
-import { WalletStore } from '@/stores/WalletStore';
+import 'reflect-metadata';
 import { makeObservable, observable } from "mobx";
 import { singleton } from "tsyringe";
 import { PlayerStore } from "@/stores/PlayerStore";
+import { WalletStore } from '@/stores/WalletStore';
 
 @singleton()
 export class RootStore {

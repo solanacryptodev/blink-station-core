@@ -19,6 +19,7 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
 
     useEffect(() => {
         store.initializeStores();
+        console.log('Initializing stores...', store);
     }, [store]);
 
     return (
