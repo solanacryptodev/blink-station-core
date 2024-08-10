@@ -1,40 +1,39 @@
 import 'reflect-metadata';
-import { action, reaction, computed, makeObservable, observable, toJS } from "mobx";
+import { action, reaction, computed, makeObservable, observable } from "mobx";
 import { singleton } from "tsyringe";
-import { WalletAdapter } from "@solana/wallet-adapter-base";
-import { MAIN_WALLETS, walletOrder, WalletStore, walletStore } from "@/stores/WalletStore";
+import { Adapter, WalletAdapter } from "@solana/wallet-adapter-base";
+import { MAIN_WALLETS, walletOrder } from "@/stores/WalletStore";
+import { RootStore } from "@/stores/RootStore";
 
+/* Presents relevant data about the Player to various Views
+*  - Wallet data
+*  - Player data
+*  */
 @singleton()
-export class WalletPresenter {
-    private static instance: WalletPresenter | null = null;
-    walletStore: WalletStore;
-    connected: boolean;
+export class PlayerPresenter {
+    private static instance: PlayerPresenter | null = null;
+    private rootStore: RootStore;
     walletModal: boolean;
-    playerName: string | null;
     previousAdapter: WalletAdapter | null;
 
     constructor() {
-        this.connected = false;
+        this.rootStore = RootStore.getInstance();
         this.walletModal = false;
         this.previousAdapter = null;
-        this.playerName = null;
-        this.walletStore = walletStore;
 
         makeObservable(this, {
-            connected: observable,
             previousAdapter: observable,
             walletModal: observable,
-            playerName: observable,
 
             handleConnect: action.bound,
             handleDisconnect: action.bound,
             setConnected: action.bound,
             activateWalletModal: action.bound,
-            playerNames: action.bound,
 
             isConnected: computed,
             supportedWallets: computed,
-            player: computed
+            playerName: computed,
+            wallet: computed
         })
 
         this.setupReactions()
@@ -46,7 +45,7 @@ export class WalletPresenter {
             () => this.isConnected,
             async (connected) => {
                 if (connected && this.playerName === null) {
-                    await this.playerNames();
+                    await this.rootStore.playerStore.loadPlayerName();
                 } else {
                     console.log('You are not connected to a wallet');
                 }
@@ -54,40 +53,44 @@ export class WalletPresenter {
         );
     }
 
-    static getInstance(): WalletPresenter {
-        if (!WalletPresenter.instance) {
-            WalletPresenter.instance = new WalletPresenter();
+    static getInstance(): PlayerPresenter {
+        if (!PlayerPresenter.instance) {
+            PlayerPresenter.instance = new PlayerPresenter();
         }
-        return WalletPresenter.instance;
+        return PlayerPresenter.instance;
     }
 
     handleConnect(walletAdapter: WalletAdapter) {
         this.previousAdapter = walletAdapter;
         // console.log('Connecting to wallet...', this.previousAdapter);
-        this.walletStore.connect(walletAdapter?.name);
+        this.rootStore.walletStore.connect(walletAdapter?.name);
         this.setConnected(true);
     }
 
     handleDisconnect() {
-        this.walletStore.disconnect();
+        this.rootStore.walletStore.disconnect();
         this.setConnected(false);
         localStorage.removeItem('walletAdapter');
+        this.rootStore.playerStore.setPlayerName(null);
         // console.log('connection status...', this.connected);
     }
 
-    setConnected(connected: boolean): boolean {
-        this.walletStore.setConnected(connected);
-        return this.connected = connected;
+    setConnected(connected: boolean): void {
+        this.rootStore.walletStore.setConnected(connected)
     }
 
     get isConnected(): boolean {
         // console.log('connection status...', this.connected);
-        return this.connected;
+        return this.rootStore.walletStore.connected;
     }
 
-    get player(): string {
+    get playerName(): string {
         // console.log('player name...', this.playerName);
-        return this.playerName as string;
+        return this.rootStore.playerStore.playerName as string;
+    }
+
+    get wallet(): Adapter {
+        return this.rootStore.walletStore.wallet!;
     }
 
     activateWalletModal(active: boolean) {
@@ -95,25 +98,8 @@ export class WalletPresenter {
     }
 
     get supportedWallets(): WalletAdapter[] {
-        return Object.values( this.walletStore.adaptors )
+        return Object.values( this.rootStore.walletStore.adaptors )
             .filter( ( wallet ) => MAIN_WALLETS?.includes( wallet.url ) )
             .sort( ( a, b ) => walletOrder.indexOf( a.name ) - walletOrder.indexOf( b.name ) );
-    }
-
-    async playerNames(): Promise<void> {
-        const response = await fetch( '/api/programs/playerName', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(walletStore.wallet?.publicKey?.toString()),
-        });
-
-        if ( response.status !== 200 ) {
-            console.log('error getting names')
-        }
-        const fetchedData = await response.json();
-        this.playerName = fetchedData[0];
-        // console.log('API response: ', toJS(this.playerName));
     }
 }

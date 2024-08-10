@@ -13,7 +13,7 @@ import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
 import { initializeWallet } from "@/stores/WalletStore";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
-import { WalletPresenter } from "@/presenters/WalletPresenter";
+import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
 
@@ -30,19 +30,12 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
-  const wallet = WalletPresenter.getInstance();
+  const playerPresenter = PlayerPresenter.getInstance();
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
   // console.log('aiState...', aiState)
   // console.log('messages...', messages)
-
-  useEffect(() => {
-    initializeWallet( {
-      wallets: [ new PhantomWalletAdapter(), new SolflareWalletAdapter() ],
-      defaultAutoConnect: true,
-    } ).then();
-  }, []);
 
   useEffect(() => {
     setNewChatId(id)
@@ -71,7 +64,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
         ) : (
           <EmptyScreen />
         )}
-        {wallet.walletModal && !wallet.isConnected && <WalletModal /> }
+        {playerPresenter.walletModal && !playerPresenter.isConnected && <WalletModal /> }
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
       <ChatPanel

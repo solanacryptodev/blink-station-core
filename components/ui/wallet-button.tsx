@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { WalletPresenter } from "@/presenters/WalletPresenter";
+import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import * as React from "react";
@@ -13,7 +13,7 @@ interface WalletButtonProps {
 }
 
 export const WalletButton: FunctionComponent<WalletButtonProps> = observer(({ backgroundColor, hoverColor, status }: WalletButtonProps) => {
-    const wallet = WalletPresenter.getInstance();
+    const playerPresenter = PlayerPresenter.getInstance();
     // console.log('public key...', wallet.walletStore.publicKey?.toString());
 
     return (
@@ -24,7 +24,7 @@ export const WalletButton: FunctionComponent<WalletButtonProps> = observer(({ ba
                     style={{
                             backgroundColor: `#${backgroundColor}`,
                         }}
-                    onClick={() => wallet.activateWalletModal(true) }>
+                    onClick={() => playerPresenter.activateWalletModal(true) }>
                     <IconVercel className="mr-2" />
                     <div className="text-white hidden sm:block">{status} Your Wallet</div>
                     <div className="text-white sm:hidden">{status}</div>
@@ -35,10 +35,10 @@ export const WalletButton: FunctionComponent<WalletButtonProps> = observer(({ ba
                     style={{
                         backgroundColor: `#${backgroundColor}`,
                     }}
-                    onClick={() => wallet.handleDisconnect() }>
+                    onClick={() => playerPresenter.handleDisconnect() }>
                     <Image
                         alt='Wallet Icon'
-                        src={wallet.walletStore.wallet?.icon!}
+                        src={playerPresenter.wallet?.icon!}
                         height={25}
                         width={25}
                         className="mr-2"
