@@ -14,21 +14,25 @@ export class PlayerPresenter {
     private static instance: PlayerPresenter | null = null;
     private rootStore: RootStore;
     walletModal: boolean;
+    isLoading: boolean;
     previousAdapter: WalletAdapter | null;
 
     constructor() {
         this.rootStore = RootStore.getInstance();
         this.walletModal = false;
         this.previousAdapter = null;
+        this.isLoading = false;
 
         makeObservable(this, {
             previousAdapter: observable,
             walletModal: observable,
+            isLoading: observable,
 
             handleConnect: action.bound,
             handleDisconnect: action.bound,
             setConnected: action.bound,
             activateWalletModal: action.bound,
+            setIsLoading: action.bound,
 
             isConnected: computed,
             supportedWallets: computed,
@@ -36,22 +40,22 @@ export class PlayerPresenter {
             wallet: computed
         })
 
-        this.setupReactions()
+        // this.setupReactions()
     }
 
-    setupReactions() {
-        // This reaction will run once when the wallet is connected
-        reaction(
-            () => this.isConnected,
-            async (connected) => {
-                if (connected && this.playerName === null) {
-                    await this.rootStore.playerStore.loadPlayerName();
-                } else {
-                    console.log('You are not connected to a wallet');
-                }
-            }
-        );
-    }
+    // setupReactions() {
+    //     // This reaction will run once when the wallet is connected
+    //     reaction(
+    //         () => this.isConnected,
+    //         async (connected) => {
+    //             if (connected && this.playerName === null) {
+    //                 await this.rootStore.playerStore.loadPlayerName();
+    //             } else {
+    //                 console.log('You are not connected to a wallet');
+    //             }
+    //         }
+    //     );
+    // }
 
     static getInstance(): PlayerPresenter {
         if (!PlayerPresenter.instance) {
@@ -79,6 +83,10 @@ export class PlayerPresenter {
         this.rootStore.walletStore.setConnected(connected)
     }
 
+    setIsLoading(loading: boolean): void {
+        this.isLoading = loading;
+    }
+
     get isConnected(): boolean {
         // console.log('connection status...', this.connected);
         return this.rootStore.walletStore.connected;
@@ -91,6 +99,10 @@ export class PlayerPresenter {
 
     get wallet(): Adapter {
         return this.rootStore.walletStore.wallet!;
+    }
+
+    updatePlayerName(name: string) {
+        this.rootStore.playerStore.setPlayerName(name);
     }
 
     activateWalletModal(active: boolean) {

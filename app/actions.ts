@@ -8,7 +8,59 @@ import { auth } from '@/auth'
 import { type Chat } from '@/lib/types'
 
 import getConfig from 'next/config';
+import { AnchorProvider } from "@coral-xyz/anchor";
+import { CONNECTION, PLAYER_PROGRAM_ID } from "@/lib/constants";
+import { PublicKey } from "@solana/web3.js";
+import { PlayerName, PlayerProfileProgram } from "@staratlas/player-profile";
+import { readAllFromRPC } from "@staratlas/data-source";
 const { serverRuntimeConfig } = getConfig();
+
+export async function loadPlayerName(playerKey: string): Promise<string> {
+  let name = '';
+
+  const provider = new AnchorProvider(
+      CONNECTION,
+      {} as any,
+      AnchorProvider.defaultOptions(),
+  );
+
+  // wallet address of the player
+  const playerPubKey = new PublicKey(playerKey!);
+  // console.log('player key...', playerPubKey);
+
+  // returns player profile
+  const [accountInfo] = await CONNECTION.getProgramAccounts(
+      PLAYER_PROGRAM_ID,
+      {
+        filters: [
+          {
+            memcmp: {
+              offset: 30, // PlayerProfile.MIN_DATA_SIZE + 2
+              bytes: playerPubKey.toBase58(),
+            },
+          },
+        ],
+      },
+  );
+  // console.log('account info...', accountInfo.pubkey.toString());
+
+  const playerProfileProgram = PlayerProfileProgram.buildProgram(
+      PLAYER_PROGRAM_ID,
+      provider,
+  );
+
+  const profiles = (await readAllFromRPC(
+      CONNECTION,
+      playerProfileProgram,
+      PlayerName
+  )).find((data) => data.type === 'ok' && data.data.data.profile.toString() === accountInfo?.pubkey.toString());
+
+  if (profiles && profiles.type === 'ok' && profiles.data.name) {
+    name = profiles.data.name;
+  }
+
+  return name;
+}
 
 export async function getChats(userId?: string | null) {
   if (!userId) {

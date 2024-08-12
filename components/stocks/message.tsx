@@ -18,6 +18,7 @@ import { Power } from "react-feather";
 
 export const UserMessage = observer(({ children }: { children: React.ReactNode }) => {
     const playerPresenter = PlayerPresenter.getInstance();
+
   return (
     <div className="group relative flex items-start md:-ml-12">
       <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md border bg-background shadow-sm">
@@ -28,9 +29,16 @@ export const UserMessage = observer(({ children }: { children: React.ReactNode }
                 { children }
             </div>
             <div className="flex flex-row items-center text-[#d1aa0f] float-right text-lg">
-                <Power size={18} className="mr-2" />
+                { !playerPresenter.isLoading && <Power size={ 18 } className="mr-2"/> }
+                { playerPresenter.isLoading && <SpinnerMessage/> }
                 <div>
-                    { playerPresenter.playerName ? `${playerPresenter.playerName}` : 'No Name Detected' }
+                    { playerPresenter.isLoading ? (
+                        'Loading...'
+                    ) : playerPresenter.playerName ? (
+                        `${ playerPresenter.playerName }`
+                    ) : (
+                        'No Name Detected'
+                    ) }
                 </div>
             </div>
         </div>
@@ -142,10 +150,6 @@ export function SystemMessage( { children }: { children: React.ReactNode } ) {
 export function SpinnerMessage() {
     return (
         <div className="group relative flex items-start md:-ml-12">
-            <div
-                className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
-                <PulsingIcon light={ [ 249, 246, 240 ] } dark={ [ 23, 21, 21 ] }/>
-            </div>
             <div className="ml-4 h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden px-1">
                 { spinner }
             </div>

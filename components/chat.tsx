@@ -5,17 +5,16 @@ import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
 import { EmptyScreen } from '@/components/empty-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
 import { Message, Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
-import { initializeWallet } from "@/stores/WalletStore";
-import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
+import { loadPlayerName } from "@/app/actions";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -33,6 +32,23 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
   const playerPresenter = PlayerPresenter.getInstance();
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    const playerName = () => {
+      if (playerPresenter.isConnected && playerPresenter.playerName === null) {
+        playerPresenter.setIsLoading(true);
+        startTransition(async () => {
+          const nameFound = await loadPlayerName( playerPresenter.wallet.publicKey?.toString()! )
+          if (nameFound) {
+            playerPresenter.updatePlayerName(nameFound)
+            playerPresenter.setIsLoading(false);
+          }
+        });
+      }
+    }
+    playerName();
+  }, [playerPresenter.isConnected]);
 
   // console.log('aiState...', aiState)
   // console.log('messages...', messages)
