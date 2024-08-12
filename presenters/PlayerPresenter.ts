@@ -1,9 +1,11 @@
 import 'reflect-metadata';
-import { action, reaction, computed, makeObservable, observable } from "mobx";
+import { action, reaction, computed, makeObservable, observable, autorun } from "mobx";
 import { singleton } from "tsyringe";
 import { Adapter, WalletAdapter } from "@solana/wallet-adapter-base";
 import { MAIN_WALLETS, walletOrder } from "@/stores/WalletStore";
 import { RootStore } from "@/stores/RootStore";
+import { loadPlayerName } from "@/app/actions";
+import { toast } from 'sonner'
 
 /* Presents relevant data about the Player to various Views
 *  - Wallet data
@@ -33,29 +35,15 @@ export class PlayerPresenter {
             setConnected: action.bound,
             activateWalletModal: action.bound,
             setIsLoading: action.bound,
+            fetchPlayerName: action.bound,
 
             isConnected: computed,
             supportedWallets: computed,
             playerName: computed,
             wallet: computed
         })
-
-        // this.setupReactions()
     }
 
-    // setupReactions() {
-    //     // This reaction will run once when the wallet is connected
-    //     reaction(
-    //         () => this.isConnected,
-    //         async (connected) => {
-    //             if (connected && this.playerName === null) {
-    //                 await this.rootStore.playerStore.loadPlayerName();
-    //             } else {
-    //                 console.log('You are not connected to a wallet');
-    //             }
-    //         }
-    //     );
-    // }
 
     static getInstance(): PlayerPresenter {
         if (!PlayerPresenter.instance) {
@@ -69,6 +57,7 @@ export class PlayerPresenter {
         // console.log('Connecting to wallet...', this.previousAdapter);
         this.rootStore.walletStore.connect(walletAdapter?.name);
         this.setConnected(true);
+        this.fetchPlayerName();
     }
 
     handleDisconnect() {
@@ -76,6 +65,7 @@ export class PlayerPresenter {
         this.setConnected(false);
         localStorage.removeItem('walletAdapter');
         this.rootStore.playerStore.setPlayerName(null);
+        this.updatePlayerName(null);
         // console.log('connection status...', this.connected);
     }
 
@@ -101,11 +91,11 @@ export class PlayerPresenter {
         return this.rootStore.walletStore.wallet!;
     }
 
-    updatePlayerName(name: string) {
+    updatePlayerName(name: string | null): void {
         this.rootStore.playerStore.setPlayerName(name);
     }
 
-    activateWalletModal(active: boolean) {
+    activateWalletModal(active: boolean): void {
         this.walletModal = active;
     }
 
@@ -113,5 +103,22 @@ export class PlayerPresenter {
         return Object.values( this.rootStore.walletStore.adaptors )
             .filter( ( wallet ) => MAIN_WALLETS?.includes( wallet.url ) )
             .sort( ( a, b ) => walletOrder.indexOf( a.name ) - walletOrder.indexOf( b.name ) );
+    }
+
+    async fetchPlayerName(): Promise<void> {
+        if (this.isConnected && this.playerName === null && this.wallet.publicKey) {
+            this.setIsLoading(true);
+            try {
+                const nameFound = await loadPlayerName(this.wallet.publicKey.toString());
+                if (nameFound) {
+                    this.updatePlayerName(nameFound);
+                }
+            } catch (error) {
+                console.error('Error fetching player name:', error);
+                // Optionally set an error state here
+            } finally {
+                this.setIsLoading(false);
+            }
+        }
     }
 }

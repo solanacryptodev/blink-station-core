@@ -14,7 +14,7 @@ import { toast } from 'sonner'
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
-import { loadPlayerName } from "@/app/actions";
+import { Alert } from "@/components/alert";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -32,22 +32,15 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
   const playerPresenter = PlayerPresenter.getInstance();
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    const playerName = () => {
+    const name = async () => {
       if (playerPresenter.isConnected && playerPresenter.playerName === null) {
-        playerPresenter.setIsLoading(true);
-        startTransition(async () => {
-          const nameFound = await loadPlayerName( playerPresenter.wallet.publicKey?.toString()! )
-          if (nameFound) {
-            playerPresenter.updatePlayerName(nameFound)
-            playerPresenter.setIsLoading(false);
-          }
-        });
+        await playerPresenter.fetchPlayerName();
       }
     }
-    playerName();
+
+    name()
   }, [playerPresenter.isConnected]);
 
   // console.log('aiState...', aiState)
@@ -71,6 +64,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
+      <Alert alertMessage='Welcome to Blink Station 10' />
       <div
         className={cn('pb-[200px] pt-4 md:pt-10', className)}
         ref={messagesRef}
