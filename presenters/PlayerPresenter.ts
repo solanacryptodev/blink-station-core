@@ -112,6 +112,9 @@ export class PlayerPresenter {
                 const nameFound = await loadPlayerName(this.wallet.publicKey.toString());
                 if (nameFound) {
                     this.updatePlayerName(nameFound);
+                    this.rootStore.subscriptionStore.setPlayerProfileStatus(true);
+                } else {
+                    toast.error('You must create a player profile on the SAGE website before continuing.');
                 }
             } catch (error) {
                 console.error('Error fetching player name:', error);

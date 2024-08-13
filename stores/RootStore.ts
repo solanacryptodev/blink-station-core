@@ -24,7 +24,7 @@ export class RootStore {
             walletStore: observable,
             playerStore: observable,
             subscriptionStore: observable,
-            musicStore: observable
+            musicStore: observable,
         })
     }
 
@@ -39,12 +39,9 @@ export class RootStore {
         // Startup sequence for all stores
         await Promise.all([
             this.walletStore.initialize(),
+            this.subscriptionStore.initializeDatabase(),
         ])
         this.musicStore.initializeAudio();
-
-        if ( this.walletStore.connected ) {
-            // await this.playerStore.loadPlayerName();
-        }
 
         // if they have a player profile, then load it. If not, then direct them to Sage website
 

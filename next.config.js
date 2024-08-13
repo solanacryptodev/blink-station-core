@@ -6,6 +6,7 @@ module.exports = {
     HELIUS_RPC_URL: process.env.HELIUS_RPC_URL,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     EMPTY_NODE_WALLET: process.env.NEXT_PUBLIC_NODE?.split(',').map(Number),
+    MONGO_URI: process.env.MONGO_URI
   },
   images: {
     remotePatterns: [

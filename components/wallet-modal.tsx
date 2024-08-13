@@ -15,9 +15,11 @@ export const WalletModal: FunctionComponent = observer(() => {
 
     return (
         <motion.div
-            initial={ { opacity: 0, scale: 0 } }
-            animate={ { opacity: 1, scale: 1 } }
-            transition={ { duration: 0.5 } }
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black opacity-80 flex items-center justify-center z-50"
         >
             <div className="fixed inset-0 bg-black opacity-80 flex items-center justify-center z-50">
                 <div

@@ -15,6 +15,7 @@ import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
 import { Alert } from "@/components/alert";
+import { SubscriptionModal } from "@/components/subscription-modal";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -75,6 +76,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
           <EmptyScreen />
         )}
         {playerPresenter.walletModal && !playerPresenter.isConnected && <WalletModal /> }
+        <SubscriptionModal />
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
       <ChatPanel

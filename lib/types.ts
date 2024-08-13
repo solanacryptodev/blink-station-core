@@ -1,5 +1,13 @@
 import { CoreMessage } from 'ai'
 import { OrderSide } from "@staratlas/factory";
+import { ObjectId } from 'mongodb';
+
+export interface MembershipSubscription {
+  id: ObjectId | undefined;
+  playerName: string;
+  publicKey: string;
+  subscriptionStatus: 'wanderer' | 'specialist' | 'captain' | 'commander';
+}
 
 export type Message = CoreMessage & {
   id: string

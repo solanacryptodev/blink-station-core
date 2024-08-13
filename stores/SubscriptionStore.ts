@@ -1,27 +1,81 @@
 import 'reflect-metadata';
 import { singleton } from "tsyringe";
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { RootStore } from "@/stores/RootStore";
+import {
+    readAllSubscriptions,
+    readSubscription,
+    connectToMongo,
+    createCollection,
+    createSubscription
+} from '@/app/db-actions';
+import { MembershipSubscription } from '@/lib/types';
 
 @singleton()
 export class SubscriptionStore {
+    subscription: MembershipSubscription | null = null;
     rootStore: RootStore;
-    hasJoined: boolean;
+    hasPlayerProfile: boolean;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
-        this.hasJoined = false;
+        this.hasPlayerProfile = false;
 
         makeObservable(this, {
-            hasJoined: observable,
+            hasPlayerProfile: observable,
 
-            validateHasJoined: action.bound
+            setSubscriptions: action.bound,
+            addSubscription: action.bound,
+            // updateSubscription: action.bound,
+            // deleteSubscription: action.bound,
+            setPlayerProfileStatus: action.bound,
 
+            getPlayerProfileStatus: computed,
+            getActiveSubscriptions: computed
         })
     }
 
-    validateHasJoined() {
-        // check the database
-        this.hasJoined = true;
+    async initializeDatabase() {
+        await connectToMongo();
+        const collections = await readAllSubscriptions();
+        console.log('Collections:', collections);
+
+        if ( collections.length === 0 ) {
+            await createCollection();
+        }
     }
+
+    get getPlayerProfileStatus(): boolean {
+        return this.hasPlayerProfile;
+    }
+
+    get getActiveSubscriptions(): MembershipSubscription {
+        return this.subscription!;
+    }
+
+    setPlayerProfileStatus(status: boolean) {
+        this.hasPlayerProfile = status;
+    }
+
+    async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {
+        const sub = await readSubscription(subscriptions.publicKey?.toString()!);
+        console.log('Subscription:', sub);
+        //this.subscription = sub;
+    }
+
+    async addSubscription(subscription: MembershipSubscription) {
+        const subscribeToBS10 = await createSubscription(subscription);
+        console.log('Subscription created:', subscribeToBS10);
+    }
+
+    // updateSubscription(id: string, updatedSubscription: Partial<MembershipSubscription>) {
+    //     const index = this.subscription?.findIndex(sub => sub.id?.toString() === id);
+    //     if (index !== -1) {
+    //         this.subscription![index!] = { ...this.subscription![index!], ...updatedSubscription };
+    //     }
+    // }
+
+    // deleteSubscription(id: string) {
+    //     this.subscription = this.subscription?.filter(sub => sub.id?.toString() !== id)!;
+    // }
 }
