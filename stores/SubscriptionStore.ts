@@ -3,7 +3,6 @@ import { singleton } from "tsyringe";
 import { action, computed, makeObservable, observable } from "mobx";
 import { RootStore } from "@/stores/RootStore";
 import {
-    readAllSubscriptions,
     readSubscription,
     connectToMongo,
     createCollection,
@@ -37,12 +36,6 @@ export class SubscriptionStore {
 
     async initializeDatabase() {
         await connectToMongo();
-        const collections = await readAllSubscriptions();
-        console.log('Collections:', collections);
-
-        if ( collections.length === 0 ) {
-            await createCollection();
-        }
     }
 
     get getPlayerProfileStatus(): boolean {
@@ -60,7 +53,7 @@ export class SubscriptionStore {
     async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {
         const sub = await readSubscription(subscriptions.publicKey?.toString()!);
         console.log('Subscription:', sub);
-        //this.subscription = sub;
+        return sub;
     }
 
     async addSubscription(subscription: MembershipSubscription) {

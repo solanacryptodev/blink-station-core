@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import { singleton } from 'tsyringe';
 import { RootStore } from '@/stores/RootStore';
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { MembershipSubscription } from "@/lib/types";
 
 @singleton()
 export class SubscriptionPresenter {
@@ -22,7 +23,9 @@ export class SubscriptionPresenter {
             displayValidationView: observable,
             subscriptionModal: observable,
 
-            activateSubscriptionModal: action.bound
+            activateSubscriptionModal: action.bound,
+
+            player: computed
         })
     }
 
@@ -33,12 +36,36 @@ export class SubscriptionPresenter {
         return SubscriptionPresenter.instance;
     }
 
+    get player(): string {
+        return this.rootStore.playerStore.playerName!;
+    }
+
     activateSubscriptionModal(display: boolean) {
         this.subscriptionModal = display;
     }
 
     playerProfileStatus() {
         return this.rootStore.subscriptionStore.getPlayerProfileStatus;
+    }
+
+    async playerSubscriptionStatus() {
+        const setupSub: MembershipSubscription = {
+            id: undefined,
+            playerName: '',
+            publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
+            subscriptionStatus: 'wanderer'
+        }
+        const data = await this.rootStore.subscriptionStore.setSubscriptions(setupSub);
+
+        if ( !data ) {
+            runInAction(() => {
+                this.displaySubscriptionView = true;
+            })
+        } else {
+            runInAction(() => {
+                this.displayValidationView = true;
+            })
+        }
     }
 
 }

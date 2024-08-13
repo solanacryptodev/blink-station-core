@@ -1,6 +1,5 @@
-import { FunctionComponent, useRef } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
-import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { X } from "react-feather";
 import { motion } from "framer-motion";
 import { useClickAway } from "react-use";
@@ -14,6 +13,16 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
     useClickAway(ref, () => {
         subscriptionPresenter.activateSubscriptionModal(false);
     });
+
+    useEffect(() => {
+        const getSubStatus = async () => {
+            if (subscriptionPresenter.player) {
+                await subscriptionPresenter.playerSubscriptionStatus();
+            }
+        }
+
+        getSubStatus();
+    }, [subscriptionPresenter, subscriptionPresenter.player]);
 
     return (
         <motion.div
