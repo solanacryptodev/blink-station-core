@@ -62,7 +62,7 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
                                     alt='Image of Blink Station 1.'
                                 />
                             </div>
-                        ) }
+                        )}
 
                         <div className="flex justify-center">
                             { subscriptionPresenter.displaySubscriptionView ?

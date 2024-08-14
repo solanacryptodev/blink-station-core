@@ -4,7 +4,6 @@ import { TabProps, TabPanelProps } from "@/lib/types";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { SubscriptionButton } from '@/components/subscription/subscription-button';
 
 function TabPanel(props: TabPanelProps) {
