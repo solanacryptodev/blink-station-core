@@ -1,8 +1,14 @@
 import 'reflect-metadata';
 import { singleton } from 'tsyringe';
+import { ObjectId } from 'mongodb';
+import { Transaction, PublicKey } from '@solana/web3.js';
+import { createTransferInstruction, getAssociatedTokenAddress } from '@solana/spl-token'
 import { RootStore } from '@/stores/RootStore';
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { MembershipSubscription, TabProps } from "@/lib/types";
+import { CONNECTION, USDC_MINT, ATLAS_MINT } from "@/lib/constants";
+import { toast } from "sonner";
+import { formatDate } from '@/lib/utils';
 
 @singleton()
 export class SubscriptionPresenter {
@@ -11,14 +17,16 @@ export class SubscriptionPresenter {
     displaySubscriptionView: boolean;
     displayValidationView: boolean;
     subscriptionModal: boolean;
+    blinkKey: PublicKey;
 
     constructor() {
         this.rootStore = RootStore.getInstance();
         this.displaySubscriptionView = false;
         this.displayValidationView = false;
         this.subscriptionModal = false;
+        this.blinkKey = new PublicKey(process.env.NEXT_PUBLIC_BLINK_KEY! as string);
 
-        makeObservable(this, {
+        makeObservable( this, {
             displaySubscriptionView: observable,
             displayValidationView: observable,
             subscriptionModal: observable,
@@ -26,11 +34,11 @@ export class SubscriptionPresenter {
             activateSubscriptionModal: action.bound,
 
             player: computed
-        })
+        } )
     }
 
     static getInstance(): SubscriptionPresenter {
-        if (!SubscriptionPresenter.instance) {
+        if ( !SubscriptionPresenter.instance ) {
             SubscriptionPresenter.instance = new SubscriptionPresenter();
         }
         return SubscriptionPresenter.instance;
@@ -40,7 +48,7 @@ export class SubscriptionPresenter {
         return this.rootStore.playerStore.playerName!;
     }
 
-    activateSubscriptionModal(display: boolean): void {
+    activateSubscriptionModal( display: boolean ): void {
         this.subscriptionModal = display;
     }
 
@@ -62,19 +70,68 @@ export class SubscriptionPresenter {
             id: undefined,
             playerName: '',
             publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
-            subscriptionStatus: 'wanderer'
+            subscriptionStatus: 'traveler',
+            tokenCount: 0
         }
-        const data = await this.rootStore.subscriptionStore.setSubscriptions(setupSub);
+        const data = await this.rootStore.subscriptionStore.setSubscriptions( setupSub );
 
         if ( !data ) {
-            runInAction(() => {
+            runInAction( () => {
                 this.displaySubscriptionView = true;
-            })
+            } )
         } else {
-            runInAction(() => {
+            runInAction( () => {
                 this.displayValidationView = true;
-            })
+            } )
         }
     }
 
+    async subscribePlayer(usdcAmt: number, atlasAmt: number, membershipLevel: Partial<MembershipSubscription>): Promise<void> {
+        // return ATA accounts for payer and receiver
+        const payerUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.rootStore.walletStore.wallet?.publicKey!);
+        const payerAtlasTokenAccount = await getAssociatedTokenAddress(ATLAS_MINT, this.rootStore.walletStore.wallet?.publicKey!);
+        const recipientUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.blinkKey);
+        const recipientAtlasTokenAccount = await getAssociatedTokenAddress(ATLAS_MINT, this.blinkKey);
+
+
+        const transaction = new Transaction();
+
+        // transaction that transfers USDC, then ATLAS
+        transaction
+            .add(createTransferInstruction(
+                payerUSDCTokenAccount,
+                recipientUSDCTokenAccount,
+                this.rootStore.walletStore.wallet?.publicKey!,
+                usdcAmt
+            )).add(createTransferInstruction(
+                payerAtlasTokenAccount,
+                recipientAtlasTokenAccount,
+                this.rootStore.walletStore.wallet?.publicKey!,
+                atlasAmt
+        ))
+
+        transaction.feePayer = this.rootStore.walletStore.wallet?.publicKey!;
+        const latestBlockhash = await CONNECTION.getLatestBlockhash();
+        transaction.recentBlockhash = latestBlockhash.blockhash;
+
+        const tx = await this.rootStore.walletStore.wallet?.sendTransaction(transaction, CONNECTION, {
+            preflightCommitment: 'confirmed'
+        })!;
+
+        if (tx && membershipLevel.subscriptionStatus === 'traveler') {
+            const date = new Date();
+            const subscription: MembershipSubscription = {
+                id: new ObjectId(),
+                playerName: this.rootStore.playerStore.playerName!,
+                publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
+                subscriptionStatus: membershipLevel.subscriptionStatus!,
+                tokenCount: membershipLevel.tokenCount!,
+                createdAt: formatDate(date),
+                updatedAt: formatDate(date)
+            }
+            await this.rootStore.subscriptionStore.addSubscription( subscription )
+        } else {
+            toast.error( 'Transaction failed. Please try again.' );
+        }
+    }
 }

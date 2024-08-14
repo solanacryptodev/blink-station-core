@@ -59,6 +59,9 @@ dependencies:
   '@solana/actions':
     specifier: ^1.4.0
     version: 1.4.0
+  '@solana/spl-token':
+    specifier: ^0.4.8
+    version: 0.4.8(@solana/web3.js@1.95.1)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.5.2)
   '@solana/wallet-adapter-base':
     specifier: ^0.9.23
     version: 0.9.23(@solana/web3.js@1.95.1)

@@ -7,6 +7,10 @@ import { BN } from "@coral-xyz/anchor";
 import { Order } from "@staratlas/factory";
 import { ATLAS } from "@/lib/constants";
 
+export function formatDate(date: Date): string {
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
 export function getNftMint(assetQuery: string): PublicKey | null {
   const asset = assets.find(asset => asset.name.toLowerCase() === assetQuery.toLowerCase())
   const mint = asset?.mint
@@ -121,15 +125,6 @@ export async function fetcher<JSON = any>(
   }
 
   return res.json()
-}
-
-export function formatDate(input: string | number | Date): string {
-  const date = new Date(input)
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-  })
 }
 
 export const formatNumber = (value: number) =>

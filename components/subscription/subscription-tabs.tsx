@@ -45,7 +45,7 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
             <div className="flex flex-col mb-3">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange}>
-                        <Tab sx={{ color: 'white' }} label='Wanderer' {...a11yProps(0)} />
+                        <Tab sx={{ color: 'white' }} label='Traveler' {...a11yProps(0)} />
                         <Tab sx={{ color: 'white' }} label="Station Specialist" {...a11yProps(1)} />
                         <Tab sx={{ color: 'white' }} label="Station Captain" {...a11yProps(2)} />
                         <Tab sx={{ color: 'white' }} label="Station Commander" {...a11yProps(3)} />

@@ -19,7 +19,12 @@ export interface MembershipSubscription {
   id: ObjectId | undefined;
   playerName: string;
   publicKey: string;
-  subscriptionStatus: 'wanderer' | 'specialist' | 'captain' | 'commander';
+  subscriptionStatus: 'traveler' | 'specialist' | 'captain' | 'commander';
+  tokenCount: number;
+  createdAt?: string;
+  updatedAt?: string;
+  membershipStartDate?: string;
+  membershipEndDate?: string;
 }
 
 export type Message = CoreMessage & {
