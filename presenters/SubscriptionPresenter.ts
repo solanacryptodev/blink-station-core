@@ -24,7 +24,7 @@ export class SubscriptionPresenter {
         this.displaySubscriptionView = false;
         this.displayValidationView = false;
         this.subscriptionModal = false;
-        this.blinkKey = new PublicKey(process.env.NEXT_PUBLIC_BLINK_KEY! as string);
+        this.blinkKey = new PublicKey('5zQev7xbBvvumk5R5riQVCQnLZD6JhJboYUgtWYkEndi');
 
         makeObservable( this, {
             displaySubscriptionView: observable,
@@ -33,7 +33,7 @@ export class SubscriptionPresenter {
 
             activateSubscriptionModal: action.bound,
 
-            player: computed
+            player: computed,
         } )
     }
 
@@ -86,6 +86,26 @@ export class SubscriptionPresenter {
         }
     }
 
+    /* Creates a new account in DB for new user at free level */
+    async joinFreePlayer(membershipLevel: Partial<MembershipSubscription>): Promise<void> {
+        try {
+            const date = new Date();
+            const subscription: MembershipSubscription = {
+                id: new ObjectId(),
+                playerName: this.rootStore.playerStore.playerName!,
+                publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
+                subscriptionStatus: membershipLevel.subscriptionStatus!,
+                tokenCount: membershipLevel.tokenCount!,
+                createdAt: formatDate( date ),
+                updatedAt: formatDate( date )
+            }
+            await this.rootStore.subscriptionStore.addSubscription( subscription )
+        } catch ( error ) {
+            toast.error( 'Transaction failed. Please try again.' );
+        }
+    }
+
+    /* Creates a new account in the DB for a subscriber */
     async subscribePlayer(usdcAmt: number, atlasAmt: number, membershipLevel: Partial<MembershipSubscription>): Promise<void> {
         // return ATA accounts for payer and receiver
         const payerUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.rootStore.walletStore.wallet?.publicKey!);
@@ -118,7 +138,7 @@ export class SubscriptionPresenter {
             preflightCommitment: 'confirmed'
         })!;
 
-        if (tx && membershipLevel.subscriptionStatus === 'traveler') {
+        if (tx) {
             const date = new Date();
             const subscription: MembershipSubscription = {
                 id: new ObjectId(),
@@ -131,6 +151,25 @@ export class SubscriptionPresenter {
             }
             await this.rootStore.subscriptionStore.addSubscription( subscription )
         } else {
+            toast.error( 'Transaction failed. Please try again.' );
+        }
+    }
+
+    /* Upgrades or Re-Subscribes a player that already has an account */
+    async upgradeOrReSubscribePlayer(usdcAmt: number, atlasAmt: number, membershipLevel: Partial<MembershipSubscription>): Promise<void> {
+        try {
+            const date = new Date();
+            const subscription: MembershipSubscription = {
+                id: new ObjectId(),
+                playerName: this.rootStore.playerStore.playerName!,
+                publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
+                subscriptionStatus: membershipLevel.subscriptionStatus!,
+                tokenCount: membershipLevel.tokenCount!,
+                createdAt: formatDate( date ),
+                updatedAt: formatDate( date )
+            }
+            // await this.rootStore.subscriptionStore.upgradeSubscription( subscription )
+        } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
         }
     }

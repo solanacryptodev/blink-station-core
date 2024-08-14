@@ -57,7 +57,7 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                             { data.tabOne }
                         </div>
                         <div className="self-end">
-                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10' } }/>
+                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10', membershipType: 'traveler' } }/>
                         </div>
                     </div>
                 </TabPanel>
@@ -67,7 +67,7 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                             { data.tabTwo }
                         </div>
                         <div className="self-end">
-                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10' } }/>
+                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10', membershipType: 'specialist' } }/>
                         </div>
                     </div>
                 </TabPanel>
@@ -77,7 +77,7 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                             { data.tabThree }
                         </div>
                         <div className="self-end">
-                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10' } }/>
+                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10', membershipType: 'captain' } }/>
                         </div>
                     </div>
                 </TabPanel>
@@ -87,7 +87,7 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                             { data.tabFour }
                         </div>
                         <div className="self-end">
-                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10' } }/>
+                            <SubscriptionButton data={ { buttonText: 'Join Blink Station 10', membershipType: 'commander' } }/>
                         </div>
                     </div>
                 </TabPanel>
