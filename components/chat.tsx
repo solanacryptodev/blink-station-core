@@ -15,7 +15,7 @@ import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
 import { Alert } from "@/components/alert";
-import { SubscriptionModal } from "@/components/subscription-modal";
+import { SubscriptionModal } from "@/components/subscription/subscription-modal";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]

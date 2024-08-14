@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { singleton } from 'tsyringe';
 import { RootStore } from '@/stores/RootStore';
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import { MembershipSubscription } from "@/lib/types";
+import { MembershipSubscription, TabProps } from "@/lib/types";
 
 @singleton()
 export class SubscriptionPresenter {
@@ -40,15 +40,24 @@ export class SubscriptionPresenter {
         return this.rootStore.playerStore.playerName!;
     }
 
-    activateSubscriptionModal(display: boolean) {
+    activateSubscriptionModal(display: boolean): void {
         this.subscriptionModal = display;
     }
 
-    playerProfileStatus() {
+    playerProfileStatus(): boolean {
         return this.rootStore.subscriptionStore.getPlayerProfileStatus;
     }
 
-    async playerSubscriptionStatus() {
+    subscriptionTabs(): TabProps {
+        return {
+            tabOne: 'Free',
+            tabTwo: 'Specialist',
+            tabThree: 'Captain',
+            tabFour: 'Commander'
+        }
+    }
+
+    async playerSubscriptionStatus(): Promise<void> {
         const setupSub: MembershipSubscription = {
             id: undefined,
             playerName: '',

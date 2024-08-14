@@ -15,6 +15,12 @@ module.exports = {
         hostname: 'avatars.githubusercontent.com',
         port: '',
         pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'shdw-drive.genesysgo.net',
+        port: '',
+        pathname: '**'
       }
     ]
   },

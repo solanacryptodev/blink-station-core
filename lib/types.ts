@@ -2,6 +2,19 @@ import { CoreMessage } from 'ai'
 import { OrderSide } from "@staratlas/factory";
 import { ObjectId } from 'mongodb';
 
+export interface TabProps {
+  tabOne: string;
+  tabTwo: string;
+  tabThree: string;
+  tabFour: string;
+}
+
+export interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
 export interface MembershipSubscription {
   id: ObjectId | undefined;
   playerName: string;
