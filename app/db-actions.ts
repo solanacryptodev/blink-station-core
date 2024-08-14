@@ -1,20 +1,14 @@
 'use server'
 
-import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { MembershipSubscription } from '@/lib/types';
+import { client } from '@/lib/utils';
 import getConfig from "next/config";
 
 const { serverRuntimeConfig } = getConfig();
 
-const uri = serverRuntimeConfig.MONGO_URI!;
 const dbName = 'BlinkStation10';
 const collectionName = 'blinkSubscriptions';
-const client = new MongoClient(uri, { serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    },
-});
 
 async function getMongoCollection() {
     await client.connect();

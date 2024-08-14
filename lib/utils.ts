@@ -6,6 +6,16 @@ import { assets } from "@/lib/metadata";
 import { BN } from "@coral-xyz/anchor";
 import { Order } from "@staratlas/factory";
 import { ATLAS } from "@/lib/constants";
+import { MongoClient, ServerApiVersion } from "mongodb";
+
+const uri = process.env.NEXT_PUBLIC_MONGO_URI!;
+
+export const client = new MongoClient(uri, { serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
 
 export function formatDate(date: Date): string {
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
