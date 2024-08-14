@@ -24,7 +24,7 @@ export class SubscriptionPresenter {
         this.displaySubscriptionView = false;
         this.displayValidationView = false;
         this.subscriptionModal = false;
-        this.blinkKey = new PublicKey('5zQev7xbBvvumk5R5riQVCQnLZD6JhJboYUgtWYkEndi');
+        this.blinkKey = new PublicKey(process.env.NEXT_PUBLIC_BLINK_KEY! as string);
 
         makeObservable( this, {
             displaySubscriptionView: observable,
