@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { singleton } from 'tsyringe';
-import { ObjectId } from 'mongodb';
+// import { ObjectId } from 'mongodb';
 import { Transaction, PublicKey } from '@solana/web3.js';
 import { createTransferInstruction, getAssociatedTokenAddress } from '@solana/spl-token'
 import { RootStore } from '@/stores/RootStore';
@@ -91,7 +91,7 @@ export class SubscriptionPresenter {
         try {
             const date = new Date();
             const subscription: MembershipSubscription = {
-                id: new ObjectId(),
+                id: undefined,
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
@@ -141,7 +141,7 @@ export class SubscriptionPresenter {
         if (tx) {
             const date = new Date();
             const subscription: MembershipSubscription = {
-                id: new ObjectId(),
+                id: undefined,
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
@@ -160,7 +160,7 @@ export class SubscriptionPresenter {
         try {
             const date = new Date();
             const subscription: MembershipSubscription = {
-                id: new ObjectId(),
+                id: undefined,
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
