@@ -16,7 +16,6 @@ export interface TabPanelProps {
 }
 
 export interface MembershipSubscription {
-  id: ObjectId | undefined;
   playerName: string;
   publicKey: string;
   subscriptionStatus: 'traveler' | 'specialist' | 'captain' | 'commander';

@@ -34,6 +34,7 @@ export class SubscriptionPresenter {
             activateSubscriptionModal: action.bound,
 
             player: computed,
+            account: computed,
         } )
     }
 
@@ -48,26 +49,32 @@ export class SubscriptionPresenter {
         return this.rootStore.playerStore.playerName!;
     }
 
+    get account() {
+        return this.rootStore.subscriptionStore.hasAccount;
+    }
+
     activateSubscriptionModal( display: boolean ): void {
         this.subscriptionModal = display;
     }
 
     playerProfileStatus(): boolean {
+        if ( !this.rootStore.subscriptionStore.hasAccount ) {
+            this.activateSubscriptionModal(true);
+        }
         return this.rootStore.subscriptionStore.getPlayerProfileStatus;
     }
 
     subscriptionTabs(): TabProps {
         return {
-            tabOne: 'Free',
-            tabTwo: 'Specialist',
-            tabThree: 'Captain',
-            tabFour: 'Commander'
+            tabOne: 'Traveler',
+            tabTwo: 'Station Specialist',
+            tabThree: 'Station Captain',
+            tabFour: 'Station Commander'
         }
     }
 
     async playerSubscriptionStatus(): Promise<void> {
         const setupSub: MembershipSubscription = {
-            id: undefined,
             playerName: '',
             publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
             subscriptionStatus: 'traveler',
@@ -78,11 +85,12 @@ export class SubscriptionPresenter {
         if ( !data ) {
             runInAction( () => {
                 this.displaySubscriptionView = true;
-            } )
+            })
         } else {
             runInAction( () => {
                 this.displayValidationView = true;
-            } )
+            })
+            this.activateSubscriptionModal(false);
         }
     }
 
@@ -91,7 +99,6 @@ export class SubscriptionPresenter {
         try {
             const date = new Date();
             const subscription: MembershipSubscription = {
-                id: undefined,
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
@@ -122,12 +129,12 @@ export class SubscriptionPresenter {
                 payerUSDCTokenAccount,
                 recipientUSDCTokenAccount,
                 this.rootStore.walletStore.wallet?.publicKey!,
-                usdcAmt
+                usdcAmt * 100
             )).add(createTransferInstruction(
                 payerAtlasTokenAccount,
                 recipientAtlasTokenAccount,
                 this.rootStore.walletStore.wallet?.publicKey!,
-                atlasAmt
+                atlasAmt * 100
         ))
 
         transaction.feePayer = this.rootStore.walletStore.wallet?.publicKey!;
@@ -141,7 +148,6 @@ export class SubscriptionPresenter {
         if (tx) {
             const date = new Date();
             const subscription: MembershipSubscription = {
-                id: undefined,
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
@@ -160,7 +166,6 @@ export class SubscriptionPresenter {
         try {
             const date = new Date();
             const subscription: MembershipSubscription = {
-                id: undefined,
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,

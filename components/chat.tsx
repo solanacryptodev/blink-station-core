@@ -16,6 +16,7 @@ import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
 import { Alert } from "@/components/alert";
 import { SubscriptionModal } from "@/components/subscription/subscription-modal";
+import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -31,6 +32,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
   const [messages] = useUIState()
   const [aiState] = useAIState()
   const playerPresenter = PlayerPresenter.getInstance();
+  const subscriptionPresenter = SubscriptionPresenter.getInstance();
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 

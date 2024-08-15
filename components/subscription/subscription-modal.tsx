@@ -11,7 +11,7 @@ import { SubscriptionValidation } from '@/components/subscription/subscription-v
 export const SubscriptionModal: FunctionComponent = observer(() => {
     const subscriptionPresenter = SubscriptionPresenter.getInstance();
     const ref = useRef<HTMLDivElement>(null);
-    const shdwDrive = `https://shdw-drive.genesysgo.net/${process.env.NEXT_PUBLIC_SHDW!}/blinkstation1.png`;
+    const shdwDrive = `https://shdw-drive.genesysgo.net/${process.env.NEXT_PUBLIC_SHDW!}/blinkstation2.png`;
 
     useClickAway(ref, () => {
         subscriptionPresenter.activateSubscriptionModal(false);
@@ -29,14 +29,15 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
 
     return (
         <motion.div
-            initial={ { opacity: 0, scale: 0 } }
-            animate={ { opacity: 1, scale: 1 } }
-            transition={ { duration: 0.5 } }
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 flex items-center justify-center z-40"
         >
-            { subscriptionPresenter.playerProfileStatus() && (
-                <div className="fixed inset-0 bg-black opacity-80 flex items-center justify-center z-50">
-                    <div ref={ ref }
-                         className="bg-[#194555] rounded-lg p-6 w-full max-w-3xl max-h-[80vh] overflow-y-auto">
+            { subscriptionPresenter.playerProfileStatus() && subscriptionPresenter.subscriptionModal && (
+                <div className="fixed inset-0 opacity-100 flex items-center justify-center z-50">
+                    <div ref={ ref } className="bg-[#194555] rounded-lg p-6 w-full max-w-3xl max-h-[80vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-4">
                             <div className="flex">
                                 { subscriptionPresenter.displaySubscriptionView ?
@@ -54,15 +55,31 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
                         </div>
 
                         { subscriptionPresenter.displaySubscriptionView && (
-                            <div className="justify-center w-full">
+                            <div className="justify-center w-full mb-4">
                                 <Image
                                     src={ shdwDrive }
-                                    width={ 250 }
-                                    height={ 250 }
+                                    width={ 1080 }
+                                    height={ 720 }
                                     alt='Image of Blink Station 1.'
                                 />
                             </div>
                         )}
+
+                        <div className="flex flex-col">
+                            <div className="flex justify-start mb-4">
+                                Blink Station 10 was built for players within the Star Atlas ecosystem. A station
+                                account is the minimum requirement for access to
+                                its array of sophisticated tools. The best tools require a station membership clearance.
+                                This is due to the operational costs associated with
+                                monthly maintenance. These costs include the database, blockchain data retrieval, and
+                                the Atlasson artificial intelligence.
+                                The best AI in MRZ-3.
+                            </div>
+                            <div className="flex justify-start mb-4">
+                                Each membership covers you for a month and there are no recurring fees!
+                                Below, you will see details about what each clearance level provides.
+                            </div>
+                        </div>
 
                         <div className="flex justify-center">
                             { subscriptionPresenter.displaySubscriptionView ?

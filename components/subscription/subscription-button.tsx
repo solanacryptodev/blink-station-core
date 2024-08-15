@@ -10,6 +10,7 @@ interface SubscriptionButtonProps {
 
 export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonProps }> = observer(({data} : { data: SubscriptionButtonProps }) => {
     const subscriptionPresenter = SubscriptionPresenter.getInstance();
+    console.log('membershipType...', data.membershipType)
 
     return (
         <>
@@ -27,7 +28,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
             {data.membershipType === 'specialist' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.subscribePlayer(1,1, {
+                    onClick={ () => subscriptionPresenter.subscribePlayer(10,5, {
                         subscriptionStatus: 'specialist',
                         tokenCount: 7000
                     })}>
@@ -38,7 +39,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
             {data.membershipType === 'captain' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.subscribePlayer(2,2, {
+                    onClick={ () => subscriptionPresenter.subscribePlayer(20, 10, {
                         subscriptionStatus: 'captain',
                         tokenCount: 10000
                     })}>
@@ -49,7 +50,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
             {data.membershipType === 'commander' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.subscribePlayer(3,3, {
+                    onClick={ () => subscriptionPresenter.subscribePlayer(30,15, {
                         subscriptionStatus: 'commander',
                         tokenCount: 15000
                     })}>

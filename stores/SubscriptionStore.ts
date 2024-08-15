@@ -15,19 +15,23 @@ export class SubscriptionStore {
     subscription: MembershipSubscription | null = null;
     rootStore: RootStore;
     hasPlayerProfile: boolean;
+    hasAccount: boolean;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         this.hasPlayerProfile = false;
+        this.hasAccount = false;
 
         makeObservable(this, {
             hasPlayerProfile: observable,
+            hasAccount: observable,
 
             setSubscriptions: action.bound,
             addSubscription: action.bound,
             // updateSubscription: action.bound,
             // deleteSubscription: action.bound,
             setPlayerProfileStatus: action.bound,
+            setHasAccount: action.bound,
 
             getPlayerProfileStatus: computed,
             getActiveSubscriptions: computed
@@ -50,9 +54,14 @@ export class SubscriptionStore {
         this.hasPlayerProfile = status;
     }
 
+    setHasAccount(status: boolean) {
+        this.hasAccount = status;
+    }
+
     async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {
         const sub = await readSubscription(subscriptions.publicKey?.toString()!);
         console.log('Subscription:', sub);
+        this.setHasAccount(true);
         return sub;
     }
 
