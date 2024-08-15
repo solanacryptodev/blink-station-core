@@ -8,7 +8,7 @@ import {
     createCollection,
     createSubscription
 } from '@/app/db-actions';
-import { MembershipSubscription } from '@/lib/types';
+import { MembershipSubscription, MembershipSubscriptionWithoutId } from '@/lib/types';
 
 @singleton()
 export class SubscriptionStore {
@@ -16,15 +16,18 @@ export class SubscriptionStore {
     rootStore: RootStore;
     hasPlayerProfile: boolean;
     hasAccount: boolean;
+    playerAcct: MembershipSubscription[];
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         this.hasPlayerProfile = false;
         this.hasAccount = false;
+        this.playerAcct = [];
 
         makeObservable(this, {
             hasPlayerProfile: observable,
             hasAccount: observable,
+            playerAcct: observable,
 
             setSubscriptions: action.bound,
             addSubscription: action.bound,
@@ -34,7 +37,8 @@ export class SubscriptionStore {
             setHasAccount: action.bound,
 
             getPlayerProfileStatus: computed,
-            getActiveSubscriptions: computed
+            getActiveSubscriptions: computed,
+            playerAccount: computed
         })
     }
 
@@ -50,6 +54,10 @@ export class SubscriptionStore {
         return this.subscription!;
     }
 
+    get playerAccount() {
+        return this.playerAcct
+    }
+
     setPlayerProfileStatus(status: boolean) {
         this.hasPlayerProfile = status;
     }
@@ -61,7 +69,22 @@ export class SubscriptionStore {
     async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {
         const sub = await readSubscription(subscriptions.publicKey?.toString()!);
         console.log('Subscription:', sub);
-        this.setHasAccount(true);
+        if (sub) {
+            this.setHasAccount(true);
+            // Convert MembershipSubscriptionDocument to MembershipSubscriptionWithoutId
+            const subWithoutId: MembershipSubscription = {
+                playerName: sub.playerName,
+                publicKey: sub.publicKey,
+                subscriptionStatus: sub.subscriptionStatus,
+                tokenCount: sub.tokenCount,
+                createdAt: sub.createdAt,
+                updatedAt: sub.updatedAt,
+                membershipStartDate: sub.membershipStartDate,
+                membershipEndDate: sub.membershipEndDate
+            };
+            this.playerAcct.push(subWithoutId);
+            console.log('Player account:', this.playerAcct);
+        }
         return sub;
     }
 

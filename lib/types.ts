@@ -1,6 +1,6 @@
 import { CoreMessage } from 'ai'
 import { OrderSide } from "@staratlas/factory";
-import { ObjectId } from 'mongodb';
+import { InferIdType, WithId } from 'mongodb';
 
 export interface TabProps {
   tabOne: string;
@@ -22,9 +22,13 @@ export interface MembershipSubscription {
   tokenCount: number;
   createdAt?: string;
   updatedAt?: string;
-  membershipStartDate?: string;
-  membershipEndDate?: string;
+  membershipStartDate?: Date | null;
+  membershipEndDate?: Date | null;
 }
+
+export type MembershipSubscriptionDocument = WithId<Document> | MembershipSubscription;
+
+export type MembershipSubscriptionWithoutId = Omit<MembershipSubscriptionDocument, '_id'>
 
 export type Message = CoreMessage & {
   id: string

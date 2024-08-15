@@ -7,6 +7,10 @@ import { BN } from "@coral-xyz/anchor";
 import { Order } from "@staratlas/factory";
 import { ATLAS } from "@/lib/constants";
 
+export function formatTokenAmount(amount: number, decimals: number): bigint {
+  return BigInt(Math.floor(amount * 10 ** decimals));
+}
+
 export function formatDate(date: Date): string {
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }

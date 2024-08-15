@@ -41,7 +41,7 @@ function UserOrLogin() {
             <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='rounded-full' />
         </div>
           <div className="flex items-center">
-            <IconSeparator className="size-6 text-muted-foreground/50" />
+              <IconSeparator className="size-6 text-muted-foreground/50" />
               <div>Blink Station 10</div>
           </div>
     </>
@@ -54,12 +54,20 @@ export const Header = observer(() => {
   return (
     <header className="sticky opacity-70 top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
       <div className="flex items-center">
-        <React.Suspense fallback={<div className="flex-1 overflow-auto" />}>
-          <UserOrLogin />
-        </React.Suspense>
+          <React.Suspense fallback={ <div className="flex-1 overflow-auto"/> }>
+              <UserOrLogin/>
+              {playerPresenter.account && (
+                  <>
+                      <IconSeparator className="size-6 text-muted-foreground/50" />
+                      <div className="rounded-md bg-black border-amber-500 border-2 ml-2 px-2 py-1">
+                          { playerPresenter.tokensLeft } Tokens
+                      </div>
+                  </>
+              )}
+          </React.Suspense>
       </div>
-      <div className="flex items-center justify-end space-x-2">
-        <IconGitHub />
+        <div className="flex items-center justify-end space-x-2">
+            <IconGitHub />
         <span className="hidden ml-2 md:flex">Settings</span>
 
           {playerPresenter.isConnected ? (

@@ -8,7 +8,7 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { MembershipSubscription, TabProps } from "@/lib/types";
 import { CONNECTION, USDC_MINT, ATLAS_MINT } from "@/lib/constants";
 import { toast } from "sonner";
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatTokenAmount } from '@/lib/utils';
 
 @singleton()
 export class SubscriptionPresenter {
@@ -50,7 +50,7 @@ export class SubscriptionPresenter {
     }
 
     get account() {
-        return this.rootStore.subscriptionStore.hasAccount;
+        return this.rootStore.subscriptionStore.playerAcct;
     }
 
     activateSubscriptionModal( display: boolean ): void {
@@ -104,7 +104,9 @@ export class SubscriptionPresenter {
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
                 tokenCount: membershipLevel.tokenCount!,
                 createdAt: formatDate( date ),
-                updatedAt: formatDate( date )
+                updatedAt: formatDate( date ),
+                membershipStartDate: null,
+                membershipEndDate: null
             }
             await this.rootStore.subscriptionStore.addSubscription( subscription )
         } catch ( error ) {
@@ -120,6 +122,8 @@ export class SubscriptionPresenter {
         const recipientUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.blinkKey);
         const recipientAtlasTokenAccount = await getAssociatedTokenAddress(ATLAS_MINT, this.blinkKey);
 
+        const usdcTokenAmount = formatTokenAmount(usdcAmt, 6);
+        const atlasTokenAmount = formatTokenAmount(atlasAmt, 8);
 
         const transaction = new Transaction();
 
@@ -129,12 +133,12 @@ export class SubscriptionPresenter {
                 payerUSDCTokenAccount,
                 recipientUSDCTokenAccount,
                 this.rootStore.walletStore.wallet?.publicKey!,
-                usdcAmt * 100
+                usdcTokenAmount
             )).add(createTransferInstruction(
                 payerAtlasTokenAccount,
                 recipientAtlasTokenAccount,
                 this.rootStore.walletStore.wallet?.publicKey!,
-                atlasAmt * 100
+                atlasTokenAmount
         ))
 
         transaction.feePayer = this.rootStore.walletStore.wallet?.publicKey!;

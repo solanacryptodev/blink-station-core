@@ -40,7 +40,8 @@ export class PlayerPresenter {
             isConnected: computed,
             supportedWallets: computed,
             playerName: computed,
-            wallet: computed
+            wallet: computed,
+            tokensLeft: computed
         })
     }
 
@@ -89,6 +90,15 @@ export class PlayerPresenter {
 
     get wallet(): Adapter {
         return this.rootStore.walletStore.wallet!;
+    }
+
+    get tokensLeft(): number {
+        const num = this.rootStore.subscriptionStore.playerAcct[0]?.tokenCount;
+        return num ? num : 0;
+    }
+
+    get account(): boolean {
+        return this.rootStore.subscriptionStore.hasAccount;
     }
 
     updatePlayerName(name: string | null): void {
