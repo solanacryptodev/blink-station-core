@@ -93,7 +93,7 @@ export const PromptForm = observer(({
           tabIndex={0}
           onKeyDown={onKeyDown}
           placeholder={subscriptionPresenter.account.length === 0 ? "Create an account" : "Write a message..."}
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
+          className="min-h-[60px] w-full z-70 resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
           autoFocus
           spellCheck={false}
           autoComplete="off"

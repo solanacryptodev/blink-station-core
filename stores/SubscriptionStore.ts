@@ -88,9 +88,15 @@ export class SubscriptionStore {
         return sub;
     }
 
-    async addSubscription(subscription: MembershipSubscription) {
+    async addSubscription(subscription: MembershipSubscription): Promise<string> {
         const subscribeToBS10 = await createSubscription(subscription);
-        console.log('Subscription created:', subscribeToBS10);
+        if (subscribeToBS10) {
+            await this.setSubscriptions({
+                publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
+            })
+        }
+        // console.log('Subscription created:', subscribeToBS10);
+        return subscribeToBS10;
     }
 
     // updateSubscription(id: string, updatedSubscription: Partial<MembershipSubscription>) {

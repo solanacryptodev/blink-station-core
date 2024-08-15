@@ -49,7 +49,7 @@ export class SubscriptionPresenter {
         return this.rootStore.playerStore.playerName!;
     }
 
-    get account() {
+    get account(): MembershipSubscription[] {
         return this.rootStore.subscriptionStore.playerAcct;
     }
 
@@ -74,11 +74,8 @@ export class SubscriptionPresenter {
     }
 
     async playerSubscriptionStatus(): Promise<void> {
-        const setupSub: MembershipSubscription = {
-            playerName: '',
+        const setupSub: Partial<MembershipSubscription> = {
             publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
-            subscriptionStatus: 'traveler',
-            tokenCount: 0
         }
         const data = await this.rootStore.subscriptionStore.setSubscriptions( setupSub );
 
@@ -108,7 +105,8 @@ export class SubscriptionPresenter {
                 membershipStartDate: null,
                 membershipEndDate: null
             }
-            await this.rootStore.subscriptionStore.addSubscription( subscription )
+            const added = await this.rootStore.subscriptionStore.addSubscription( subscription )
+            if (added) toast.success('Account created.');
         } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
         }
