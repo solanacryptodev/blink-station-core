@@ -5,17 +5,18 @@ import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
 import { EmptyScreen } from '@/components/empty-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
 import { Message, Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
-import { initializeWallet } from "@/stores/WalletStore";
-import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
+import { Alert } from "@/components/alert";
+import { SubscriptionModal } from "@/components/subscription/subscription-modal";
+import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -31,8 +32,19 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
   const [messages] = useUIState()
   const [aiState] = useAIState()
   const playerPresenter = PlayerPresenter.getInstance();
+  const subscriptionPresenter = SubscriptionPresenter.getInstance();
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
+
+  useEffect(() => {
+    const name = async () => {
+      if (playerPresenter.isConnected && playerPresenter.playerName === null) {
+        await playerPresenter.fetchPlayerName();
+      }
+    }
+
+    name()
+  }, [playerPresenter.isConnected]);
 
   // console.log('aiState...', aiState)
   // console.log('messages...', messages)
@@ -55,6 +67,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
+      <Alert alertMessage='Welcome to Blink Station 10' />
       <div
         className={cn('pb-[200px] pt-4 md:pt-10', className)}
         ref={messagesRef}
@@ -65,6 +78,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
           <EmptyScreen />
         )}
         {playerPresenter.walletModal && !playerPresenter.isConnected && <WalletModal /> }
+        <SubscriptionModal />
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
       <ChatPanel

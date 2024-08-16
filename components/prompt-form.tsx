@@ -17,14 +17,17 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
+import { observer } from "mobx-react-lite";
+import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 
-export function PromptForm({
+export const PromptForm = observer(({
   input,
   setInput
 }: {
   input: string
   setInput: (value: string) => void
-}) {
+}) => {
+  const subscriptionPresenter = SubscriptionPresenter.getInstance();
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
@@ -85,12 +88,12 @@ export function PromptForm({
           <TooltipContent>New Chat</TooltipContent>
         </Tooltip>
         <Textarea
-          disabled
+          disabled={subscriptionPresenter.account.length === 0}
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          placeholder="Send a message."
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
+          placeholder={subscriptionPresenter.account.length === 0 ? "Create an account" : "Write a message..."}
+          className="min-h-[60px] w-full z-70 resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
           autoFocus
           spellCheck={false}
           autoComplete="off"
@@ -114,4 +117,4 @@ export function PromptForm({
       </div>
     </form>
   )
-}
+})

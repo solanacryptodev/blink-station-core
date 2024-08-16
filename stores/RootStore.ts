@@ -3,20 +3,28 @@ import { makeObservable, observable } from "mobx";
 import { singleton } from "tsyringe";
 import { PlayerStore } from "@/stores/PlayerStore";
 import { WalletStore } from '@/stores/WalletStore';
+import { SubscriptionStore } from "@/stores/SubscriptionStore";
+import { MusicStore } from "@/stores/MusicStore";
 
 @singleton()
 export class RootStore {
     private static instance: RootStore | null = null;
     walletStore: WalletStore;
     playerStore: PlayerStore;
+    subscriptionStore: SubscriptionStore;
+    musicStore: MusicStore;
 
     constructor() {
         this.walletStore = new WalletStore();
         this.playerStore = new PlayerStore(this);
+        this.subscriptionStore = new SubscriptionStore(this);
+        this.musicStore = new MusicStore(this);
 
         makeObservable(this, {
             walletStore: observable,
-            playerStore: observable
+            playerStore: observable,
+            subscriptionStore: observable,
+            musicStore: observable,
         })
     }
 
@@ -30,12 +38,10 @@ export class RootStore {
     async initializeStores() {
         // Startup sequence for all stores
         await Promise.all([
-            this.walletStore.initialize()
+            this.walletStore.initialize(),
+            this.subscriptionStore.initializeDatabase(),
         ])
-
-        if ( this.walletStore.connected ) {
-            // await this.playerStore.loadPlayerName();
-        }
+        this.musicStore.initializeAudio();
 
         // if they have a player profile, then load it. If not, then direct them to Sage website
 

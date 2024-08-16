@@ -1,5 +1,34 @@
 import { CoreMessage } from 'ai'
 import { OrderSide } from "@staratlas/factory";
+import { InferIdType, WithId } from 'mongodb';
+
+export interface TabProps {
+  tabOne: string;
+  tabTwo: string;
+  tabThree: string;
+  tabFour: string;
+}
+
+export interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+export interface MembershipSubscription {
+  playerName: string;
+  publicKey: string;
+  subscriptionStatus: 'traveler' | 'specialist' | 'captain' | 'commander';
+  tokenCount: number;
+  createdAt?: string;
+  updatedAt?: string;
+  membershipStartDate?: Date | null;
+  membershipEndDate?: Date | null;
+}
+
+export type MembershipSubscriptionDocument = WithId<Document> | MembershipSubscription;
+
+export type MembershipSubscriptionWithoutId = Omit<MembershipSubscriptionDocument, '_id'>
 
 export type Message = CoreMessage & {
   id: string
