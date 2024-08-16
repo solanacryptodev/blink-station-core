@@ -73,10 +73,8 @@ export class SubscriptionStore {
 
     async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {
         const sub = await readSubscription(subscriptions.publicKey?.toString()!);
-        console.log('Subscription:', sub);
         if (sub) {
             this.setHasAccount(true);
-            // Convert MembershipSubscriptionDocument to MembershipSubscriptionWithoutId
             const subWithoutId: MembershipSubscription = {
                 playerName: sub.playerName,
                 publicKey: sub.publicKey,
@@ -88,7 +86,6 @@ export class SubscriptionStore {
                 membershipEndDate: sub.membershipEndDate
             };
             this.playerAcct.push(subWithoutId);
-            console.log('Player account:', this.playerAcct);
         }
         return sub;
     }
@@ -100,7 +97,6 @@ export class SubscriptionStore {
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
             })
         }
-        // console.log('Subscription created:', subscribeToBS10);
         return subscribeToBS10;
     }
 

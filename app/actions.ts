@@ -9,14 +9,15 @@ import { type Chat } from '@/lib/types'
 
 import getConfig from 'next/config';
 import { AnchorProvider } from "@coral-xyz/anchor";
-import { CONNECTION, PLAYER_PROGRAM_ID } from "@/lib/constants";
-import { PublicKey } from "@solana/web3.js";
+import { PLAYER_PROGRAM_ID } from "@/lib/constants";
+import { Connection, PublicKey } from "@solana/web3.js";
 import { PlayerName, PlayerProfileProgram } from "@staratlas/player-profile";
 import { readAllFromRPC } from "@staratlas/data-source";
 const { serverRuntimeConfig } = getConfig();
 
 export async function loadPlayerName(playerKey: string): Promise<string> {
   let name = '';
+  const CONNECTION = new Connection(serverRuntimeConfig.HELIUS_RPC_URL!);
 
   const provider = new AnchorProvider(
       CONNECTION,

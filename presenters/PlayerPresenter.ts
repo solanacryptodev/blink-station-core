@@ -59,9 +59,7 @@ export class PlayerPresenter {
 
     async handleConnect(walletAdapter: WalletAdapter): Promise<void> {
         this.previousAdapter = walletAdapter;
-        // console.log('Connecting to wallet...', this.previousAdapter);
         await this.rootStore.walletStore.connect( walletAdapter?.name );
-        console.log('connection status...', walletAdapter?.name, this.rootStore.walletStore.connected);
         this.setConnected(true);
         await this.fetchPlayerName();
     }
@@ -74,7 +72,6 @@ export class PlayerPresenter {
         this.rootStore.subscriptionStore.setHasAccount(false);
         this.rootStore.subscriptionStore.resetPlayerAccount();
         this.updatePlayerName(null);
-        // console.log('connection status...', this.connected);
     }
 
     setConnected(connected: boolean): void {
@@ -128,11 +125,9 @@ export class PlayerPresenter {
 
     async fetchPlayerName(): Promise<void> {
         if (this.isConnected && this.playerName === null && this.wallet.publicKey) {
-            console.log('fetching player name...', this.wallet.publicKey.toString(), this.playerName);
             this.setIsLoading(true);
             try {
                 const nameFound = await loadPlayerName(this.wallet.publicKey.toString());
-                console.log('Player name:', nameFound);
                 if (nameFound) {
                     this.updatePlayerName(nameFound);
                     this.rootStore.subscriptionStore.setPlayerProfileStatus(true);
@@ -144,7 +139,6 @@ export class PlayerPresenter {
                 }
             } catch (error) {
                 console.error('Error fetching player name:', error);
-                // Optionally set an error state here
             } finally {
                 this.setIsLoading(false);
             }
