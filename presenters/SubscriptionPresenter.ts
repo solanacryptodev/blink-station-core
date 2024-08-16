@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { singleton } from 'tsyringe';
-// import { ObjectId } from 'mongodb';
 import { Transaction, PublicKey } from '@solana/web3.js';
 import { createTransferInstruction, getAssociatedTokenAddress } from '@solana/spl-token'
 import { RootStore } from '@/stores/RootStore';
@@ -8,7 +7,8 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import { MembershipSubscription, TabProps } from "@/lib/types";
 import { CONNECTION, USDC_MINT, ATLAS_MINT } from "@/lib/constants";
 import { toast } from "sonner";
-import { formatDate, formatTokenAmount } from '@/lib/utils';
+import { formatDate, formatTokenAmount, addDaysToDate } from '@/lib/utils';
+import { Adapter } from "@solana/wallet-adapter-base";
 
 @singleton()
 export class SubscriptionPresenter {
@@ -35,6 +35,7 @@ export class SubscriptionPresenter {
 
             player: computed,
             account: computed,
+            wallet: computed,
         } )
     }
 
@@ -51,6 +52,10 @@ export class SubscriptionPresenter {
 
     get account(): MembershipSubscription[] {
         return this.rootStore.subscriptionStore.playerAcct;
+    }
+
+    get wallet(): Adapter {
+        return this.rootStore.walletStore.wallet!;
     }
 
     activateSubscriptionModal( display: boolean ): void {
@@ -98,7 +103,9 @@ export class SubscriptionPresenter {
                 createdAt: formatDate( date ),
                 updatedAt: formatDate( date ),
                 membershipStartDate: null,
-                membershipEndDate: null
+                membershipEndDate: null,
+                paidInFull: false,
+                chatLogs: []
             }
             const added = await this.rootStore.subscriptionStore.addSubscription( subscription )
             if (added) toast.success('Account created.');
@@ -143,14 +150,18 @@ export class SubscriptionPresenter {
         })!;
 
         if (tx) {
-            const date = new Date();
+            const currentDate = new Date();
             const subscription: MembershipSubscription = {
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
                 tokenCount: membershipLevel.tokenCount!,
-                createdAt: formatDate(date),
-                updatedAt: formatDate(date)
+                createdAt: formatDate(currentDate),
+                updatedAt: formatDate(currentDate),
+                membershipStartDate: currentDate,
+                membershipEndDate: addDaysToDate(currentDate, 30),
+                paidInFull: false,
+                chatLogs: []
             }
             await this.rootStore.subscriptionStore.addSubscription( subscription )
         } else {
@@ -174,5 +185,13 @@ export class SubscriptionPresenter {
         } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
         }
+    }
+
+    async deductFromTokenCount(tokenAmount: number): Promise<void> {
+        const user = this.account.find(sub => sub.publicKey === this.wallet.publicKey?.toString()!)!;
+
+        await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
+            tokenCount: user?.tokenCount! - tokenAmount
+        })
     }
 }

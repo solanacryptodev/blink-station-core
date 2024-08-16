@@ -15,6 +15,12 @@ export function formatDate(date: Date): string {
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
 
+export function addDaysToDate(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
 export function getNftMint(assetQuery: string): PublicKey | null {
   const asset = assets.find(asset => asset.name.toLowerCase() === assetQuery.toLowerCase())
   const mint = asset?.mint
@@ -32,6 +38,22 @@ export function getNftParam(name: string): string | null {
   const param = asset?.param
   return param ? param : null;
 }
+
+// Utility function to add commas to a number with no zeroes
+export function formatNumberWithCommas(num: number): string {
+  // Convert the number to a string
+  let numStr = num.toString();
+
+  // Split the string into integer and decimal parts (if any)
+  const parts = numStr.split('.');
+
+  // Add commas to the integer part
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  // Join the integer and decimal parts (if any) and return
+  return parts.join('.');
+}
+
 
 // Utility function to convert BN to a readable number with comma separators
 export const bnToNumber = (bn: BN): string => {

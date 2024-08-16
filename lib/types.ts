@@ -24,6 +24,8 @@ export interface MembershipSubscription {
   updatedAt?: string;
   membershipStartDate?: Date | null;
   membershipEndDate?: Date | null;
+  paidInFull?: boolean;
+  chatLogs?: Message[];
 }
 
 export type MembershipSubscriptionDocument = WithId<Document> | MembershipSubscription;

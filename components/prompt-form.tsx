@@ -19,6 +19,7 @@ import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import { observer } from "mobx-react-lite";
 import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
+import { tokenizeString } from '@/lib/tokenizer';
 
 export const PromptForm = observer(({
   input,
@@ -67,6 +68,12 @@ export const PromptForm = observer(({
 
         // Submit and get response message
         const responseMessage = await submitUserMessage(value)
+
+        // add token counter method here.
+        // console.log('value and response...', value)
+        // console.log('tokenized values...', tokenizeString(value));
+        const tokens = tokenizeString(value);
+        await subscriptionPresenter.deductFromTokenCount(tokens)
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
