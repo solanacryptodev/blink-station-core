@@ -34,6 +34,7 @@ export class SubscriptionStore {
             // updateSubscription: action.bound,
             // deleteSubscription: action.bound,
             setPlayerProfileStatus: action.bound,
+            resetPlayerAccount: action.bound,
             setHasAccount: action.bound,
 
             getPlayerProfileStatus: computed,
@@ -64,6 +65,10 @@ export class SubscriptionStore {
 
     setHasAccount(status: boolean) {
         this.hasAccount = status;
+    }
+
+    resetPlayerAccount() {
+        this.playerAcct = [];
     }
 
     async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {

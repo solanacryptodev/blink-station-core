@@ -57,13 +57,6 @@ export class SubscriptionPresenter {
         this.subscriptionModal = display;
     }
 
-    playerProfileStatus(): boolean {
-        if ( !this.rootStore.subscriptionStore.hasAccount ) {
-            this.activateSubscriptionModal(true);
-        }
-        return this.rootStore.subscriptionStore.getPlayerProfileStatus;
-    }
-
     subscriptionTabs(): TabProps {
         return {
             tabOne: 'Traveler',
@@ -73,7 +66,9 @@ export class SubscriptionPresenter {
         }
     }
 
+    /* Checks to validate existence of player account in DB */
     async playerSubscriptionStatus(): Promise<void> {
+        this.activateSubscriptionModal(true);
         const setupSub: Partial<MembershipSubscription> = {
             publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
         }

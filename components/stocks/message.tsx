@@ -147,11 +147,12 @@ export function SystemMessage( { children }: { children: React.ReactNode } ) {
     )
 }
 
-export function SpinnerMessage() {
+export function SpinnerMessage({message}: {message?: string}) {
     return (
-        <div className="group relative flex items-start md:-ml-12">
-            <div className="ml-4 h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden px-1">
-                { spinner }
+        <div className="group relative flex md:-ml-12">
+            <div className="ml-4 flex flex-row items-center align-center text-amber-700">
+                <div className="flex">{ spinner }</div>
+                <div className="flex">{ message }</div>
             </div>
         </div>
     )
