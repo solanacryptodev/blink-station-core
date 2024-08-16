@@ -7,7 +7,6 @@ import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
 import Starfield from '@/components/ui/backgrounds/Starfield'
-import ThreeStarfield from "@/components/ui/backgrounds/ThreeStarfield";
 
 const chakra = Chakra_Petch({
   weight: '400',
