@@ -20,6 +20,7 @@ import Image from "next/image";
 import { observer } from "mobx-react-lite";
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletButton } from '@/components/ui/wallet-button';
+import { formatNumberWithCommas } from '@/lib/utils';
 
 function UserOrLogin() {
     // const session = (await auth()) as Session
@@ -60,7 +61,7 @@ export const Header = observer(() => {
                   <>
                       <IconSeparator className="size-6 text-muted-foreground/50" />
                       <div className="rounded-md bg-black border-amber-500 border-2 ml-2 px-2 py-1">
-                          { playerPresenter.tokensLeft } Tokens
+                          { formatNumberWithCommas(playerPresenter.tokensLeft) } Tokens
                       </div>
                   </>
               )}

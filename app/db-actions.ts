@@ -62,10 +62,10 @@ export async function readAllSubscriptions() {
     return await collection.find({}).toArray();
 }
 
-export async function updateSubscription(id: string, update: Partial<MembershipSubscription>) {
+export async function updateSubscription(pubKey: string, update: Partial<MembershipSubscription>) {
     const collection = await getMongoCollection();
     const result = await collection.updateOne(
-        { _id: new ObjectId(id) },
+        { publicKey: pubKey },
         { $set: update }
     );
     return result.modifiedCount;

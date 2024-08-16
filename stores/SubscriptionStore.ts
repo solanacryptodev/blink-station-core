@@ -6,7 +6,8 @@ import {
     readSubscription,
     connectToMongo,
     createCollection,
-    createSubscription
+    createSubscription,
+    updateSubscription
 } from '@/app/db-actions';
 import { MembershipSubscription, MembershipSubscriptionWithoutId } from '@/lib/types';
 
@@ -31,7 +32,7 @@ export class SubscriptionStore {
 
             setSubscriptions: action.bound,
             addSubscription: action.bound,
-            // updateSubscription: action.bound,
+            updateProfile: action.bound,
             // deleteSubscription: action.bound,
             setPlayerProfileStatus: action.bound,
             resetPlayerAccount: action.bound,
@@ -55,19 +56,19 @@ export class SubscriptionStore {
         return this.subscription!;
     }
 
-    get playerAccount() {
+    get playerAccount(): MembershipSubscription[] {
         return this.playerAcct
     }
 
-    setPlayerProfileStatus(status: boolean) {
+    setPlayerProfileStatus(status: boolean): void {
         this.hasPlayerProfile = status;
     }
 
-    setHasAccount(status: boolean) {
+    setHasAccount(status: boolean): void {
         this.hasAccount = status;
     }
 
-    resetPlayerAccount() {
+    resetPlayerAccount(): void {
         this.playerAcct = [];
     }
 
@@ -83,7 +84,9 @@ export class SubscriptionStore {
                 createdAt: sub.createdAt,
                 updatedAt: sub.updatedAt,
                 membershipStartDate: sub.membershipStartDate,
-                membershipEndDate: sub.membershipEndDate
+                membershipEndDate: sub.membershipEndDate,
+                paidInFull: sub.paidInFull,
+                chatLogs: sub.chatLogs
             };
             this.playerAcct.push(subWithoutId);
         }
@@ -100,12 +103,17 @@ export class SubscriptionStore {
         return subscribeToBS10;
     }
 
-    // updateSubscription(id: string, updatedSubscription: Partial<MembershipSubscription>) {
-    //     const index = this.subscription?.findIndex(sub => sub.id?.toString() === id);
-    //     if (index !== -1) {
-    //         this.subscription![index!] = { ...this.subscription![index!], ...updatedSubscription };
-    //     }
-    // }
+    async updateProfile(publicKey: string, update: Partial<MembershipSubscription>): Promise<number> {
+        const updatedCount = await updateSubscription(publicKey, update);
+        if (updatedCount > 0) {
+            // Update the local state
+            const index = this.playerAcct.findIndex(sub => sub.publicKey === publicKey);
+            if (index !== -1) {
+                this.playerAcct[index] = { ...this.playerAcct[index], ...update };
+            }
+        }
+        return updatedCount;
+    }
 
     // deleteSubscription(id: string) {
     //     this.subscription = this.subscription?.filter(sub => sub.id?.toString() !== id)!;

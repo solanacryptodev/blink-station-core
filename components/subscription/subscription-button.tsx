@@ -19,7 +19,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.joinFreePlayer({
                         subscriptionStatus: 'traveler',
-                        tokenCount: 3000
+                        tokenCount: 2000
                     })}>
                     { data.buttonText }
                 </button>
@@ -30,7 +30,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.subscribePlayer(10,5, {
                         subscriptionStatus: 'specialist',
-                        tokenCount: 7000
+                        tokenCount: 1000000
                     })}>
                     { data.buttonText }
                 </button>
@@ -41,7 +41,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.subscribePlayer(20, 10, {
                         subscriptionStatus: 'captain',
-                        tokenCount: 10000
+                        tokenCount: 3000000
                     })}>
                     { data.buttonText }
                 </button>
@@ -52,7 +52,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.subscribePlayer(30,15, {
                         subscriptionStatus: 'commander',
-                        tokenCount: 15000
+                        tokenCount: 5000000
                     })}>
                     { data.buttonText }
                 </button>
