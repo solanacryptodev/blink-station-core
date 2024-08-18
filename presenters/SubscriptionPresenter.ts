@@ -16,6 +16,7 @@ export class SubscriptionPresenter {
     private static instance: SubscriptionPresenter | null = null;
     displaySubscriptionView: boolean;
     displayValidationView: boolean;
+    upgradeModal: boolean;
     subscriptionModal: boolean;
     blinkKey: PublicKey;
 
@@ -23,15 +24,18 @@ export class SubscriptionPresenter {
         this.rootStore = RootStore.getInstance();
         this.displaySubscriptionView = false;
         this.displayValidationView = false;
+        this.upgradeModal = false;
         this.subscriptionModal = false;
         this.blinkKey = new PublicKey(process.env.NEXT_PUBLIC_BLINK_KEY! as string);
 
         makeObservable( this, {
             displaySubscriptionView: observable,
             displayValidationView: observable,
+            upgradeModal: observable,
             subscriptionModal: observable,
 
             activateSubscriptionModal: action.bound,
+            activateUpgradeModal: action.bound,
 
             player: computed,
             account: computed,
@@ -62,12 +66,17 @@ export class SubscriptionPresenter {
         this.subscriptionModal = display;
     }
 
+    activateUpgradeModal( display: boolean ): void {
+        this.upgradeModal = display;
+    }
+
     subscriptionTabs(): TabProps {
         return {
             tabOne: 'Traveler',
             tabTwo: 'Station Specialist',
             tabThree: 'Station Captain',
-            tabFour: 'Station Commander'
+            tabFour: 'Station Commander',
+            upgrade: this.upgradeModal
         }
     }
 
@@ -101,7 +110,7 @@ export class SubscriptionPresenter {
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
                 tokenCount: membershipLevel.tokenCount!,
                 createdAt: formatDate( date ),
-                updatedAt: formatDate( date ),
+                subscribedOn: null,
                 membershipStartDate: null,
                 membershipEndDate: null,
                 paidInFull: false,
@@ -157,7 +166,7 @@ export class SubscriptionPresenter {
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
                 tokenCount: membershipLevel.tokenCount!,
                 createdAt: formatDate(currentDate),
-                updatedAt: formatDate(currentDate),
+                subscribedOn: formatDate(currentDate),
                 membershipStartDate: currentDate,
                 membershipEndDate: addDaysToDate(currentDate, 30),
                 paidInFull: false,
@@ -172,16 +181,28 @@ export class SubscriptionPresenter {
     /* Upgrades or Re-Subscribes a player that already has an account */
     async upgradeOrReSubscribePlayer(usdcAmt: number, atlasAmt: number, membershipLevel: Partial<MembershipSubscription>): Promise<void> {
         try {
-            const date = new Date();
+            const currentDate = new Date();
             const subscription: MembershipSubscription = {
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
                 tokenCount: membershipLevel.tokenCount!,
-                createdAt: formatDate( date ),
-                updatedAt: formatDate( date )
+                createdAt: formatDate( currentDate ),
+                upgradedAt: formatDate( currentDate ),
+                membershipStartDate: currentDate,
+                membershipEndDate: addDaysToDate(currentDate, 30),
+                paidInFull: false,
+                chatLogs: []
             }
-            // await this.rootStore.subscriptionStore.upgradeSubscription( subscription )
+
+            await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
+                subscriptionStatus: subscription.subscriptionStatus,
+                tokenCount: subscription.tokenCount,
+                upgradedAt: subscription.upgradedAt,
+                membershipStartDate: subscription.membershipStartDate,
+                membershipEndDate: subscription.membershipEndDate,
+                paidInFull: subscription.paidInFull,
+            })
         } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
         }
@@ -189,9 +210,15 @@ export class SubscriptionPresenter {
 
     async deductFromTokenCount(tokenAmount: number): Promise<void> {
         const user = this.account.find(sub => sub.publicKey === this.wallet.publicKey?.toString()!)!;
+        const date = new Date();
 
-        await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
-            tokenCount: user?.tokenCount! - tokenAmount
-        })
+        try {
+            await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
+                tokenCount: user?.tokenCount! - tokenAmount,
+                lastSeenOn: formatDate(date),
+            })
+        } catch ( error ) {
+            toast.error( 'There was an issue updating your token count.' );
+        }
     }
 }

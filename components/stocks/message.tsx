@@ -13,11 +13,13 @@ import PulsingIcon from "@/components/ui/pulsing-icon";
 import { observer } from "mobx-react-lite";
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { Power } from "react-feather";
+import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 
 // Different types of message bubbles.
 
 export const UserMessage = observer(({ children }: { children: React.ReactNode }) => {
     const playerPresenter = PlayerPresenter.getInstance();
+    const subscriptionPresenter = SubscriptionPresenter.getInstance();
 
   return (
     <div className="group relative flex items-start md:-ml-12">
@@ -35,7 +37,7 @@ export const UserMessage = observer(({ children }: { children: React.ReactNode }
                     { playerPresenter.isLoading ? (
                         'Loading...'
                     ) : playerPresenter.playerName ? (
-                        `${ playerPresenter.playerName }`
+                        `${ playerPresenter.playerName } | Station ${ subscriptionPresenter.account[0].subscriptionStatus }`
                     ) : (
                         'No Name Detected'
                     ) }
@@ -61,7 +63,7 @@ export function BotMessage( {
                 <PulsingIcon light={ [ 249, 246, 240 ] } dark={ [ 23, 21, 21 ] }/>
             </div>
             <div className="flex-col w-full">
-                <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1 text-xl">
+                <div className="ml-4 mb-3 flex-1 space-y-2 overflow-hidden px-1 text-xl">
                     <MemoizedReactMarkdown
                         className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 text-xl"
                         remarkPlugins={ [ remarkGfm, remarkMath ] }

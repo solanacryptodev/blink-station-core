@@ -21,6 +21,7 @@ import { observer } from "mobx-react-lite";
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletButton } from '@/components/ui/wallet-button';
 import { formatNumberWithCommas } from '@/lib/utils';
+import { SettingsPresenter } from "@/presenters/SettingsPresenter";
 
 function UserOrLogin() {
     // const session = (await auth()) as Session
@@ -51,6 +52,7 @@ function UserOrLogin() {
 
 export const Header = observer(() => {
     const playerPresenter = PlayerPresenter.getInstance();
+    const settingsPresenter = SettingsPresenter.getInstance();
 
   return (
     <header className="sticky opacity-70 top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
@@ -69,7 +71,7 @@ export const Header = observer(() => {
       </div>
         <div className="flex items-center justify-end space-x-2">
             <IconGitHub />
-        <span className="hidden ml-2 md:flex">Settings</span>
+        <span className="hidden ml-2 md:flex cursor-pointer" onClick={() => settingsPresenter.activateSettingsModal(true)}>Settings</span>
 
           {playerPresenter.isConnected ? (
               playerPresenter.wallet?.name === 'Phantom' && <WalletButton backgroundColor='645E8F' hoverColor='7A73AD' status="Disconnect" /> ||

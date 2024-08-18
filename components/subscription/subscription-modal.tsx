@@ -39,8 +39,7 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
                 >
 
                         <div className="fixed inset-0 opacity-100 flex items-center justify-center z-50">
-                            <div ref={ ref }
-                                 className="bg-[#194555] rounded-lg p-6 w-full max-w-3xl max-h-[80vh] overflow-y-auto">
+                            <div ref={ ref } className="bg-[#194555] rounded-lg p-6 w-full max-w-3xl max-h-[80vh] overflow-y-auto">
                                 <div className="flex justify-between items-center mb-4">
                                     <div className="flex">
                                         { subscriptionPresenter.displaySubscriptionView ?
