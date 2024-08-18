@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { singleton } from 'tsyringe';
-import { Transaction, PublicKey } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@solana/web3.js';
 import { createTransferInstruction, getAssociatedTokenAddress } from '@solana/spl-token'
 import { RootStore } from '@/stores/RootStore';
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { MembershipSubscription, TabProps } from "@/lib/types";
-import { CONNECTION, USDC_MINT, ATLAS_MINT } from "@/lib/constants";
+import { ATLAS_MINT, CONNECTION, USDC_MINT } from "@/lib/constants";
 import { toast } from "sonner";
-import { formatDate, formatTokenAmount, addDaysToDate } from '@/lib/utils';
+import { addDaysToDate, formatDate, formatTokenAmount } from '@/lib/utils';
 import { Adapter } from "@solana/wallet-adapter-base";
 
 @singleton()
@@ -16,6 +16,7 @@ export class SubscriptionPresenter {
     private static instance: SubscriptionPresenter | null = null;
     displaySubscriptionView: boolean;
     displayValidationView: boolean;
+    upgradeModal: boolean;
     subscriptionModal: boolean;
     blinkKey: PublicKey;
 
@@ -23,15 +24,18 @@ export class SubscriptionPresenter {
         this.rootStore = RootStore.getInstance();
         this.displaySubscriptionView = false;
         this.displayValidationView = false;
+        this.upgradeModal = false;
         this.subscriptionModal = false;
         this.blinkKey = new PublicKey(process.env.NEXT_PUBLIC_BLINK_KEY! as string);
 
         makeObservable( this, {
             displaySubscriptionView: observable,
             displayValidationView: observable,
+            upgradeModal: observable,
             subscriptionModal: observable,
 
             activateSubscriptionModal: action.bound,
+            activateUpgradeModal: action.bound,
 
             player: computed,
             account: computed,
@@ -62,12 +66,17 @@ export class SubscriptionPresenter {
         this.subscriptionModal = display;
     }
 
+    activateUpgradeModal( display: boolean ): void {
+        this.upgradeModal = display;
+    }
+
     subscriptionTabs(): TabProps {
         return {
             tabOne: 'Traveler',
             tabTwo: 'Station Specialist',
             tabThree: 'Station Captain',
-            tabFour: 'Station Commander'
+            tabFour: 'Station Commander',
+            upgrade: this.upgradeModal
         }
     }
 
@@ -101,7 +110,7 @@ export class SubscriptionPresenter {
                 subscriptionStatus: membershipLevel.subscriptionStatus!,
                 tokenCount: membershipLevel.tokenCount!,
                 createdAt: formatDate( date ),
-                updatedAt: formatDate( date ),
+                subscribedOn: null,
                 membershipStartDate: null,
                 membershipEndDate: null,
                 paidInFull: false,
@@ -116,55 +125,27 @@ export class SubscriptionPresenter {
 
     /* Creates a new account in the DB for a subscriber */
     async subscribePlayer(usdcAmt: number, atlasAmt: number, membershipLevel: Partial<MembershipSubscription>): Promise<void> {
-        // return ATA accounts for payer and receiver
-        const payerUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.rootStore.walletStore.wallet?.publicKey!);
-        const payerAtlasTokenAccount = await getAssociatedTokenAddress(ATLAS_MINT, this.rootStore.walletStore.wallet?.publicKey!);
-        const recipientUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.blinkKey);
-        const recipientAtlasTokenAccount = await getAssociatedTokenAddress(ATLAS_MINT, this.blinkKey);
-
-        const usdcTokenAmount = formatTokenAmount(usdcAmt, 6);
-        const atlasTokenAmount = formatTokenAmount(atlasAmt, 8);
-
-        const transaction = new Transaction();
-
-        // transaction that transfers USDC, then ATLAS
-        transaction
-            .add(createTransferInstruction(
-                payerUSDCTokenAccount,
-                recipientUSDCTokenAccount,
-                this.rootStore.walletStore.wallet?.publicKey!,
-                usdcTokenAmount
-            )).add(createTransferInstruction(
-                payerAtlasTokenAccount,
-                recipientAtlasTokenAccount,
-                this.rootStore.walletStore.wallet?.publicKey!,
-                atlasTokenAmount
-        ))
-
-        transaction.feePayer = this.rootStore.walletStore.wallet?.publicKey!;
-        const latestBlockhash = await CONNECTION.getLatestBlockhash();
-        transaction.recentBlockhash = latestBlockhash.blockhash;
-
-        const tx = await this.rootStore.walletStore.wallet?.sendTransaction(transaction, CONNECTION, {
-            preflightCommitment: 'confirmed'
-        })!;
-
-        if (tx) {
-            const currentDate = new Date();
-            const subscription: MembershipSubscription = {
-                playerName: this.rootStore.playerStore.playerName!,
-                publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
-                subscriptionStatus: membershipLevel.subscriptionStatus!,
-                tokenCount: membershipLevel.tokenCount!,
-                createdAt: formatDate(currentDate),
-                updatedAt: formatDate(currentDate),
-                membershipStartDate: currentDate,
-                membershipEndDate: addDaysToDate(currentDate, 30),
-                paidInFull: false,
-                chatLogs: []
+        let transaction = '';
+        try {
+            transaction = await this.handleSolanaTransfer( usdcAmt, atlasAmt );
+            console.log( 'Transaction:', transaction );
+            if (transaction.length > 0) {
+                const currentDate = new Date();
+                const subscription: MembershipSubscription = {
+                    playerName: this.rootStore.playerStore.playerName!,
+                    publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
+                    subscriptionStatus: membershipLevel.subscriptionStatus!,
+                    tokenCount: membershipLevel.tokenCount!,
+                    createdAt: formatDate( currentDate ),
+                    subscribedOn: formatDate( currentDate ),
+                    membershipStartDate: currentDate,
+                    membershipEndDate: addDaysToDate( currentDate, 30 ),
+                    paidInFull: false,
+                    chatLogs: []
+                }
+                await this.rootStore.subscriptionStore.addSubscription( subscription );
             }
-            await this.rootStore.subscriptionStore.addSubscription( subscription )
-        } else {
+        } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
         }
     }
@@ -172,16 +153,31 @@ export class SubscriptionPresenter {
     /* Upgrades or Re-Subscribes a player that already has an account */
     async upgradeOrReSubscribePlayer(usdcAmt: number, atlasAmt: number, membershipLevel: Partial<MembershipSubscription>): Promise<void> {
         try {
-            const date = new Date();
-            const subscription: MembershipSubscription = {
-                playerName: this.rootStore.playerStore.playerName!,
-                publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
-                subscriptionStatus: membershipLevel.subscriptionStatus!,
-                tokenCount: membershipLevel.tokenCount!,
-                createdAt: formatDate( date ),
-                updatedAt: formatDate( date )
+            const transaction = await this.handleSolanaTransfer( usdcAmt, atlasAmt );
+            if (transaction.length > 0) {
+                const currentDate = new Date();
+                const subscription: MembershipSubscription = {
+                    playerName: this.rootStore.playerStore.playerName!,
+                    publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
+                    subscriptionStatus: membershipLevel.subscriptionStatus!,
+                    tokenCount: membershipLevel.tokenCount!,
+                    createdAt: formatDate( currentDate ),
+                    upgradedAt: formatDate( currentDate ),
+                    membershipStartDate: currentDate,
+                    membershipEndDate: addDaysToDate(currentDate, 30),
+                    paidInFull: false,
+                    chatLogs: []
+                }
+
+                await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
+                    subscriptionStatus: subscription.subscriptionStatus,
+                    tokenCount: subscription.tokenCount,
+                    upgradedAt: subscription.upgradedAt,
+                    membershipStartDate: subscription.membershipStartDate,
+                    membershipEndDate: subscription.membershipEndDate,
+                    paidInFull: subscription.paidInFull,
+                })
             }
-            // await this.rootStore.subscriptionStore.upgradeSubscription( subscription )
         } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
         }
@@ -189,9 +185,58 @@ export class SubscriptionPresenter {
 
     async deductFromTokenCount(tokenAmount: number): Promise<void> {
         const user = this.account.find(sub => sub.publicKey === this.wallet.publicKey?.toString()!)!;
+        const date = new Date();
 
-        await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
-            tokenCount: user?.tokenCount! - tokenAmount
-        })
+        try {
+            await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
+                tokenCount: user?.tokenCount! - tokenAmount,
+                lastSeenOn: formatDate(date),
+            })
+        } catch ( error ) {
+            toast.error( 'There was an issue updating your token count.' );
+        }
+    }
+
+    async handleSolanaTransfer(usdcAmt: number, atlasAmt: number): Promise<string> {
+        let tx = '';
+        try {
+            // return ATA accounts for payer and receiver
+            const payerUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.rootStore.walletStore.wallet?.publicKey!);
+            const payerAtlasTokenAccount = await getAssociatedTokenAddress(ATLAS_MINT, this.rootStore.walletStore.wallet?.publicKey!);
+            const recipientUSDCTokenAccount = await getAssociatedTokenAddress(USDC_MINT, this.blinkKey);
+            const recipientAtlasTokenAccount = await getAssociatedTokenAddress(ATLAS_MINT, this.blinkKey);
+
+            const usdcTokenAmount = formatTokenAmount(usdcAmt, 6);
+            const atlasTokenAmount = formatTokenAmount(atlasAmt, 8);
+
+            const transaction = new Transaction();
+
+            // transaction that transfers USDC, then ATLAS
+            transaction
+                .add(createTransferInstruction(
+                    payerUSDCTokenAccount,
+                    recipientUSDCTokenAccount,
+                    this.rootStore.walletStore.wallet?.publicKey!,
+                    usdcTokenAmount
+                )).add(createTransferInstruction(
+                payerAtlasTokenAccount,
+                recipientAtlasTokenAccount,
+                this.rootStore.walletStore.wallet?.publicKey!,
+                atlasTokenAmount
+            ))
+
+            transaction.feePayer = this.rootStore.walletStore.wallet?.publicKey!;
+            const latestBlockhash = await CONNECTION.getLatestBlockhash();
+            transaction.recentBlockhash = latestBlockhash.blockhash;
+
+            tx = await this.rootStore.walletStore.wallet?.sendTransaction( transaction, CONNECTION, {
+                preflightCommitment: 'confirmed'
+            })!;
+        } catch ( error ) {
+            toast.error( 'Transaction failed. Please try again.' );
+            console.log( 'Error:', error );
+        }
+
+        return tx;
     }
 }

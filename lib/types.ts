@@ -7,6 +7,7 @@ export interface TabProps {
   tabTwo: string;
   tabThree: string;
   tabFour: string;
+  upgrade?: boolean;
 }
 
 export interface TabPanelProps {
@@ -18,13 +19,15 @@ export interface TabPanelProps {
 export interface MembershipSubscription {
   playerName: string;
   publicKey: string;
-  subscriptionStatus: 'traveler' | 'specialist' | 'captain' | 'commander';
+  subscriptionStatus: 'Traveler' | 'Specialist' | 'Captain' | 'Commander';
   tokenCount: number;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: string; // when the account was first created
+  upgradedAt?: string; // when the player last upgraded or re-subscribed
+  subscribedOn?: string | null; // when the player first subscribed
   membershipStartDate?: Date | null;
   membershipEndDate?: Date | null;
-  paidInFull?: boolean;
+  paidInFull?: boolean; // manually updated and reset when subscription is accounted for in Mongo
+  lastSeenOn?: string; // only used to track when a player was actually using the chat features of the app. Daily active users.
   chatLogs?: Message[];
 }
 

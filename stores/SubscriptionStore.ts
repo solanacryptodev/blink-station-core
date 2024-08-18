@@ -82,7 +82,6 @@ export class SubscriptionStore {
                 subscriptionStatus: sub.subscriptionStatus,
                 tokenCount: sub.tokenCount,
                 createdAt: sub.createdAt,
-                updatedAt: sub.updatedAt,
                 membershipStartDate: sub.membershipStartDate,
                 membershipEndDate: sub.membershipEndDate,
                 paidInFull: sub.paidInFull,
