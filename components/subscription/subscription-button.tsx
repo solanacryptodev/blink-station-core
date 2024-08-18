@@ -28,7 +28,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
             {data.membershipType === 'Specialist' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.subscribePlayer(10,3100, {
+                    onClick={ () => subscriptionPresenter.subscribePlayer(1,100, {
                         subscriptionStatus: 'Specialist',
                         tokenCount: 1000000
                     })}>
