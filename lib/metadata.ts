@@ -274,6 +274,7 @@ export const assets: AssetMetadata[] = [
         param: 'ogrikamik',
         image: ``,
         mint: 'FMHHwUB6amLWYhWxtiZHC2g5azy9usPTLMq46N3HEgFU',
+        class: 'small'
     },
     {
         name: 'VZUS solos',
