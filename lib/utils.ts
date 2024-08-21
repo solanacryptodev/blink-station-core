@@ -122,6 +122,36 @@ export const removeDecimal = (num: number) => {
   return integerPart + fractionalPart;
 }
 
+export function formatAtlasNumber(number: BN): string {
+  const ATLAS_DECIMALS = 8; // Adjust this if ATLAS uses a different number of decimal places
+  const ATLAS_DECIMAL_FACTOR = new BN(10).pow(new BN(ATLAS_DECIMALS));
+
+  // Convert the BN to a regular number with the correct decimal places
+  const convertedNumber = number.div(ATLAS_DECIMAL_FACTOR).toNumber() +
+      number.mod(ATLAS_DECIMAL_FACTOR).toNumber() / ATLAS_DECIMAL_FACTOR.toNumber();
+
+  // Handle very small numbers
+  if (convertedNumber < 0.01) {
+    return convertedNumber.toFixed(4);
+  }
+
+  // For numbers less than 1000, show up to 2 decimal places
+  if (convertedNumber < 1000) {
+    return convertedNumber.toFixed(2);
+  }
+
+  // For larger numbers, use toLocaleString for thousand separators and 2 decimal places
+  return convertedNumber.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+export function parseFormattedNumber(formattedNumber: string): number {
+  // Remove thousand separators and parse the string to a float
+  return parseFloat(formattedNumber.replace(/,/g, ''));
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

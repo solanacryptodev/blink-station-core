@@ -1,6 +1,15 @@
 import { CoreMessage } from 'ai'
 import { OrderSide } from "@staratlas/factory";
-import { InferIdType, WithId } from 'mongodb';
+import { WithId } from 'mongodb';
+
+export interface StarRating {
+  totalBuyQuantity?: number;
+  totalSellQuantity?: number;
+  totalBuyPrice?: number;
+  totalSellPrice?: number;
+  lowestSellPrice?: number;
+  averageSellPrice?: number;
+}
 
 export interface TabProps {
   tabOne: string;

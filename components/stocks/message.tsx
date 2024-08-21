@@ -132,7 +132,13 @@ export function BotCard( {
             >
                 <PulsingIcon light={ [ 249, 246, 240 ] } dark={ [ 23, 21, 21 ] }/>
             </div>
-            <div className="ml-4 flex-1 pl-2">{ children }</div>
+            <div className="flex flex-col w-full">
+                <div className="ml-4 flex-1 pl-2 mb-3">{ children }</div>
+                <div className="flex flex-row text-[#d1aa0f] float-right items-center self-end text-lg">
+                    <Power size={ 18 } className="mr-2"/>
+                    <div>Atlasson</div>
+                </div>
+            </div>
         </div>
     )
 }
