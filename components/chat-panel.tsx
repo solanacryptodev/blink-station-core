@@ -43,9 +43,9 @@ export function ChatPanel({
       message: `Generate a blink for the Fimbul Lowbie.`
     },
     {
-      heading: 'How many fleets',
-      subheading: 'are there in sector MRZ-5?',
-      message: 'How many fleets are there in sector MRZ-5?'
+      heading: 'Could you provide an',
+      subheading: 'asset analysis for Carbon',
+      message: 'Could you provide an asset analysis for Carbon?'
     },
     {
       heading: 'Tell me about the history of',

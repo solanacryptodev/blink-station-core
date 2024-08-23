@@ -94,12 +94,12 @@ export const formatQuantity = (quantity: number | string): string => {
   const numericQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
 
   // Check if the parsed number is valid
-  if (isNaN(numericQuantity)) {
-    throw new Error('Invalid input: quantity must be a number or a numeric string');
-  }
+  // if (isNaN(numericQuantity)) {
+  //   throw new Error('Invalid input: quantity must be a number or a numeric string');
+  // }
 
   // Format the number with comma separators and no decimal places
-  return numericQuantity.toLocaleString('en-US', {
+  return numericQuantity?.toLocaleString('en-US', {
     maximumFractionDigits: 0,
     useGrouping: true
   });

@@ -12,45 +12,54 @@ import { mean, min, sum } from 'lodash'
 import { Order } from "@staratlas/factory";
 
 const uri = process.env.FLIPSIDE_API!;
-const connection = process.env.HELIUS_RPC!;
 
 const flipside = new Flipside(uri, 'https://api-v2.flipsidecrypto.xyz');
 
-export async function TestQuery(mint?: string) {
-    const sql =
-        `
-            SELECT *
-                FROM solana.core.fact_transactions
-                WHERE date_trunc('day', block_timestamp) = '202-08-20 00:00:00.000'                           
-                    AND tx_id = '4BKK3vB9NW76B9YjjYhYr5USPBkFwCztidU5V4H5GMaouexzgEFXuNiDwPCHdivvLJHsKwgv7cyvarSuFzLCQTNy'                                  
+export async function totalAssetExchanges(mint: string, currency: string): Promise<number> {
+    let results = 0
+    try {
+        const sql =
+            `
+            SELECT
+                block_timestamp,
+                tx_id,          
+            FROM
+                solana.core.fact_events                    
+            WHERE
+                program_id = 'traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg'
+                    AND succeeded = 'true'
+                    AND block_timestamp > '2024-08-20'                     
+                    AND INNER_INSTRUCTION:instructions[4]:parsed:type = 'transferChecked'
+                    AND INNER_INSTRUCTION:instructions[4]:parsed:info:mint = '${mint}'
+                    AND INNER_INSTRUCTION:instructions[2]:parsed:info:mint = '${currency}'                
+                    AND INNER_INSTRUCTION:instructions[0]:programId = 'BUDDYtQp7Di1xfojiCSVDksiYLQx511DPdj2nbtG9Yu5'
             ORDER BY
                 block_timestamp DESC
-            LIMIT 10
+            LIMIT 100
         `
+            // Send the Query to Flipside's query engine and await the results
+            const queryResultSet = await flipside.query.run({sql: sql});
 
-    try {
-        // Send the Query to Flipside's query engine and await the results
-        const queryResultSet = await flipside.query.run({sql: sql});
+            // Convert the result to a JSON string
+            const resultJson = JSON.stringify(queryResultSet, null, 2);
 
-        // Convert the result to a JSON string
-        const resultJson = JSON.stringify(queryResultSet, null, 2);
+            // Define the output file path
+            const outputPath = path.join(process.cwd(), 'results.json');
 
-        // Define the output file path
-        const outputPath = path.join(process.cwd(), 'aerogel_results.json');
+            // Write the results to a file
+            fs.writeFile(outputPath, resultJson, 'utf8', (err) => {
+                if (err) {
+                    console.error('Error writing results to file:', err);
+                    throw err;
+                }
+            });
 
-        // Write the results to a file
-        fs.writeFile(outputPath, resultJson, 'utf8', (err) => {
-            if (err) {
-                console.error('Error writing results to file:', err);
-                throw err;
-            }
+            // console.log(`Query results have been written to ${outputPath}`);
 
-        console.log(`Query results have been written to ${outputPath}`);
+            results = queryResultSet.records?.length!;
+            console.log('Number of results:', results);
 
-        const results = queryResultSet.records?.length!;
-        console.log('Number of results:', results);
-        return results;
-        });
+            return results;
     } catch (error) {
         console.error('Error executing query or writing results:', error);
         throw error;
@@ -64,7 +73,7 @@ export async function totalBuyAndSellQuantities(mint: string, currency: string):
         .filter(order => order.orderType === 'buy' && order.currencyMint === currency)
         .map(order => Number(order.orderQtyRemaining))
 
-    // console.log('buyQuantities...', filteredBuys);
+    //console.log('buyQuantities...', filteredBuys);
 
     const filteredSells = orders
         .filter(order => order.orderType === 'sell' && order.currencyMint === currency)
@@ -106,7 +115,7 @@ export async function lowestCurrentPrice(mint: string, currency: string): Promis
     const formattedSellPrices = filteredSells
         .filter(order => order.price)
         .map(order => formatAtlasNumber(new BN(order.price)))
-    console.log('formattedSellPrices...', formattedSellPrices);
+    // console.log('formattedSellPrices...', formattedSellPrices);
 
     const sellPrices = formattedSellPrices.map(parseFormattedNumber);
 
@@ -133,5 +142,6 @@ export async function averageSellPrice(mint: string, currency: string): Promise<
 }
 
 async function retrieveOrders(mint: string): Promise<Order[]> {
-    return await gmClientService.getOpenOrdersForAsset(CONNECTION, new PublicKey(mint), PROGRAM_ID)
+    const findMint = new PublicKey(mint);
+    return await gmClientService.getOpenOrdersForAsset(CONNECTION, findMint, PROGRAM_ID)
 }

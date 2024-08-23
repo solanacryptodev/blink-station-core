@@ -1,10 +1,14 @@
 import { makeObservable } from "mobx";
-import { totalBuyAndSellQuantities, totalBuyAndSellPrices } from '@/app/flipside-actions';
-import { ATLAS } from '@/lib/constants'
+import {
+    totalBuyAndSellQuantities,
+    totalBuyAndSellPrices,
+    totalAssetExchanges,
+    lowestCurrentPrice,
+    averageSellPrice } from '@/app/data-actions';
 import { RootStore } from "@/stores/RootStore";
-import { assets } from '@/lib/metadata'
 
 export class DataStore {
+    private static instance: DataStore | null = null;
     rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
@@ -16,13 +20,26 @@ export class DataStore {
     }
 
     async initialize() {
-        const ship = assets[8].mint;
-        const data = await totalBuyAndSellQuantities(ship, ATLAS);
-        console.log('totalBuys...', data.totalBuyQuantity);
-        console.log('totalSells...', data.totalSellQuantity);
+        console.log('Initializing DataStore...');
+    }
 
-        const amtData = await totalBuyAndSellPrices(ship, ATLAS);
-        console.log('totalBuysAmounts...', amtData.totalBuyPrice);
-        console.log('totalSellsAmounts...', amtData.totalSellPrice);
+    async lowestCurrentPrice(mint: string, currency: string) {
+        return await lowestCurrentPrice(mint, currency);
+    }
+
+    async totalBuyAndSellQuantities(mint: string, currency: string) {
+        return await totalBuyAndSellQuantities(mint, currency);
+    }
+
+    async totalBuyAndSellPrices(mint: string, currency: string) {
+        return await totalBuyAndSellPrices(mint, currency);
+    }
+
+    async totalAssetExchanges(mint: string, currency: string) {
+        return await totalAssetExchanges(mint, currency);
+    }
+
+    async averageSellPrice(mint: string, currency: string) {
+        return await averageSellPrice(mint, currency);
     }
 }

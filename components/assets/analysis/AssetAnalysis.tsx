@@ -1,31 +1,56 @@
 'use client'
 
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import { StarRating } from "@/lib/types";
+import { AssetPresenter } from "@/presenters/AssetPresenter";
+import { formatQuantity } from "@/lib/utils";
 
 export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asset}: {asset: string}) => {
+    const assetPresenter = AssetPresenter.getInstance();
     const [selectedCurrency, setSelectedCurrency] = useState<'USDC' | 'ATLAS'>('ATLAS');
+    const [item, setItem] = useState<StarRating[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    // Dummy data for demonstration
+    useEffect(() => {
+        const fetchOrders = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const fetchedOrders = await assetPresenter.fetchAssetData(asset.toLowerCase(), selectedCurrency);
+                setItem(fetchedOrders!);
+            } catch (err) {
+                setError('No order found for this user in this market.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchOrders();
+    }, [asset, assetPresenter, selectedCurrency]);
+
     const data = {
         USDC: {
-            scarcityScore: 50,
-            gdiScore: 22,
-            totalBuyOrders: { amount: 14, quantity: 2 },
-            totalSellOrders: { amount: 45, quantity: 10 },
-            totalMined: 13270,
-            totalBurned: 8345
+            starRating: 22,
+            totalBuyOrders: { amount: item[0]?.totalBuyPrice, quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
+            totalSellOrders: { amount: item[0]?.totalSellPrice, quantity: formatQuantity(item[0]?.totalSellQuantity!)},
+            volumeRating: 13270,
+            demandRating: 8345,
+            liquidityRating: 45,
+            priceCompetitivenessRating: 60
         },
         ATLAS: {
-            scarcityScore: 65,
-            gdiScore: 30,
-            totalBuyOrders: { amount: 0.5, quantity: 3 },
-            totalSellOrders: { amount: 1.2, quantity: 8 },
-            totalMined: 15000,
-            totalBurned: 9000
+            starRating: 30,
+            totalBuyOrders: { amount: item[0]?.totalBuyPrice, quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
+            totalSellOrders: { amount: item[0]?.totalSellPrice, quantity: formatQuantity(item[0]?.totalSellQuantity!)},
+            volumeRating: 15000,
+            demandRating: 9000,
+            liquidityRating: 45,
+            priceCompetitivenessRating: 60
         }
     };
 
@@ -47,17 +72,16 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
                             onClick={() => setSelectedCurrency('ATLAS')}
                             variant={selectedCurrency === 'ATLAS' ? 'default' : 'outline'}
                         >
-                            ETH
+                            ATLAS
                         </Button>
                     </div>
                 </div>
 
                 {/* TOP SECTION */}
-                <div className="flex flex-row items-center justify-evenly mb-4">
+                <div className="flex flex-col items-center mb-4">
                     {/* Scarcity Score */}
                     <div className="text-center">
-                        <div className="flex text-xl text-yellow-700 font-bold">Scarcity Score</div>
-                        <div className="text-yellow-700 text-xl">{currentData.scarcityScore}</div>
+                        <div className="flex text-xl text-yellow-700 font-bold">S.T.A.R. Rating</div>
                     </div>
 
                     {/* Asset Image */}
@@ -67,25 +91,12 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
 
                     {/* GDI Score */}
                     <div className="text-center">
-                        <div className="flex text-xl text-yellow-700 font-bold">GDI Score</div>
-                        <div className="text-yellow-700 text-xl">{currentData.gdiScore}</div>
+                        <div className="text-yellow-700 text-xl">{currentData.starRating}</div>
                     </div>
                 </div>
 
                 {/* MIDDLE SECTION */}
                 <div className="mb-4">
-                    {/* Total Buy/Sell Orders by Dollar Amount */}
-                    <div className="flex flex-row justify-between items-center mb-3">
-                        <div className="flex flex-col items-start">
-                            <div className="font-bold text-lg">Total Buy Orders by Amount</div>
-                            <div>{currentData.totalBuyOrders.amount} {selectedCurrency}</div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <div className="font-bold text-lg float-right">Total Sell Orders by Amount</div>
-                            <div className="flex float-right">{currentData.totalSellOrders.amount} {selectedCurrency}</div>
-                        </div>
-                    </div>
-
                     {/* Total Buy/Sell Orders by Quantity */}
                     <div className="flex flex-row justify-between items-center mb-3">
                         <div className="flex flex-col items-start">
@@ -98,23 +109,59 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
                         </div>
                     </div>
 
-                    {/* Total Mined/Burned */}
+                    {/* Total Buy/Sell Orders by Dollar Amount */}
                     <div className="flex flex-row justify-between items-center mb-3">
                         <div className="flex flex-col items-start">
-                            <div className="font-bold text-lg">Total Mined</div>
-                            <div>{currentData.totalMined}</div>
+                            <div className="font-bold text-lg">Total Buy Orders by Price</div>
+                            <div>{currentData.totalBuyOrders.amount} {selectedCurrency}</div>
                         </div>
                         <div className="flex flex-col items-end">
-                            <div className="font-bold text-lg">Total Burned</div>
-                            <div>{currentData.totalBurned}</div>
+                            <div className="font-bold text-lg float-right">Total Sell Orders by Price</div>
+                            <div className="flex float-right">{currentData.totalSellOrders.amount} {selectedCurrency}</div>
+                        </div>
+                    </div>
+
+                    {/* Total Buy/Sell Value */}
+                    <div className="flex flex-row justify-between items-center mb-3">
+                        <div className="flex flex-col items-start">
+                            <div className="font-bold text-lg">Total Buy Order Value</div>
+                            <div>{Number(currentData.totalBuyOrders.quantity) * currentData.totalBuyOrders.amount!} {selectedCurrency}</div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                            <div className="font-bold text-lg">Total Sell Order Value</div>
+                            <div>{Number(currentData.totalSellOrders.quantity) * currentData.totalSellOrders.amount!} {selectedCurrency}</div>
+                        </div>
+                    </div>
+
+                    {/* Volume and Demand Rating */}
+                    <div className="flex flex-row justify-between items-center mb-3">
+                        <div className="flex flex-col items-start">
+                            <div className="font-bold text-lg">Volume Rating</div>
+                            <div>{currentData.volumeRating}</div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                            <div className="font-bold text-lg">Demand Rating</div>
+                            <div>{currentData.demandRating}</div>
+                        </div>
+                    </div>
+
+                    {/* Liquidity Rating and Price Competitiveness Rating */}
+                    <div className="flex flex-row justify-between items-center mb-3">
+                        <div className="flex flex-col items-start">
+                            <div className="font-bold text-lg">Price Competitiveness Rating</div>
+                            <div>{currentData.priceCompetitivenessRating}</div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                            <div className="font-bold text-lg">Liquidity Rating</div>
+                            <div>{currentData.liquidityRating}</div>
                         </div>
                     </div>
                 </div>
 
                 {/* BOTTOM SECTION */}
                 <div className="flex flex-col w-full mb-4">
-                    <div className="text-center font-bold text-lg">Top Sellers</div>
-                    {/* Get list of sellers and total amount sold and map through them here */}
+                    <div className="text-center font-bold text-2xl">Chart</div>
+                   <div className="text-center text-lg">Coming Soon</div>
                 </div>
             </div>
         </>
