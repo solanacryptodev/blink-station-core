@@ -9,6 +9,11 @@ export interface StarRating {
   totalSellPrice?: number;
   lowestSellPrice?: number;
   averageSellPrice?: number;
+  demandRating?: number;
+  priceCompetitivenessRating?: number;
+  starRating?: number;
+  classLiquidity?: number;
+  volumeRating?: number;
 }
 
 export interface TabProps {

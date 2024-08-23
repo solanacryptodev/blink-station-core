@@ -32,7 +32,12 @@ export class DataStore {
     }
 
     async totalBuyAndSellPrices(mint: string, currency: string) {
-        return await totalBuyAndSellPrices(mint, currency);
+        try {
+            return await totalBuyAndSellPrices(mint, currency);
+        } catch (error) {
+            console.error('Error in DataStore.totalBuyAndSellPrices:', error);
+            throw error;
+        }
     }
 
     async totalAssetExchanges(mint: string, currency: string) {

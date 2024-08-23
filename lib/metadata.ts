@@ -1,4 +1,4 @@
-const shdwStorageAcct = process.env.SHDW_STORAGE_ACCT!;
+const shdwStorageAcct = process.env.NEXT_PUBLIC_SHDW!;
 
 export interface AtlassonProfile {
     name: string
@@ -106,6 +106,7 @@ export interface AssetMetadata {
     image: string;
     mint: string;
     class?: string;
+    atlasOnly?: boolean;
 }
 
 export const assets: AssetMetadata[] = [
@@ -226,28 +227,32 @@ export const assets: AssetMetadata[] = [
         param: 'calicomaxhog',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicomaxhog%20(1).png`,
         mint: 'GxpbUDxYYvxiUejHcAMzeV2rzdHf6KZZvT86ACrpFgXa',
-        class: 'x-small'
+        class: 'x-small',
+        atlasOnly: false
     },
     {
         name: 'Fimbul Lowbie',
         param: 'fimbullowbie',
         image: ``,
         mint: '7Xs3yt9eJPuEexZrKSGVbQMXHwWUKHGeDZnM4ZksZmyS',
-        class: 'x-small'
+        class: 'x-small',
+        atlasOnly: false
     },
     {
         name: 'Fimbul Airbike',
         param: 'fimbulairbike',
         image: ``,
         mint: 'Fw8PqtznYtg4swMk7Yjj89Tsj23u5CJLfW5Bk8ro4G1s',
-        class: 'xx-small'
+        class: 'xx-small',
+        atlasOnly: false
     },
     {
         name: 'Fimbul ECOS Unibomba',
         param: 'fimbulecosunibomba',
         image: ``,
         mint: '9zrgra3XQkZPt8XNs4fowbqmj7B8bBx76aEmsKSnm9BW',
-        class: 'xx-small'
+        class: 'xx-small',
+        atlasOnly: false
     },
     {
         name: 'Fimbul BYOS Earp',
@@ -260,55 +265,63 @@ export const assets: AssetMetadata[] = [
         param: 'ogrikaruch',
         image: ``,
         mint: 'RUCHH4AcvodBcndmcT17KUBbd5ee5LQtmpsfvBVNnPH',
-        class: 'xx-small'
+        class: 'xx-small',
+        atlasOnly: false
     },
     {
         name: 'Ogrika Niruch',
         param: 'ogrikaniruch',
         image: ``,
         mint: '7SUoWHWWJCxCe5g9XqZkCRufGHXRV8nauuz69HPjuewr',
-        class: 'x-small'
+        class: 'x-small',
+        atlasOnly: false
     },
     {
         name: 'Ogrika Mik',
         param: 'ogrikamik',
         image: ``,
         mint: 'FMHHwUB6amLWYhWxtiZHC2g5azy9usPTLMq46N3HEgFU',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'VZUS solos',
         param: 'vzussolos',
         image: ``,
         mint: 'HjFijcGWKgfDwGpFX2rqFwEU9jtEgFuRQAJe1ERXFsA3',
-        class: 'xx-small'
+        class: 'xx-small',
+        atlasOnly: false
     },
     {
         name: 'VZUS ambwe',
         param: 'vzusambwe',
         image: ``,
         mint: 'H2jHqvXA2oxSpEp6dKkpK7WeszQEdFW5n25mNfrJFAc1',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Ammunition',
         param: 'ammunition',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/ammunition.png`,
         mint: 'ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK',
-        class: 'consumable'
+        class: 'consumable',
+        atlasOnly: true
     },
     {
         name: 'Carbon',
         param: 'carbon',
         image: '',
         mint: 'CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X',
-        class: 'raw material'
+        class: 'raw material',
+        atlasOnly: true
     },
     {
         name: 'Steel',
         param: 'steel',
         image: '',
         mint: 'STEELXLJ8nfJy3P4aNuGxyNRbWPohqHSwxY75NsJRGG',
-        class: 'compound material'
+        class: 'compound material',
+        atlasOnly: true
     }
 ]

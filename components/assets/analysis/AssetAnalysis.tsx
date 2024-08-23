@@ -8,11 +8,14 @@ import { Button } from "@/components/ui/button";
 import { StarRating } from "@/lib/types";
 import { AssetPresenter } from "@/presenters/AssetPresenter";
 import { formatQuantity } from "@/lib/utils";
+import { AssetMetadata, assets } from "@/lib/metadata";
 
 export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asset}: {asset: string}) => {
     const assetPresenter = AssetPresenter.getInstance();
     const [selectedCurrency, setSelectedCurrency] = useState<'USDC' | 'ATLAS'>('ATLAS');
     const [item, setItem] = useState<StarRating[]>([]);
+    const [image, setImage] = useState('');
+    const [isAtlasOnly, setIsAtlasOnly] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -22,7 +25,16 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
             setError(null);
             try {
                 const fetchedOrders = await assetPresenter.fetchAssetData(asset.toLowerCase(), selectedCurrency);
+                const foundAsset = assets.find((_asset) => _asset.name.toLowerCase() === asset.toLowerCase())!;
                 setItem(fetchedOrders!);
+                if (foundAsset?.atlasOnly === true) {
+                    setIsAtlasOnly(true)
+                } else {
+                    setIsAtlasOnly(false)
+                }
+                if ( foundAsset?.image.length > 0 ) {
+                    setImage(foundAsset?.image);
+                }
             } catch (err) {
                 setError('No order found for this user in this market.');
             } finally {
@@ -35,22 +47,22 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
 
     const data = {
         USDC: {
-            starRating: 22,
-            totalBuyOrders: { amount: item[0]?.totalBuyPrice, quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
-            totalSellOrders: { amount: item[0]?.totalSellPrice, quantity: formatQuantity(item[0]?.totalSellQuantity!)},
+            starRating: formatQuantity(assetPresenter.assetData[0]?.starRating!),
+            totalBuyOrders: { amount: formatQuantity(item[0]?.totalBuyPrice!), quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
+            totalSellOrders: { amount: formatQuantity(item[0]?.totalSellPrice!), quantity: formatQuantity(item[0]?.totalSellQuantity!)},
             volumeRating: 13270,
-            demandRating: 8345,
-            liquidityRating: 45,
-            priceCompetitivenessRating: 60
+            demandRating: formatQuantity(assetPresenter.assetData[0]?.demandRating!),
+            liquidityRating: formatQuantity(assetPresenter.assetData[0]?.classLiquidity!),
+            priceCompetitivenessRating: formatQuantity(assetPresenter.assetData[0]?.priceCompetitivenessRating!)
         },
         ATLAS: {
-            starRating: 30,
-            totalBuyOrders: { amount: item[0]?.totalBuyPrice, quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
-            totalSellOrders: { amount: item[0]?.totalSellPrice, quantity: formatQuantity(item[0]?.totalSellQuantity!)},
+            starRating: formatQuantity(assetPresenter.assetData[0]?.starRating!),
+            totalBuyOrders: { amount: formatQuantity(item[0]?.totalBuyPrice!), quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
+            totalSellOrders: { amount: formatQuantity(item[0]?.totalSellPrice!), quantity: formatQuantity(item[0]?.totalSellQuantity!)},
             volumeRating: 15000,
-            demandRating: 9000,
-            liquidityRating: 45,
-            priceCompetitivenessRating: 60
+            demandRating: formatQuantity(assetPresenter.assetData[0]?.demandRating!),
+            liquidityRating: formatQuantity(assetPresenter.assetData[0]?.classLiquidity!),
+            priceCompetitivenessRating: formatQuantity(assetPresenter.assetData[0]?.priceCompetitivenessRating!)
         }
     };
 
@@ -60,33 +72,38 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
         <>
             <div className="container flex-col mx-auto bg-gradient-to-r from-[#18434D] via-neutral-900 to-[#18434D] shadow-lg rounded-lg overflow-hidden p-4">
                 <div className="flex flex-col items-center mb-4">
-                    <div className="text-2xl font-bold mb-3">{asset.toUpperCase()}</div>
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-2 mb-3">
                         <Button
-                            onClick={() => setSelectedCurrency('USDC')}
-                            variant={selectedCurrency === 'USDC' ? 'default' : 'outline'}
+                            disabled={ isAtlasOnly }
+                            onClick={ () => setSelectedCurrency( 'USDC' ) }
+                            variant={ selectedCurrency === 'USDC' ? 'default' : 'outline' }
                         >
                             USDC
                         </Button>
                         <Button
-                            onClick={() => setSelectedCurrency('ATLAS')}
-                            variant={selectedCurrency === 'ATLAS' ? 'default' : 'outline'}
+                            onClick={ () => setSelectedCurrency( 'ATLAS' ) }
+                            variant={ selectedCurrency === 'ATLAS' ? 'default' : 'outline' }
                         >
                             ATLAS
                         </Button>
                     </div>
+                    <div className="text-2xl font-bold mb-1">{ asset.toUpperCase() }</div>
                 </div>
 
-                {/* TOP SECTION */}
+                {/* TOP SECTION */ }
                 <div className="flex flex-col items-center mb-4">
-                    {/* Scarcity Score */}
-                    <div className="text-center">
-                        <div className="flex text-xl text-yellow-700 font-bold">S.T.A.R. Rating</div>
+                    {/* Asset Image */ }
+                    <div className="flex items-center">
+                        { image?.length === 0 ? (
+                            <Image src='/blinkIcon.jpg' width={ 90 } height={ 90 } alt='Blink Station X icon.' className='rounded-full'/>
+                        ) : (
+                            <Image src={ image } width={130} height={130} alt='Blink Station X icon.' className='rounded-full' />
+                        )}
                     </div>
 
-                    {/* Asset Image */}
-                    <div className="flex items-center">
-                        <Image src='/blinkIcon.jpg' width={80} height={80} alt='Blink Station X icon.' className='rounded-full' />
+                    {/* Scarcity Score */ }
+                    <div className="text-center">
+                        <div className="flex text-xl text-yellow-700 font-bold">S.T.A.R. Rating</div>
                     </div>
 
                     {/* GDI Score */}
@@ -118,18 +135,6 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
                         <div className="flex flex-col items-end">
                             <div className="font-bold text-lg float-right">Total Sell Orders by Price</div>
                             <div className="flex float-right">{currentData.totalSellOrders.amount} {selectedCurrency}</div>
-                        </div>
-                    </div>
-
-                    {/* Total Buy/Sell Value */}
-                    <div className="flex flex-row justify-between items-center mb-3">
-                        <div className="flex flex-col items-start">
-                            <div className="font-bold text-lg">Total Buy Order Value</div>
-                            <div>{Number(currentData.totalBuyOrders.quantity) * currentData.totalBuyOrders.amount!} {selectedCurrency}</div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <div className="font-bold text-lg">Total Sell Order Value</div>
-                            <div>{Number(currentData.totalSellOrders.quantity) * currentData.totalSellOrders.amount!} {selectedCurrency}</div>
                         </div>
                     </div>
 

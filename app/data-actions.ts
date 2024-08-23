@@ -93,14 +93,14 @@ export async function totalBuyAndSellPrices(mint: string, currency: string): Pro
     const filteredBuys = orders.filter(order => order.orderType === 'buy' && order.currencyMint === currency)
     const formattedBuyPrices = filteredBuys
         .filter(order => order.price)
-        .map(order => formatAtlasNumber(new BN(order.price)))
+        .map(order => formatAtlasNumber(new BN(order.price * order.orderQtyRemaining)))
    // console.log('formattedBuyPrices...', formattedBuyPrices);
 
     const filteredSells = orders.filter(order => order.orderType === 'sell' && order.currencyMint === currency)
     const formattedSellPrices = filteredSells
         .filter(order => order.price)
-        .map(order => formatAtlasNumber(new BN(order.price)))
-    // console.log('formattedSellPrices...', formattedSellPrices);
+        .map(order => formatAtlasNumber(new BN(order.price * order.orderQtyRemaining)))
+    //console.log('formattedSellPrices...', formattedSellPrices);
 
     return {
         totalBuyPrice: sum(formattedBuyPrices.map(parseFormattedNumber)),
