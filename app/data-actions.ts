@@ -49,17 +49,17 @@ export async function totalAssetExchanges(mint: string, currency: string): Promi
             const outputPath = path.join(process.cwd(), 'results.json');
 
             // Write the results to a file
-            fs.writeFile(outputPath, resultJson, 'utf8', (err) => {
-                if (err) {
-                    console.error('Error writing results to file:', err);
-                    throw err;
-                }
-            });
+            // fs.writeFile(outputPath, resultJson, 'utf8', (err) => {
+            //     if (err) {
+            //         console.error('Error writing results to file:', err);
+            //         throw err;
+            //     }
+            // });
 
             // console.log(`Query results have been written to ${outputPath}`);
 
             results = queryResultSet.records?.length!;
-            console.log('Number of results:', results);
+            // console.log('Number of results:', results);
 
             return results;
     } catch (error) {
