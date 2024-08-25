@@ -1,3 +1,5 @@
+import { ExamplePrompts } from "@/lib/types";
+
 const shdwStorageAcct = process.env.NEXT_PUBLIC_SHDW!;
 
 export interface AtlassonProfile {
@@ -108,6 +110,29 @@ export interface AssetMetadata {
     class?: string;
     atlasOnly?: boolean;
 }
+
+export const exampleMessages: ExamplePrompts[] = [
+    {
+        heading: 'Generate a blink',
+        subheading: 'for the Fimbul Lowbie.',
+        message: `Generate a blink for the Fimbul Lowbie.`
+    },
+    {
+        heading: 'Could you provide an',
+        subheading: 'asset analysis for Carbon',
+        message: 'Could you provide an asset analysis for Carbon?'
+    },
+    {
+        heading: 'Tell me about the history of',
+        subheading: 'the Galia Expanse.',
+        message: `Tell me about the history of the Galia Expanse.`
+    },
+    {
+        heading: 'How many hostile sectors',
+        subheading: `and allied sectors are there?`,
+        message: `How many hostile sectors and allied sectors are there?`
+    }
+]
 
 export const assets: AssetMetadata[] = [
     {

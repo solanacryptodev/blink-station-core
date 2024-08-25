@@ -14,6 +14,7 @@ import { UserMessage } from './stocks/message'
 import { useAmplitude } from "@/lib/hooks/use-amplitude";
 import { observer } from 'mobx-react-lite'
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
+import { exampleMessages } from '@/lib/metadata'
 
 export interface ChatPanelProps {
   id?: string
@@ -38,29 +39,6 @@ export const ChatPanel = observer(({
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
   const { trackEvent } = useAmplitude();
-
-  const exampleMessages = [
-    {
-      heading: 'Generate a blink',
-      subheading: 'for the Fimbul Lowbie.',
-      message: `Generate a blink for the Fimbul Lowbie.`
-    },
-    {
-      heading: 'Could you provide an',
-      subheading: 'asset analysis for Carbon',
-      message: 'Could you provide an asset analysis for Carbon?'
-    },
-    {
-      heading: 'Tell me about the history of',
-      subheading: 'the Galia Expanse.',
-      message: `Tell me about the history of the Galia Expanse.`
-    },
-    {
-      heading: 'How many hostile sectors',
-      subheading: `and allied sectors are there?`,
-      message: `How many hostile sectors and allied sectors are there?`
-    }
-  ]
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
