@@ -136,6 +136,22 @@ export const exampleMessages: ExamplePrompts[] = [
 
 export const assets: AssetMetadata[] = [
     {
+        name: 'Armstrong IMP',
+        param: 'armstrongimp',
+        image: ``,
+        mint: 'GmVKV9W3qZcERxk7hjqwRDcn9Kgtz3XDi7KfFLdGqyaW',
+        class: 'capital',
+        atlasOnly: false
+    },
+    {
+        name: 'Armstrong IMP Tap',
+        param: 'armstrongimptap',
+        image: ``,
+        mint: 'ARNZXUQoBKx3JCX3UJB4aitSnvcjMMphN9YVDFy1PdKq',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
         name: 'Armstrong IMP Tip',
         param: 'armstrongimptip',
         image: ``,
@@ -149,6 +165,14 @@ export const assets: AssetMetadata[] = [
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/thrilloflife.png`,
         mint: 'FTk1E5UoWkiZEUttCWSYYaVokxWNNp3yJ42HbNDCAkdt',
         class: 'small',
+        atlasOnly: false
+    },
+    {
+        name: 'Busan Maiden Heart',
+        param: 'busanmaidenheart',
+        image: ``,
+        mint: '6HzZJwrcuBBmrE7SLDfxheZGAD3NYJ531C9JsNesL9BP',
+        class: 'capital',
         atlasOnly: false
     },
     {
@@ -192,11 +216,59 @@ export const assets: AssetMetadata[] = [
         atlasOnly: false
     },
     {
+        name: 'Pearce F4',
+        param: 'pearcef4',
+        image: ``,
+        mint: '9MvZS3TVfv4DZL9W2pT12po384aBHf7wi89KXQ9Z7uwW',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'Pearce C9',
+        param: 'pearcec9',
+        image: ``,
+        mint: '5f1jUARhtSypVA4uTpgpLp76WYGdB2dGr8zMbh4WjYRf',
+        class: 'capital',
+        atlasOnly: false
+    },
+    {
+        name: 'Pearce D9',
+        param: 'pearced9',
+        image: ``,
+        mint: 'H3cgBXWpUiNsYjUWS7cNR5Bmehh7k5CgpJccc5wSfRbJ',
+        class: 'capital',
+        atlasOnly: false
+    },
+    {
+        name: 'Pearce C11',
+        param: 'pearcec11',
+        image: ``,
+        mint: '9ifQ16N5DdUFoejCwsgR73ihUwadAe3srCo9HhQe2zL2',
+        class: 'commander',
+        atlasOnly: false
+    },
+    {
         name: 'Rainbow Chi',
         param: 'rainbowchi',
         image: `https://shdw-drive.genesysgo.net/${ shdwStorageAcct }/chi.png`,
         mint: 'DsJHgpnNovjJ981QJJnqMggexAekNawbSavfV1QuTpis',
         class: 'small',
+        atlasOnly: false
+    },
+    {
+        name: 'Rainbow Om',
+        param: 'rainbowom',
+        image: ``,
+        mint: 'HzBx8PP86pyPrrboTHqPYWhxnEB5vXDHDBP8femWfPTS',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'Rainbow Arc',
+        param: 'rainbowarc',
+        image: ``,
+        mint: 'EbLBLN44BVLjifLNBbchXFr8QjEkAGYENKuNEaDuyVPL',
+        class: 'large',
         atlasOnly: false
     },
     {
@@ -229,6 +301,14 @@ export const assets: AssetMetadata[] = [
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/OpalLogo.png`,
         mint: 'RaYfM1RLfxQJWF8RZravTshKj1aHaWBNXF94VWToY9n',
         class: 'small',
+        atlasOnly: false
+    },
+    {
+        name: 'Opal Bitboat',
+        param: 'opalbitboat',
+        image: ``,
+        mint: '8pPDsMNcz4m8jaajFMFXHGcvaeVeiQhcenvSD6a4XNyq',
+        class: 'large',
         atlasOnly: false
     },
     {
@@ -288,6 +368,14 @@ export const assets: AssetMetadata[] = [
         atlasOnly: false
     },
     {
+        name: 'Calico Guardian',
+        param: 'calicoguardian',
+        image: ``,
+        mint: 'DdpXnnYsyUQgJby8TDHbmPwkKyGF4U6bXwCXTQZsrfKP',
+        class: 'capital',
+        atlasOnly: false
+    },
+    {
         name: 'Fimbul Lowbie',
         param: 'fimbullowbie',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/fimbullowbie.png`,
@@ -312,11 +400,91 @@ export const assets: AssetMetadata[] = [
         atlasOnly: false
     },
     {
+        name: 'Fimbul ECOS Greenader',
+        param: 'fimbulecosgreenader',
+        image: ``,
+        mint: 'FpwV1Da6BZJnYPr1JSLUm14UwBmZHA7J5WLY4TXgbde8',
+        class: 'large',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul ECOS Bombarella',
+        param: 'fimbulecosbombarella',
+        image: ``,
+        mint: '7M6RHgPiHXiZAin5ManH63cLYGt3miQ54KaGynUQoERS',
+        class: 'capital',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul ECOS Treearrow',
+        param: 'fimbulecostreearrow',
+        image: ``,
+        mint: 'HqPN13pLUVJRiuGSsKjfWZvGKAagK98PshuKu51bnG4E',
+        class: 'commander',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul Sledbarge',
+        param: 'fimbulsledbarge',
+        image: ``,
+        mint: 'SLEDkN916vvcpucY9Vn7tAzNXRcxsq71kkXzaj1cxoX',
+        class: 'capital',
+        atlasOnly: false
+    },
+    {
         name: 'Fimbul BYOS Earp',
         param: 'fimbulyosearp',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/earp.png`,
         mint: '6SqLuwHNRC1qjo9KATLKJLszFHMWyYaNxDXraCEUtfdR',
         class: 'small',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul BYOS Butch',
+        param: 'fimbulbyosbutch',
+        image: ``,
+        mint: 'BBUTCn3jcXKjFYuuYtY8MNo8bDg9VsZaKwaSYnRr2Qse',
+        class: 'large',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul BYOS Packlite',
+        param: 'fimbulbyospacklite',
+        image: ``,
+        mint: '7V9C2XUQgCb31n7hGKqKGu4ENcvqXhJLJzU77CAQtXhw',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul BYOS Ranger',
+        param: 'fimbulbyosranger',
+        image: ``,
+        mint: 'RNGRjeGyFeyFT4k5aTJXKZukVx3GbG215fcSQJxg64G',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul BYOS Tankship',
+        param: 'fimbulbyostankship',
+        image: ``,
+        mint: '4ns3shP4WunCtJbr2HFu31RjjxSJxDymEFcBZxiHr11s',
+        class: 'commander',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul Mamba',
+        param: 'fimbulmamba',
+        image: ``,
+        mint: '6Zj61HuX1E7SCUCf9WsKXw1jdJCobAwK4RSjZvbv35tM',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'Fimbul Mamba EX',
+        param: 'fimbulmambaex',
+        image: ``,
+        mint: 'MEXfyQHowwqoTHsN6yjfeXVaxZxALUFJAHuzY8gFiUu',
+        class: 'medium',
         atlasOnly: false
     },
     {
@@ -344,6 +512,38 @@ export const assets: AssetMetadata[] = [
         atlasOnly: false
     },
     {
+        name: 'Ogrika Tursic',
+        param: 'ogrikatursic',
+        image: ``,
+        mint: 'J8Q6jYsrhhaeczyPBo9xzVyy4GpfCnJwj14LJn2HnuKp',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'Ogrika Thripid',
+        param: 'ogrikathripid',
+        image: ``,
+        mint: 'CWxNX9sTexuqvQefqskhP9f6AP5C8hq2VNkicRseqAT5',
+        class: 'large',
+        atlasOnly: false
+    },
+    {
+        name: 'Ogrika Sunpaa',
+        param: 'ogrikasunpaa',
+        image: ``,
+        mint: '4b4mhSySBcryzBPamw8v4xeneFRA6xTUA4JA99w6vqey',
+        class: 'large',
+        atlasOnly: false
+    },
+    {
+        name: 'Ogrika Jod Asteris',
+        param: 'ogrikajodasteris',
+        image: ``,
+        mint: 'HJBmBYyGR8z1oajAM4jiK46uobuxeJoKDYpFwzWHBvhb',
+        class: 'capital',
+        atlasOnly: false
+    },
+    {
         name: 'VZUS solos',
         param: 'vzussolos',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/vzussolos.png`,
@@ -357,6 +557,22 @@ export const assets: AssetMetadata[] = [
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/ambwe.png`,
         mint: 'H2jHqvXA2oxSpEp6dKkpK7WeszQEdFW5n25mNfrJFAc1',
         class: 'small',
+        atlasOnly: false
+    },
+    {
+        name: 'VZUS opod',
+        param: 'vzusopod',
+        image: ``,
+        mint: '9czEqEZ4EkRt7N3HWDcw9qqwys3xRRjGdbn8Jhk8Khwj',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'VZUS ballad',
+        param: 'vzusballad',
+        image: ``,
+        mint: 'FFkPvwLDYuKDW9eAAr5UNfuX3U9PcTGeSk7gqNX7EpNc',
+        class: 'capital',
         atlasOnly: false
     },
     {
