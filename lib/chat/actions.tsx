@@ -31,6 +31,8 @@ import { Blink } from '@/components/marketplace/Blink'
 import { BlinkSkeleton } from '@/components/marketplace/BlinkSkeleton'
 import { Lore } from '@/components/lore/Lore'
 import { LoreSkeleton } from '@/components/lore/LoreSkeleton'
+import { AssetAnalysis } from '@/components/assets/analysis/AssetAnalysis'
+import { AssetAnalysisSkeleton } from '@/components/assets/analysis/AssetAnalysisSkeleton'
 import {
   formatNumber,
   runAsyncFnWithoutBlocking,
@@ -151,6 +153,8 @@ async function submitUserMessage(content: string) {
     If the user has an Order ID and wants to generate a blink, call \`create_blink\` to show the blink URL.
     If the user wants to know lore about Star Atlas or the Galia Expanse, call \`get_lore\` This includes, but isn't limited to character backstory, 
       history, factions, and the lore of the Galia Expanse.
+    If a user wants an asset analysis for a particular asset in the Galactic Marketplace, call \`get_asset_analysis\`. This provides them with the
+      Scarcity Score and the Galactic Demand Index (GDI) for that asset.  
     If you want to show trending stocks, call \`list_stocks\`.
     If you want to show events, call \`get_events\`.
     If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
@@ -352,6 +356,58 @@ async function submitUserMessage(content: string) {
               </BotCard>
           )
         }
+      },
+      getAssetAnalysis: {
+        description: 'Get the Galactic Demand Index and Scarcity Score of an asset.',
+        parameters: z.object({
+          assetName: z.string().describe('The name of the asset'),
+        }),
+        generate: async function* ({ assetName }) {
+          yield (
+            <BotCard>
+              <AssetAnalysisSkeleton />
+            </BotCard>
+          )
+
+          await sleep( 1000 )
+          const toolCallId = nanoid()
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'getAssetAnalysis',
+                    toolCallId,
+                    args: { assetName }
+                  }
+                ]
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'getAssetAnalysis',
+                    toolCallId,
+                    result: assetName
+                  }
+                ]
+              }
+            ]
+          })
+
+          return (
+              <BotCard>
+                <AssetAnalysis asset={assetName}/>
+              </BotCard>
+          )}
       },
       listStocks: {
         description: 'List three imaginary stocks that are trending.',

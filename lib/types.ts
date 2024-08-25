@@ -1,6 +1,20 @@
 import { CoreMessage } from 'ai'
 import { OrderSide } from "@staratlas/factory";
-import { InferIdType, WithId } from 'mongodb';
+import { WithId } from 'mongodb';
+
+export interface StarRating {
+  totalBuyQuantity?: number;
+  totalSellQuantity?: number;
+  totalBuyPrice?: number;
+  totalSellPrice?: number;
+  lowestSellPrice?: number;
+  averageSellPrice?: number;
+  demandRating?: number;
+  priceCompetitivenessRating?: number;
+  starRating?: number;
+  classLiquidity?: number;
+  volumeRating?: number;
+}
 
 export interface TabProps {
   tabOne: string;
@@ -37,6 +51,12 @@ export type MembershipSubscriptionWithoutId = Omit<MembershipSubscriptionDocumen
 
 export type Message = CoreMessage & {
   id: string
+}
+
+export interface ExamplePrompts {
+  heading: string;
+  subheading: string;
+  message: string;
 }
 
 export interface Chat extends Record<string, any> {

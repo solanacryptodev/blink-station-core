@@ -94,12 +94,12 @@ export const formatQuantity = (quantity: number | string): string => {
   const numericQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
 
   // Check if the parsed number is valid
-  if (isNaN(numericQuantity)) {
-    throw new Error('Invalid input: quantity must be a number or a numeric string');
-  }
+  // if (isNaN(numericQuantity)) {
+  //   throw new Error('Invalid input: quantity must be a number or a numeric string');
+  // }
 
   // Format the number with comma separators and no decimal places
-  return numericQuantity.toLocaleString('en-US', {
+  return numericQuantity?.toLocaleString('en-US', {
     maximumFractionDigits: 0,
     useGrouping: true
   });
@@ -120,6 +120,41 @@ export const removeDecimal = (num: number) => {
   }
   // Otherwise, combine the parts without the decimal point
   return integerPart + fractionalPart;
+}
+
+export function formatAtlasNumber(number: BN): string {
+  const ATLAS_DECIMALS = 8;
+  const ATLAS_DECIMAL_FACTOR = new BN(10).pow(new BN(ATLAS_DECIMALS));
+
+  // Check if the number is too large for safe conversion to a regular number
+  if (number.div(ATLAS_DECIMAL_FACTOR).gte(new BN(Number.MAX_SAFE_INTEGER))) {
+    // For very large numbers, format directly as a string
+    const wholePart = number.div(ATLAS_DECIMAL_FACTOR).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const fractionalPart = number.mod(ATLAS_DECIMAL_FACTOR).toString().padStart(ATLAS_DECIMALS, '0').slice(0, 2);
+    return `${wholePart}.${fractionalPart}`;
+  }
+
+  // For smaller numbers, proceed with the original implementation
+  const convertedNumber = number.div(ATLAS_DECIMAL_FACTOR).toNumber() +
+      number.mod(ATLAS_DECIMAL_FACTOR).toNumber() / ATLAS_DECIMAL_FACTOR.toNumber();
+
+  if (convertedNumber < 0.01) {
+    return convertedNumber.toFixed(4);
+  }
+
+  if (convertedNumber < 1000) {
+    return convertedNumber.toFixed(2);
+  }
+
+  return convertedNumber.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+export function parseFormattedNumber(formattedNumber: string): number {
+  // Remove thousand separators and parse the string to a float
+  return parseFloat(formattedNumber.replace(/,/g, ''));
 }
 
 export function cn(...inputs: ClassValue[]) {

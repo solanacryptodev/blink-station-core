@@ -5,6 +5,7 @@ import { PlayerStore } from "@/stores/PlayerStore";
 import { WalletStore } from '@/stores/WalletStore';
 import { SubscriptionStore } from "@/stores/SubscriptionStore";
 import { MusicStore } from "@/stores/MusicStore";
+import { DataStore } from "@/stores/DataStore";
 
 @singleton()
 export class RootStore {
@@ -13,18 +14,21 @@ export class RootStore {
     playerStore: PlayerStore;
     subscriptionStore: SubscriptionStore;
     musicStore: MusicStore;
+    dataStore: DataStore;
 
     constructor() {
         this.walletStore = new WalletStore();
         this.playerStore = new PlayerStore(this);
         this.subscriptionStore = new SubscriptionStore(this);
         this.musicStore = new MusicStore(this);
+        this.dataStore = new DataStore(this);
 
         makeObservable(this, {
             walletStore: observable,
             playerStore: observable,
             subscriptionStore: observable,
             musicStore: observable,
+            dataStore: observable
         })
     }
 
@@ -40,6 +44,7 @@ export class RootStore {
         await Promise.all([
             this.walletStore.initialize(),
             this.subscriptionStore.initializeDatabase(),
+            this.dataStore.initialize()
         ])
         this.musicStore.initializeAudio();
 

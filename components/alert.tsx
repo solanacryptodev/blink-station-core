@@ -4,13 +4,21 @@ import { autorun } from "mobx";
 import { toast } from "sonner";
 import { useEffect, FunctionComponent } from "react";
 
-export const Alert: FunctionComponent<{alertMessage?: string}> = observer(({alertMessage}: {alertMessage?: string}) => {
+interface AlertProps {
+    alertMessageOne?: string
+    alertMessageTwo?: string
+}
+
+export const Alert: FunctionComponent<AlertProps> = observer(({alertMessageOne, alertMessageTwo}: AlertProps) => {
     const playerPresenter = PlayerPresenter.getInstance();
 
     useEffect(() => {
         const disposer = autorun(() => {
             if (playerPresenter.isConnected && playerPresenter.playerName?.length! > 0) {
-                toast.success(`${alertMessage} ${playerPresenter.playerName}!`);
+                toast.success(`${alertMessageOne} ${playerPresenter.playerName}! ${alertMessageTwo}`, {
+                    richColors: true,
+                    duration: 5000,
+                });
             }
         });
 

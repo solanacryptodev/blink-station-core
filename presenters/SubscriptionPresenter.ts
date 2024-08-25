@@ -117,7 +117,10 @@ export class SubscriptionPresenter {
                 chatLogs: []
             }
             const added = await this.rootStore.subscriptionStore.addSubscription( subscription )
-            if (added) toast.success('Account created.');
+            if (added) toast.success('Account created.', {
+                richColors: true,
+                duration: 5000
+            });
         } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
         }

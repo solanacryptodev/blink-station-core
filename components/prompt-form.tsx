@@ -73,7 +73,7 @@ export const PromptForm = observer(({
         // console.log('value and response...', value)
         // console.log('tokenized values...', tokenizeString(value));
         const tokens = tokenizeString(value);
-        await subscriptionPresenter.deductFromTokenCount(tokens)
+        await subscriptionPresenter.deductFromTokenCount(tokens * 150);
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
