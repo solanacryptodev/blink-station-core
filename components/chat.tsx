@@ -69,7 +69,7 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
-      <Alert alertMessage='Welcome to Blink Station 10' />
+      <Alert alertMessageOne='Welcome to Blink Station 10' alertMessageTwo='Account Validation Initiated...' />
       <div
         className={cn('pb-[200px] pt-4 md:pt-10', className)}
         ref={messagesRef}

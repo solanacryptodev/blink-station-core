@@ -8,15 +8,12 @@ import {
 import { RootStore } from "@/stores/RootStore";
 
 export class DataStore {
-    private static instance: DataStore | null = null;
     rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
 
-        makeObservable(this, {
-
-        })
+        makeObservable(this, {})
     }
 
     async initialize() {

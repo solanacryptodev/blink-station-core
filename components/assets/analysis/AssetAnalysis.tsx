@@ -4,16 +4,18 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
 import * as React from "react";
+import { Tooltip } from 'react-tooltip';
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/lib/types";
 import { AssetPresenter } from "@/presenters/AssetPresenter";
 import { formatQuantity } from "@/lib/utils";
-import { AssetMetadata, assets } from "@/lib/metadata";
+import { assets } from "@/lib/metadata";
+import { AssetAnalysisSkeleton } from "@/components/assets/analysis/AssetAnalysisSkeleton";
 
 export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asset}: {asset: string}) => {
     const assetPresenter = AssetPresenter.getInstance();
     const [selectedCurrency, setSelectedCurrency] = useState<'USDC' | 'ATLAS'>('ATLAS');
-    const [item, setItem] = useState<StarRating[]>([]);
+    const [assetData, setIAssetData] = useState<StarRating | null>(null);
     const [image, setImage] = useState('');
     const [isAtlasOnly, setIsAtlasOnly] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,9 +26,10 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
             setIsLoading(true);
             setError(null);
             try {
-                const fetchedOrders = await assetPresenter.fetchAssetData(asset.toLowerCase(), selectedCurrency);
+                await assetPresenter.fetchAssetData(asset.toLowerCase(), selectedCurrency);
+                const fetchedData = assetPresenter.assetData[0];
+                setIAssetData(fetchedData!);
                 const foundAsset = assets.find((_asset) => _asset.name.toLowerCase() === asset.toLowerCase())!;
-                setItem(fetchedOrders!);
                 if (foundAsset?.atlasOnly === true) {
                     setIsAtlasOnly(true)
                 } else {
@@ -45,24 +48,40 @@ export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asse
         fetchOrders();
     }, [asset, assetPresenter, selectedCurrency]);
 
+    if (!assetData) {
+        return <AssetAnalysisSkeleton />;
+    }
+
     const data = {
         USDC: {
-            starRating: formatQuantity(assetPresenter.assetData[0]?.starRating!),
-            totalBuyOrders: { amount: formatQuantity(item[0]?.totalBuyPrice!), quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
-            totalSellOrders: { amount: formatQuantity(item[0]?.totalSellPrice!), quantity: formatQuantity(item[0]?.totalSellQuantity!)},
-            volumeRating: 13270,
-            demandRating: formatQuantity(assetPresenter.assetData[0]?.demandRating!),
-            liquidityRating: formatQuantity(assetPresenter.assetData[0]?.classLiquidity!),
-            priceCompetitivenessRating: formatQuantity(assetPresenter.assetData[0]?.priceCompetitivenessRating!)
+            starRating: formatQuantity(assetData.starRating!),
+            totalBuyOrders: {
+                amount: formatQuantity(assetData.totalBuyPrice!),
+                quantity: formatQuantity(assetData.totalBuyQuantity!)
+            },
+            totalSellOrders: {
+                amount: formatQuantity(assetData.totalSellPrice!),
+                quantity: formatQuantity(assetData.totalSellQuantity!)
+            },
+            volumeRating: formatQuantity(assetData.volumeRating!),
+            demandRating: formatQuantity(assetData.demandRating!),
+            liquidityRating: formatQuantity(assetData.classLiquidity!),
+            priceCompetitivenessRating: formatQuantity(assetData.priceCompetitivenessRating!)
         },
         ATLAS: {
-            starRating: formatQuantity(assetPresenter.assetData[0]?.starRating!),
-            totalBuyOrders: { amount: formatQuantity(item[0]?.totalBuyPrice!), quantity: formatQuantity(item[0]?.totalBuyQuantity!)},
-            totalSellOrders: { amount: formatQuantity(item[0]?.totalSellPrice!), quantity: formatQuantity(item[0]?.totalSellQuantity!)},
-            volumeRating: 15000,
-            demandRating: formatQuantity(assetPresenter.assetData[0]?.demandRating!),
-            liquidityRating: formatQuantity(assetPresenter.assetData[0]?.classLiquidity!),
-            priceCompetitivenessRating: formatQuantity(assetPresenter.assetData[0]?.priceCompetitivenessRating!)
+            starRating: formatQuantity(assetData.starRating!),
+            totalBuyOrders: {
+                amount: formatQuantity(assetData.totalBuyPrice!),
+                quantity: formatQuantity(assetData.totalBuyQuantity!)
+            },
+            totalSellOrders: {
+                amount: formatQuantity(assetData.totalSellPrice!),
+                quantity: formatQuantity(assetData.totalSellQuantity!)
+            },
+            volumeRating: formatQuantity(assetData.volumeRating!),
+            demandRating: formatQuantity(assetData.demandRating!),
+            liquidityRating: formatQuantity(assetData.classLiquidity!),
+            priceCompetitivenessRating: formatQuantity(assetData.priceCompetitivenessRating!)
         }
     };
 

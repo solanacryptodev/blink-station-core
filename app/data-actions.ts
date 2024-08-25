@@ -17,6 +17,8 @@ const flipside = new Flipside(uri, 'https://api-v2.flipsidecrypto.xyz');
 
 export async function totalAssetExchanges(mint: string, currency: string): Promise<number> {
     let results = 0
+    console.log('exchange mint...', mint, 'exchange currency...', currency)
+
     try {
         const sql =
             `
@@ -28,7 +30,7 @@ export async function totalAssetExchanges(mint: string, currency: string): Promi
             WHERE
                 program_id = 'traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg'
                     AND succeeded = 'true'
-                    AND block_timestamp > '2024-08-20'                     
+                    AND block_timestamp > '2024-08-22'                     
                     AND INNER_INSTRUCTION:instructions[4]:parsed:type = 'transferChecked'
                     AND INNER_INSTRUCTION:instructions[4]:parsed:info:mint = '${mint}'
                     AND INNER_INSTRUCTION:instructions[2]:parsed:info:mint = '${currency}'                
@@ -68,18 +70,24 @@ export async function totalAssetExchanges(mint: string, currency: string): Promi
 
 export async function totalBuyAndSellQuantities(mint: string, currency: string): Promise<StarRating> {
     const orders = await retrieveOrders(mint);
+    const MINIMUM_VALID_PRICE = new BN(10).mul(new BN(10).pow(new BN(8))); // 10 ATLAS in lamports
 
     const filteredBuys = orders
-        .filter(order => order.orderType === 'buy' && order.currencyMint === currency)
-        .map(order => Number(order.orderQtyRemaining))
-
-    //console.log('buyQuantities...', filteredBuys);
+        .filter(order =>
+            order.orderType === 'buy' &&
+            order.currencyMint === currency &&
+            order.price.gte(MINIMUM_VALID_PRICE) // Use BN's greater than or equal to method
+        )
+        .map(order => Number(order.orderQtyRemaining));
 
     const filteredSells = orders
-        .filter(order => order.orderType === 'sell' && order.currencyMint === currency)
-        .map(order => Number(order.orderQtyRemaining))
+        .filter(order =>
+            order.orderType === 'sell' &&
+            order.currencyMint === currency
+        )
+        .map(order => Number(order.orderQtyRemaining));
 
-    // console.log('sellQuantities...', filteredSells);
+    console.log(`Filtered out ${orders.filter(order => order.orderType === 'buy').length - filteredBuys.length} unrealistic buy orders`);
 
     return {
         totalBuyQuantity: sum(filteredBuys),
@@ -88,23 +96,70 @@ export async function totalBuyAndSellQuantities(mint: string, currency: string):
 }
 
 export async function totalBuyAndSellPrices(mint: string, currency: string): Promise<StarRating> {
-    const orders = await retrieveOrders(mint);
+    try {
+        console.log(`Fetching orders for mint: ${mint}, currency: ${currency}`);
+        const orders = await retrieveOrders(mint);
+        // console.log(`Retrieved ${orders.length} orders`);
 
-    const filteredBuys = orders.filter(order => order.orderType === 'buy' && order.currencyMint === currency)
-    const formattedBuyPrices = filteredBuys
-        .filter(order => order.price)
-        .map(order => formatAtlasNumber(new BN(order.price * order.orderQtyRemaining)))
-   // console.log('formattedBuyPrices...', formattedBuyPrices);
+        const filteredBuys = orders.filter(order => order.orderType === 'buy' && order.currencyMint === currency);
+        // console.log(`Filtered ${filteredBuys.length} buy orders`);
 
-    const filteredSells = orders.filter(order => order.orderType === 'sell' && order.currencyMint === currency)
-    const formattedSellPrices = filteredSells
-        .filter(order => order.price)
-        .map(order => formatAtlasNumber(new BN(order.price * order.orderQtyRemaining)))
-    //console.log('formattedSellPrices...', formattedSellPrices);
+        const formattedBuyPrices = filteredBuys
+            .filter(order => {
+                if (order.price == null || order.orderQtyRemaining == null) {
+                    // console.log(`Skipping buy order due to null values:`, order);
+                    return false;
+                }
+                return true;
+            })
+            .map(order => {
+                try {
+                    const price = new BN(order.price).mul(new BN(order.orderQtyRemaining));
+                    return formatAtlasNumber(price);
+                } catch (error) {
+                    console.error(`Error creating BN for buy order:`, order, error);
+                    return null;
+                }
+            })
+            .filter(price => price !== null);
+        // console.log(`Formatted ${formattedBuyPrices.length} buy prices`);
 
-    return {
-        totalBuyPrice: sum(formattedBuyPrices.map(parseFormattedNumber)),
-        totalSellPrice: sum(formattedSellPrices.map(parseFormattedNumber))
+        const filteredSells = orders.filter(order => order.orderType === 'sell' && order.currencyMint === currency);
+        // console.log(`Filtered ${filteredSells.length} sell orders`);
+
+        const formattedSellPrices = filteredSells
+            .filter(order => {
+                if (order.price == null || order.orderQtyRemaining == null) {
+                    console.log(`Skipping sell order due to null values:`, order);
+                    return false;
+                }
+                return true;
+            })
+            .map(order => {
+                try {
+                    // console.log(`Processing sell order: price=${order.price}, quantity=${order.orderQtyRemaining}`);
+                    const price = new BN(order.price).mul(new BN(order.orderQtyRemaining));
+                    return formatAtlasNumber(price);
+                } catch (error) {
+                    console.error(`Error creating BN for sell order:`, order, error);
+                    return null;
+                }
+            })
+            .filter(price => price !== null);
+        // console.log(`Formatted ${formattedSellPrices.length} sell prices`);
+
+        const totalBuyPrice = sum(formattedBuyPrices.map(price => parseFormattedNumber(price!)));
+        const totalSellPrice = sum(formattedSellPrices.map(price => parseFormattedNumber(price!)));
+
+        console.log(`Total buy price: ${totalBuyPrice}, Total sell price: ${totalSellPrice}`);
+
+        return {
+            totalBuyPrice,
+            totalSellPrice
+        };
+    } catch (error) {
+        console.error('Error in totalBuyAndSellPrices:', error);
+        throw error;
     }
 }
 

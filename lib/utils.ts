@@ -123,24 +123,29 @@ export const removeDecimal = (num: number) => {
 }
 
 export function formatAtlasNumber(number: BN): string {
-  const ATLAS_DECIMALS = 8; // Adjust this if ATLAS uses a different number of decimal places
+  const ATLAS_DECIMALS = 8;
   const ATLAS_DECIMAL_FACTOR = new BN(10).pow(new BN(ATLAS_DECIMALS));
 
-  // Convert the BN to a regular number with the correct decimal places
+  // Check if the number is too large for safe conversion to a regular number
+  if (number.div(ATLAS_DECIMAL_FACTOR).gte(new BN(Number.MAX_SAFE_INTEGER))) {
+    // For very large numbers, format directly as a string
+    const wholePart = number.div(ATLAS_DECIMAL_FACTOR).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const fractionalPart = number.mod(ATLAS_DECIMAL_FACTOR).toString().padStart(ATLAS_DECIMALS, '0').slice(0, 2);
+    return `${wholePart}.${fractionalPart}`;
+  }
+
+  // For smaller numbers, proceed with the original implementation
   const convertedNumber = number.div(ATLAS_DECIMAL_FACTOR).toNumber() +
       number.mod(ATLAS_DECIMAL_FACTOR).toNumber() / ATLAS_DECIMAL_FACTOR.toNumber();
 
-  // Handle very small numbers
   if (convertedNumber < 0.01) {
     return convertedNumber.toFixed(4);
   }
 
-  // For numbers less than 1000, show up to 2 decimal places
   if (convertedNumber < 1000) {
     return convertedNumber.toFixed(2);
   }
 
-  // For larger numbers, use toLocaleString for thousand separators and 2 decimal places
   return convertedNumber.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
