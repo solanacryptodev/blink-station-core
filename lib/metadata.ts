@@ -140,112 +140,136 @@ export const assets: AssetMetadata[] = [
         param: 'armstrongimptip',
         image: ``,
         mint: 'DTbNmLWfu1pm4AuXRKYTApnDNfxMz73VET7nW5wizG5t',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Busan Thrill of Life',
         param: 'busanthrilloflife',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/thrilloflife.png`,
         mint: 'FTk1E5UoWkiZEUttCWSYYaVokxWNNp3yJ42HbNDCAkdt',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Pearce X4',
         param: 'pearcex4',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/pearceX4.png`,
         mint: '2iMhgB4pbdKvwJHVyitpvX5z1NBNypFonUgaSAt9dtDt',
-        class: 'xx-small'
+        class: 'xx-small',
+        atlasOnly: false
     },
     {
         name: 'Pearce X5',
         param: 'pearcex5',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/pearcex5.png`,
         mint: '267DbhCypYzvTqv72ZG5UKHeFu56qXFsuoz3rw832eC5',
-        class: 'x-small'
+        class: 'x-small',
+        atlasOnly: false
     },
     {
         name: 'Pearce R8',
         param: 'pearcer8',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/pearcer8.png`,
         mint: '2bCgKTo11QayWBy6QryHZMqZL2ZgWd5LEAZKiTGQi4g7',
-        class: 'large'
+        class: 'large',
+        atlasOnly: false
     },
     {
         name: 'Pearce X6',
         param: 'pearcex6',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/pearcex6.png`,
         mint: '8RveLFEyteyL1vbCKPQJxjf3JT1ACyrzs46TXbJStrHG',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Pearce R6',
         param: 'pearcer6',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/pearcer6.png`,
         mint: 'Fys8J53cquYsg5zYfeZStVGNwM9FopFw8QFkiE9CCR1J',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Rainbow Chi',
         param: 'rainbowchi',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${ shdwStorageAcct }/chi.png`,
         mint: 'DsJHgpnNovjJ981QJJnqMggexAekNawbSavfV1QuTpis',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Tufa Feist',
         param: 'tufafeist',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/tufafeist.png`,
         mint: 'HsdbLvZrEgN2ZhsrZs5ag4F2FNFCHjjuXPfbVAhkeJBZ',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Opal Jet',
         param: 'opaljet',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/opaljet.png`,
         mint: 'Ev3xUhc1Leqi4qR2E5VoG9pcxCvHHmnAaSRVPg485xAT',
-        class: 'xx-small'
+        class: 'xx-small',
+        atlasOnly: false
     },
     {
         name: 'Opal Jetjet',
         param: 'opaljetjet',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/opaljetjet.png`,
         mint: '9ABNesWj7NVdkDgko7UjVaDp5pTh8a6wfXHLWz3bZM6W',
-        class: 'x-small'
+        class: 'x-small',
+        atlasOnly: false
     },
     {
         name: 'Opal Rayfam',
         param: 'opalrayfam',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/OpalLogo.png`,
         mint: 'RaYfM1RLfxQJWF8RZravTshKj1aHaWBNXF94VWToY9n',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Calico Medtech',
         param: 'calicomedtech',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/Medtech.png`,
         mint: '4gR3ChfdQxR4BTbgeWSdf6b8kD8Ysu6WBAQqtJ9oLgbF',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Calico Shipit',
         param: 'calicoshipit',
         image: ``,
         mint: 'SHiPitEZcCoyXEKqw9ovCdYeNzck9uVbb1KCcsHaGhc',
-        class: 'small'
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Calico Scud',
         param: 'calicoscud',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicoscud.png`,
         mint: 'F3HitKsp52UPqBMEWSeTFqrGgnfYbS9DMrJCz9dM3w6D',
-        class: 'x-small'
+        class: 'x-small',
+        atlasOnly: false
     },
     {
         name: 'Calico ATS Enforcer',
         param: 'calicoatsenforcer',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicoatsenforcer.png`,
         mint: '2XYd22LSFGxN7kWgoEeaXVZqgrsPeQLHLEgNhnS12Mny',
-        class: 'medium'
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
+        name: 'Calico Compakt Hero',
+        param: 'calicocompakthero',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicocompakthero.png`,
+        mint: 'AkNbg12E9PatjkiAWJ3tAbM479gtcoA1gi6Joa925WKi',
+        class: 'medium',
+        atlasOnly: false
     },
     {
         name: 'Calico Maxhog',
@@ -258,7 +282,7 @@ export const assets: AssetMetadata[] = [
     {
         name: 'Fimbul Lowbie',
         param: 'fimbullowbie',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/fimbullowbie.png`,
         mint: '7Xs3yt9eJPuEexZrKSGVbQMXHwWUKHGeDZnM4ZksZmyS',
         class: 'x-small',
         atlasOnly: false
@@ -266,7 +290,7 @@ export const assets: AssetMetadata[] = [
     {
         name: 'Fimbul Airbike',
         param: 'fimbulairbike',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/fimbulairbike.png`,
         mint: 'Fw8PqtznYtg4swMk7Yjj89Tsj23u5CJLfW5Bk8ro4G1s',
         class: 'xx-small',
         atlasOnly: false
@@ -274,7 +298,7 @@ export const assets: AssetMetadata[] = [
     {
         name: 'Fimbul ECOS Unibomba',
         param: 'fimbulecosunibomba',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/unibomba.png`,
         mint: '9zrgra3XQkZPt8XNs4fowbqmj7B8bBx76aEmsKSnm9BW',
         class: 'xx-small',
         atlasOnly: false
@@ -282,13 +306,15 @@ export const assets: AssetMetadata[] = [
     {
         name: 'Fimbul BYOS Earp',
         param: 'fimbulyosearp',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/earp.png`,
         mint: '6SqLuwHNRC1qjo9KATLKJLszFHMWyYaNxDXraCEUtfdR',
+        class: 'small',
+        atlasOnly: false
     },
     {
         name: 'Ogrika Ruch',
         param: 'ogrikaruch',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/OgrikaLogo.png`,
         mint: 'RUCHH4AcvodBcndmcT17KUBbd5ee5LQtmpsfvBVNnPH',
         class: 'xx-small',
         atlasOnly: false
@@ -296,7 +322,7 @@ export const assets: AssetMetadata[] = [
     {
         name: 'Ogrika Niruch',
         param: 'ogrikaniruch',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/OgrikaLogo.png`,
         mint: '7SUoWHWWJCxCe5g9XqZkCRufGHXRV8nauuz69HPjuewr',
         class: 'x-small',
         atlasOnly: false
@@ -304,7 +330,7 @@ export const assets: AssetMetadata[] = [
     {
         name: 'Ogrika Mik',
         param: 'ogrikamik',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${ shdwStorageAcct }/mik.png`,
         mint: 'FMHHwUB6amLWYhWxtiZHC2g5azy9usPTLMq46N3HEgFU',
         class: 'small',
         atlasOnly: false
@@ -312,7 +338,7 @@ export const assets: AssetMetadata[] = [
     {
         name: 'VZUS solos',
         param: 'vzussolos',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/vzussolos.png`,
         mint: 'HjFijcGWKgfDwGpFX2rqFwEU9jtEgFuRQAJe1ERXFsA3',
         class: 'xx-small',
         atlasOnly: false
@@ -320,7 +346,7 @@ export const assets: AssetMetadata[] = [
     {
         name: 'VZUS ambwe',
         param: 'vzusambwe',
-        image: ``,
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/ambwe.png`,
         mint: 'H2jHqvXA2oxSpEp6dKkpK7WeszQEdFW5n25mNfrJFAc1',
         class: 'small',
         atlasOnly: false
