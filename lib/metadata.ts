@@ -256,6 +256,14 @@ export const assets: AssetMetadata[] = [
         atlasOnly: false
     },
     {
+        name: 'Calico Evac',
+        param: 'calicoevac',
+        image:  ``,
+        mint: '4txpjHspP4usEsQTr3AcrpyHVjN4fi3d4taM6cmKJnd1',
+        class: 'medium',
+        atlasOnly: false
+    },
+    {
         name: 'Calico ATS Enforcer',
         param: 'calicoatsenforcer',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/calicoatsenforcer.png`,
