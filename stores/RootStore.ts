@@ -46,6 +46,6 @@ export class RootStore {
             this.subscriptionStore.initializeDatabase(),
             this.dataStore.initialize()
         ])
-        this.musicStore.initializeAudio();
+        // this.musicStore.initializeAudio();
     }
 }

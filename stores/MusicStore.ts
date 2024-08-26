@@ -45,6 +45,7 @@ export class MusicStore {
             play: action.bound,
             pause: action.bound,
             handleTimeUpdate: action.bound,
+            handleLoadedMetadata: action.bound,
             initializeAudio: action.bound,
 
             currentSong: computed,
@@ -54,17 +55,13 @@ export class MusicStore {
 
     initializeAudio(): void {
         console.log('Music Store Initialized', window);
-        if ( typeof window !== 'undefined' ) {
             this.audio = new Audio(this.songs[this.currentSongIndex].url);
-            this.audio.play().then()
-            console.log('Audio object created:', this.audio);
+            this.audio.id = 'audio';
             this.audio.addEventListener('loadstart', this.loadSong);
             this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
             this.audio.addEventListener('loadedmetadata', this.handleLoadedMetadata);
             this.audio.addEventListener('ended', this.handleEnded);
             this.audio.volume = 0.5;
-            this.autoplay && this.audio.autoplay;
-        }
     }
 
     handleTimeUpdate = () => {
@@ -83,11 +80,17 @@ export class MusicStore {
         await this.nextSong();
     }
 
-    async play(): Promise<void> {
+    play() {
         console.log('audio...', this.audio);
         if (this.audio) {
-            await this.audio.play();
-            this.isPlaying = true;
+            this.audio.play().then(
+                () => {
+                    this.isPlaying = true;
+                },
+                (error) => {
+                    console.error('Failed to play audio:', error);
+                }
+            );
         }
     }
 

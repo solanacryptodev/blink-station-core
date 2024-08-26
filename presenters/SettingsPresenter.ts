@@ -23,7 +23,8 @@ export class SettingsPresenter {
             currentSong: computed,
             songs: computed,
             currentTime: computed,
-            duration: computed
+            duration: computed,
+            audio: computed
         })
     }
 
@@ -66,12 +67,20 @@ export class SettingsPresenter {
         return this.rootStore.musicStore.duration;
     }
 
+    get audio(): HTMLAudioElement {
+        return this.rootStore.musicStore.audio!;
+    }
+
     activateSettingsModal( display: boolean ): void {
         this.settingsModal = display;
     }
 
     setProgress(value: number): void {
         this.rootStore.musicStore.setProgress(value);
+    }
+
+    initialize(): void {
+        this.rootStore.musicStore.initializeAudio();
     }
 
     async previousSong(): Promise<void> {
@@ -82,8 +91,8 @@ export class SettingsPresenter {
         this.rootStore.musicStore.pause();
     }
 
-    async play(): Promise<void> {
-        await this.rootStore.musicStore.play();
+    play() {
+        this.rootStore.musicStore.play();
     }
 
    async nextSong(): Promise<void> {
