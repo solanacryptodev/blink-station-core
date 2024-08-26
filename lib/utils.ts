@@ -122,6 +122,17 @@ export const removeDecimal = (num: number) => {
   return integerPart + fractionalPart;
 }
 
+export function formatUSDCPrice(price: BN): number {
+  // USDC has 6 decimal places
+  const usdcDecimals = 6;
+  const divisor = new BN(10).pow(new BN(usdcDecimals));
+  const integerPart = price.div(divisor);
+  const fractionalPart = price.mod(divisor);
+
+  // Format as a float with 2 decimal places
+  return parseFloat(`${integerPart.toString()}.${fractionalPart.toString().padStart(usdcDecimals, '0').slice(0, 2)}`);
+}
+
 export function formatAtlasNumber(number: BN): string {
   const ATLAS_DECIMALS = 8;
   const ATLAS_DECIMAL_FACTOR = new BN(10).pow(new BN(ATLAS_DECIMALS));

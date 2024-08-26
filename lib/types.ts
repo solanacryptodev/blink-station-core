@@ -14,6 +14,9 @@ export interface StarRating {
   starRating?: number;
   classLiquidity?: number;
   volumeRating?: number;
+  totalTradingVolume?: number;
+  averageClassBuyPrice?: number;
+  averageClassVolume?: number;
 }
 
 export interface TabProps {

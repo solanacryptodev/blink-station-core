@@ -6,12 +6,15 @@ import {
     lowestCurrentPrice,
     averageSellPrice } from '@/app/data-actions';
 import { RootStore } from "@/stores/RootStore";
+import NodeCache from "node-cache";
 
 export class DataStore {
+    private cache: NodeCache;
     rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
+        this.cache = new NodeCache({ stdTTL: 600 });
 
         makeObservable(this, {})
     }
@@ -38,7 +41,21 @@ export class DataStore {
     }
 
     async totalAssetExchanges(mint: string, currency: string) {
-        return await totalAssetExchanges(mint, currency);
+        const cacheKey = `totalAssetExchanges-${mint}-${currency}`;
+        const cachedResult = this.cache.get<number>(cacheKey);
+
+        if (cachedResult !== undefined) {
+            return cachedResult;
+        }
+
+        try {
+            const result = await totalAssetExchanges(mint, currency);
+            this.cache.set(cacheKey, result);
+            return result;
+        } catch (error) {
+            console.error('Error in DataStore.totalAssetExchanges:', error);
+            throw error;
+        }
     }
 
     async averageSellPrice(mint: string, currency: string) {

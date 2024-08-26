@@ -1,193 +1,174 @@
 'use client'
 
-import { FunctionComponent, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { observer } from "mobx-react-lite";
-import Image from "next/image";
-import * as React from "react";
-import { Tooltip } from 'react-tooltip';
-import { Button } from "@/components/ui/button";
 import { StarRating } from "@/lib/types";
 import { AssetPresenter } from "@/presenters/AssetPresenter";
-import { formatQuantity } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { assets } from "@/lib/metadata";
-import { AssetAnalysisSkeleton } from "@/components/assets/analysis/AssetAnalysisSkeleton";
+import { formatQuantity } from "@/lib/utils";
 
-export const AssetAnalysis: FunctionComponent<{asset: string}> = observer(({asset}: {asset: string}) => {
+export const AssetAnalysis = observer(({ asset }: { asset: string }) => {
     const assetPresenter = AssetPresenter.getInstance();
     const [selectedCurrency, setSelectedCurrency] = useState<'USDC' | 'ATLAS'>('ATLAS');
-    const [assetData, setIAssetData] = useState<StarRating | null>(null);
+    const [atlasData, setAtlasData] = useState<Partial<StarRating>>({});
+    const [usdcData, setUsdcData] = useState<Partial<StarRating> | null>(null);
     const [image, setImage] = useState('');
     const [isAtlasOnly, setIsAtlasOnly] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            setIsLoading(true);
-            setError(null);
-            try {
-                await assetPresenter.fetchAssetData(asset.toLowerCase(), selectedCurrency);
-                const fetchedData = assetPresenter.assetData[0];
-                setIAssetData(fetchedData!);
-                const foundAsset = assets.find((_asset) => _asset.name.toLowerCase() === asset.toLowerCase())!;
-                if (foundAsset?.atlasOnly === true) {
-                    setIsAtlasOnly(true)
+    const fetchData = useCallback(async (currency: 'ATLAS' | 'USDC') => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const updatePartialData = (partialData: Partial<StarRating>) => {
+                console.log('Received data update:', partialData);
+                if (currency === 'ATLAS') {
+                    setAtlasData(prevData => ({ ...prevData, ...partialData }));
                 } else {
-                    setIsAtlasOnly(false)
+                    setUsdcData(prevData => prevData ? { ...prevData, ...partialData } : partialData);
                 }
-                if ( foundAsset?.image.length > 0 ) {
-                    setImage(foundAsset?.image);
-                }
-            } catch (err) {
-                setError('No order found for this user in this market.');
-            } finally {
                 setIsLoading(false);
-            }
-        };
+            };
 
-        fetchOrders();
-    }, [asset, assetPresenter, selectedCurrency]);
+            await assetPresenter.fetchAssetData(asset.toLowerCase(), currency, updatePartialData);
+        } catch (err) {
+            console.error('Error in fetchData:', err);
+            setError(`Error fetching ${currency} data`);
+            setIsLoading(false);
+        }
+    }, [asset, assetPresenter]);
 
-    if (!assetData) {
-        return <AssetAnalysisSkeleton />;
-    }
+    useEffect(() => {
+        const foundAsset = assets.find((_asset) => _asset.name.toLowerCase() === asset.toLowerCase());
+        if (foundAsset) {
+            setIsAtlasOnly(!!foundAsset.atlasOnly);
+            setImage(foundAsset.image || '');
+        }
 
-    const data = {
-        USDC: {
-            starRating: formatQuantity(assetData.starRating!),
-            totalBuyOrders: {
-                amount: formatQuantity(assetData.totalBuyPrice!),
-                quantity: formatQuantity(assetData.totalBuyQuantity!)
-            },
-            totalSellOrders: {
-                amount: formatQuantity(assetData.totalSellPrice!),
-                quantity: formatQuantity(assetData.totalSellQuantity!)
-            },
-            volumeRating: formatQuantity(assetData.volumeRating!),
-            demandRating: formatQuantity(assetData.demandRating!),
-            liquidityRating: formatQuantity(assetData.classLiquidity!),
-            priceCompetitivenessRating: formatQuantity(assetData.priceCompetitivenessRating!)
-        },
-        ATLAS: {
-            starRating: formatQuantity(assetData.starRating!),
-            totalBuyOrders: {
-                amount: formatQuantity(assetData.totalBuyPrice!),
-                quantity: formatQuantity(assetData.totalBuyQuantity!)
-            },
-            totalSellOrders: {
-                amount: formatQuantity(assetData.totalSellPrice!),
-                quantity: formatQuantity(assetData.totalSellQuantity!)
-            },
-            volumeRating: formatQuantity(assetData.volumeRating!),
-            demandRating: formatQuantity(assetData.demandRating!),
-            liquidityRating: formatQuantity(assetData.classLiquidity!),
-            priceCompetitivenessRating: formatQuantity(assetData.priceCompetitivenessRating!)
+        // Only fetch ATLAS data initially
+        fetchData('ATLAS');
+    }, [asset, fetchData]);
+
+    const handleCurrencyChange = (currency: 'USDC' | 'ATLAS') => {
+        setSelectedCurrency(currency);
+        if (currency === 'USDC' && usdcData === null) {
+            fetchData('USDC');
         }
     };
 
-    const currentData = data[selectedCurrency];
+    const currentData = selectedCurrency === 'ATLAS' ? atlasData : (usdcData || {});
 
     return (
-        <>
-            <div className="container flex-col mx-auto bg-gradient-to-r from-[#18434D] via-neutral-900 to-[#18434D] shadow-lg rounded-lg overflow-hidden p-4">
-                <div className="flex flex-col items-center mb-4">
-                    <div className="flex space-x-2 mb-3">
-                        <Button
-                            disabled={ isAtlasOnly }
-                            onClick={ () => setSelectedCurrency( 'USDC' ) }
-                            variant={ selectedCurrency === 'USDC' ? 'default' : 'outline' }
-                        >
-                            USDC
-                        </Button>
-                        <Button
-                            onClick={ () => setSelectedCurrency( 'ATLAS' ) }
-                            variant={ selectedCurrency === 'ATLAS' ? 'default' : 'outline' }
-                        >
-                            ATLAS
-                        </Button>
-                    </div>
-                    <div className="text-2xl font-bold mb-1">{ asset.toUpperCase() }</div>
+        <div className="container flex-col mx-auto bg-gradient-to-r from-[#18434D] via-neutral-900 to-[#18434D] shadow-lg rounded-lg overflow-hidden p-4">
+            <div className="flex flex-col items-center mb-4">
+                <div className="flex space-x-2 mb-3">
+                    <Button
+                        disabled={isAtlasOnly}
+                        onClick={() => handleCurrencyChange('USDC')}
+                        variant={selectedCurrency === 'USDC' ? 'default' : 'outline'}
+                    >
+                        USDC
+                    </Button>
+                    <Button
+                        onClick={() => handleCurrencyChange('ATLAS')}
+                        variant={selectedCurrency === 'ATLAS' ? 'default' : 'outline'}
+                    >
+                        ATLAS
+                    </Button>
                 </div>
-
-                {/* TOP SECTION */ }
-                <div className="flex flex-col items-center mb-4">
-                    {/* Asset Image */ }
-                    <div className="flex items-center">
-                        { image?.length === 0 ? (
-                            <Image src='/blinkIcon.jpg' width={ 90 } height={ 90 } alt='Blink Station X icon.' className='rounded-full'/>
-                        ) : (
-                            <Image src={ image } width={130} height={130} alt='Blink Station X icon.' className='rounded-full' />
-                        )}
-                    </div>
-
-                    {/* Scarcity Score */ }
-                    <div className="text-center">
-                        <div className="flex text-xl text-yellow-700 font-bold">S.T.A.R. Rating</div>
-                    </div>
-
-                    {/* GDI Score */}
-                    <div className="text-center">
-                        <div className="text-yellow-700 text-xl">{currentData.starRating}</div>
-                    </div>
-                </div>
-
-                {/* MIDDLE SECTION */}
-                <div className="mb-4">
-                    {/* Total Buy/Sell Orders by Quantity */}
-                    <div className="flex flex-row justify-between items-center mb-3">
-                        <div className="flex flex-col items-start">
-                            <div className="font-bold text-lg">Total Buy Orders by Quantity</div>
-                            <div>{currentData.totalBuyOrders.quantity}</div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <div className="font-bold text-lg">Total Sell Orders by Quantity</div>
-                            <div>{currentData.totalSellOrders.quantity}</div>
-                        </div>
-                    </div>
-
-                    {/* Total Buy/Sell Orders by Dollar Amount */}
-                    <div className="flex flex-row justify-between items-center mb-3">
-                        <div className="flex flex-col items-start">
-                            <div className="font-bold text-lg">Total Buy Orders by Price</div>
-                            <div>{currentData.totalBuyOrders.amount} {selectedCurrency}</div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <div className="font-bold text-lg float-right">Total Sell Orders by Price</div>
-                            <div className="flex float-right">{currentData.totalSellOrders.amount} {selectedCurrency}</div>
-                        </div>
-                    </div>
-
-                    {/* Volume and Demand Rating */}
-                    <div className="flex flex-row justify-between items-center mb-3">
-                        <div className="flex flex-col items-start">
-                            <div className="font-bold text-lg">Volume Rating</div>
-                            <div>{currentData.volumeRating}</div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <div className="font-bold text-lg">Demand Rating</div>
-                            <div>{currentData.demandRating}</div>
-                        </div>
-                    </div>
-
-                    {/* Liquidity Rating and Price Competitiveness Rating */}
-                    <div className="flex flex-row justify-between items-center mb-3">
-                        <div className="flex flex-col items-start">
-                            <div className="font-bold text-lg">Price Competitiveness Rating</div>
-                            <div>{currentData.priceCompetitivenessRating}</div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <div className="font-bold text-lg">Liquidity Rating</div>
-                            <div>{currentData.liquidityRating}</div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* BOTTOM SECTION */}
-                <div className="flex flex-col w-full mb-4">
-                    <div className="text-center font-bold text-2xl">Chart</div>
-                   <div className="text-center text-lg">Coming Soon</div>
-                </div>
+                <div className="text-2xl font-bold mb-1">{asset.toUpperCase()}</div>
             </div>
-        </>
-    )
-})
+
+            {/* Asset Image */}
+            <div className="flex items-center justify-center mb-4">
+                {image ? (
+                    <Image src={image} width={130} height={130} alt={`${asset} icon`} className='rounded-full' />
+                ) : (
+                    <Image src='/blinkIcon.jpg' width={90} height={90} alt='Blink Station X icon.' className='rounded-full'/>
+                )}
+            </div>
+
+            {isLoading && Object.keys(currentData).length === 0 ? (
+                <div>Loading {selectedCurrency} data...</div>
+            ) : error ? (
+                <div>{error}</div>
+            ) : (
+                <>
+                    {/* Render data progressively */ }
+                    <div className="flex text-xl text-yellow-700 font-bold justify-center">S.T.A.R. Rating</div>
+                    { currentData.starRating !== undefined ? (
+                        <div className="text-center mb-4">
+                            <div className="text-yellow-700 text-xl">{ formatQuantity( currentData.starRating ) }</div>
+                        </div>
+                    ) : (
+                        <div className="text-center mb-4">
+                            <div className="bg-zinc-800 h-[5px] w-2 shadow-lg rounded-lg animate-pulse" />
+                        </div>
+                    )}
+
+                    { ( currentData.totalBuyQuantity !== undefined || currentData.totalSellQuantity !== undefined ) && (
+                        <div className="flex flex-row justify-between items-center mb-3">
+                            <div className="flex flex-col items-start">
+                                <div className="font-bold text-lg">Total Buy Orders by Quantity</div>
+                                <div>{ formatQuantity( currentData.totalBuyQuantity! ) }</div>
+                            </div>
+                            <div className="flex flex-col items-end">
+                                <div className="font-bold text-lg">Total Sell Orders by Quantity</div>
+                                <div>{ formatQuantity( currentData.totalSellQuantity! ) }</div>
+                            </div>
+                        </div>
+                    ) }
+
+
+                    { ( currentData.totalBuyPrice !== undefined || currentData.totalSellPrice !== undefined ) && (
+                        <div className="flex flex-row justify-between items-center mb-3">
+                            <div className="flex flex-col items-start">
+                                <div className="font-bold text-lg">Total Buy Orders by Price</div>
+                                <div>{ formatQuantity( currentData.totalBuyPrice! ) } { selectedCurrency }</div>
+                            </div>
+                            <div className="flex flex-col items-end">
+                                <div className="font-bold text-lg">Total Sell Orders by Price</div>
+                                <div>{ formatQuantity( currentData.totalSellPrice! ) } { selectedCurrency }</div>
+                            </div>
+                        </div>
+                    ) }
+
+                    { ( currentData.volumeRating !== undefined || currentData.demandRating !== undefined ) && (
+                        <div className="flex flex-row justify-between items-center mb-3">
+                            <div className="flex flex-col items-start">
+                                <div className="font-bold text-lg">Volume Rating</div>
+                                <div>{ formatQuantity( currentData.volumeRating! ) }</div>
+                            </div>
+                            <div className="flex flex-col items-end">
+                                <div className="font-bold text-lg">Demand Rating</div>
+                                <div>{ formatQuantity( currentData.demandRating! ) }</div>
+                            </div>
+                        </div>
+                    ) }
+
+                    { ( currentData.priceCompetitivenessRating !== undefined || currentData.classLiquidity !== undefined ) && (
+                        <div className="flex flex-row justify-between items-center mb-3">
+                            <div className="flex flex-col items-start">
+                                <div className="font-bold text-lg">Price Competitiveness Rating</div>
+                                <div>{ formatQuantity( currentData.priceCompetitivenessRating! ) }</div>
+                            </div>
+                            <div className="flex flex-col items-end">
+                                <div className="font-bold text-lg">Liquidity Rating</div>
+                                <div>{ formatQuantity( currentData.classLiquidity! ) }</div>
+                            </div>
+                        </div>
+                    ) }
+                </>
+            ) }
+
+            {/* Chart section (placeholder) */ }
+            <div className="flex flex-col w-full mb-4">
+                <div className="text-center font-bold text-2xl">Chart</div>
+                <div className="text-center text-lg">Coming Soon</div>
+            </div>
+        </div>
+    );
+});
