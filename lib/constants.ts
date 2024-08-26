@@ -1,4 +1,5 @@
 import { Connection, PublicKey } from "@solana/web3.js";
+export const shdwStorageAcct = process.env.NEXT_PUBLIC_SHDW!;
 const newConnection = process.env.NEXT_PUBLIC_HELIUS_RPC_URL as string;
 
 export const ATLAS: string = 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx';

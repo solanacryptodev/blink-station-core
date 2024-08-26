@@ -47,11 +47,5 @@ export class RootStore {
             this.dataStore.initialize()
         ])
         this.musicStore.initializeAudio();
-
-        // if they have a player profile, then load it. If not, then direct them to Sage website
-
-        // if they have a player profile, check if they have an account. If not, they create one
-
-        // If they have an account, load the membership data from mongo database
     }
 }

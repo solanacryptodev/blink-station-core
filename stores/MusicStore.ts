@@ -1,40 +1,70 @@
 import 'reflect-metadata';
-import { makeAutoObservable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { RootStore } from "@/stores/RootStore";
 import { singleton } from "tsyringe";
-
-interface Track {
-    url: string;
-    name: string;
-}
+import { Track } from '@/lib/types'
 
 @singleton()
 export class MusicStore {
-    songs: Track[] = [
-        { url: '/song1.mp3', name: 'Nova - Futurescapes' },
-        { url: '/song2.mp3', name: 'Dusk - Futurescapes' },
-        { url: '/song3.mp3', name: 'Song 3' },
-    ];
-    currentSongIndex: number = 0;
-    isPlaying: boolean = false;
-    audio: HTMLAudioElement | null = null;
-    currentTime: number = 0;
-    duration: number = 0;
+    songs: Track[];
+    currentSongIndex: number;
+    isPlaying: boolean;
+    autoplay: boolean;
+    audio: HTMLAudioElement | null;
+    currentTime: number;
+    duration: number;
     rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
-        makeAutoObservable(this);
+        this.currentSongIndex = 0;
+        this.currentTime = 0;
+        this.duration = 0;
+        this.isPlaying = false;
+        this.autoplay = true;
+        this.audio = null;
+        this.songs = this.songs = [
+            { url: `https://shdw-drive.genesysgo.net/${process.env.NEXT_PUBLIC_SHDW!}/Glass%20-%20Futurescapes.mp3`, name: 'Glass - Futurescapes' },
+            { url: `https://shdw-drive.genesysgo.net/${process.env.NEXT_PUBLIC_SHDW!}/Apt%20904%20-%20Futurescapes.mp3`, name: 'Apt 904 - Futurescapes' },
+            { url: `https://shdw-drive.genesysgo.net/${process.env.NEXT_PUBLIC_SHDW!}/Nova%20-%20Futurescapes.mp3`, name: 'Nova - Futurescapes' },
+        ];
+
+        makeObservable(this, {
+            songs: observable,
+            currentSongIndex: observable,
+            currentTime: observable,
+            isPlaying: observable,
+            duration: observable,
+            audio: observable,
+            autoplay: observable,
+
+            previousSong: action.bound,
+            nextSong: action.bound,
+            loadSong: action.bound,
+            setProgress: action.bound,
+            play: action.bound,
+            pause: action.bound,
+            handleTimeUpdate: action.bound,
+            initializeAudio: action.bound,
+
+            currentSong: computed,
+            progress: computed
+        });
     }
 
     initializeAudio(): void {
-        console.log()
-        // if (typeof window !== 'undefined') {
-        //     this.audio = new Audio(this.songs[this.currentSongIndex].url);
-        //     this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
-        //     this.audio.addEventListener('loadedmetadata', this.handleLoadedMetadata);
-        //     this.audio.addEventListener('ended', this.handleEnded);
-        // }
+        console.log('Music Store Initialized', window);
+        if ( typeof window !== 'undefined' ) {
+            this.audio = new Audio(this.songs[this.currentSongIndex].url);
+            this.audio.play().then()
+            console.log('Audio object created:', this.audio);
+            this.audio.addEventListener('loadstart', this.loadSong);
+            this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
+            this.audio.addEventListener('loadedmetadata', this.handleLoadedMetadata);
+            this.audio.addEventListener('ended', this.handleEnded);
+            this.audio.volume = 0.5;
+            this.autoplay && this.audio.autoplay;
+        }
     }
 
     handleTimeUpdate = () => {
@@ -49,13 +79,14 @@ export class MusicStore {
         }
     }
 
-    handleEnded = () => {
-        this.nextSong();
+    handleEnded = async (): Promise<void> => {
+        await this.nextSong();
     }
 
-    play() {
+    async play(): Promise<void> {
+        console.log('audio...', this.audio);
         if (this.audio) {
-            this.audio.play();
+            await this.audio.play();
             this.isPlaying = true;
         }
     }
@@ -67,27 +98,27 @@ export class MusicStore {
         }
     }
 
-    nextSong() {
+    async nextSong(): Promise<void> {
         if (this.currentSongIndex < this.songs.length - 1) {
             this.currentSongIndex++;
-            this.loadSong();
+            await this.loadSong();
         }
     }
 
-    previousSong() {
+    async previousSong(): Promise<void> {
         if (this.currentSongIndex > 0) {
             this.currentSongIndex--;
-            this.loadSong();
+            await this.loadSong();
         }
     }
 
-    loadSong() {
+    async loadSong(): Promise<void> {
         if (this.audio) {
             this.audio.src = this.songs[this.currentSongIndex].url;
             this.currentTime = 0;
             this.duration = 0;
             if (this.isPlaying) {
-                this.audio.play();
+                await this.audio.play();
             }
         }
     }
