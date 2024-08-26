@@ -2,6 +2,13 @@ import { CoreMessage } from 'ai'
 import { OrderSide } from "@staratlas/factory";
 import { WithId } from 'mongodb';
 
+export interface AssetProps {
+  currentData?: StarRating;
+  image?: string;
+  asset?: string;
+  currency?: string;
+}
+
 export interface StarRating {
   totalBuyQuantity?: number;
   totalSellQuantity?: number;
