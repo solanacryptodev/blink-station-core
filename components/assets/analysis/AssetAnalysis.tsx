@@ -28,7 +28,7 @@ export const AssetAnalysis = observer(({ asset }: { asset: string }) => {
         setError(null);
         try {
             const updatePartialData = (partialData: Partial<StarRating>) => {
-                console.log('Received data update:', partialData);
+                // console.log('Received data update:', partialData);
                 if (currency === 'ATLAS') {
                     setAtlasData(prevData => ({ ...prevData, ...partialData }));
                 } else {
