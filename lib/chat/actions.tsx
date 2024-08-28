@@ -363,11 +363,11 @@ async function submitUserMessage(content: string) {
           assetName: z.string().describe('The name of the asset'),
         }),
         generate: async function* ({ assetName }) {
-          yield (
-            <BotCard>
-              <AssetAnalysisSkeleton />
-            </BotCard>
-          )
+          // yield (
+          //   <BotCard>
+          //     <AssetAnalysisSkeleton />
+          //   </BotCard>
+          // )
 
           await sleep( 1000 )
           const toolCallId = nanoid()
