@@ -96,6 +96,7 @@ export class AssetPresenter {
 
     private async fetchTotalBuyAndSellQuantities(mint: string, currency: string): Promise<StarRating> {
         const data = await this.rootStore.dataStore.totalBuyAndSellQuantities(mint, currency);
+        // console.log('quantities...', data.totalBuyQuantity, data.totalSellQuantity);
         return {
             totalBuyQuantity: data.totalBuyQuantity,
             totalSellQuantity: data.totalSellQuantity
@@ -123,7 +124,11 @@ export class AssetPresenter {
             return { totalTradingVolume: cachedVolume };
         }
 
-        const volume = await this.rootStore.dataStore.totalAssetExchanges(mint, currency);
+        let volume = await this.rootStore.dataStore.totalAssetExchanges(mint, currency);
+        if (!volume) {
+            volume = 0;
+        }
+        // console.log('volume...', volume);
         this.cache.set(cacheKey, volume);
         return { totalTradingVolume: volume };
     }
@@ -171,11 +176,12 @@ export class AssetPresenter {
         const dr = (data.totalBuyQuantity! / data.totalSellQuantity!) * 100;
         const pcr = ((data.averageSellPrice! - data.lowestSellPrice!) / data.averageSellPrice!) * 100;
         const lr = (data.totalBuyPrice! / data.averageClassBuyPrice!) * 100;
-        const sr = (vr * 0.4) + (dr * 0.3) + (lr * 0.2) + (pcr * 0.1);
+        const sr = (isNaN(vr) ? 0 : vr * 0.4) + (dr * 0.3) + (lr * 0.2) + (pcr * 0.1);
+        // console.log('Ratings:', vr, dr, pcr, lr, sr);
 
         return {
             ...data,
-            volumeRating: vr,
+            volumeRating: data.totalTradingVolume === undefined || data.totalTradingVolume === 0 ? 0 : vr,
             demandRating: dr,
             priceCompetitivenessRating: pcr,
             classLiquidity: lr,
@@ -184,7 +190,7 @@ export class AssetPresenter {
     }
 
     private emitPartialData(data: Partial<StarRating>) {
-        console.log('Emitting partial data:', data);
+        // console.log('Emitting partial data:', data);
         if (this.dataUpdateCallback) {
             this.dataUpdateCallback(data);
         }

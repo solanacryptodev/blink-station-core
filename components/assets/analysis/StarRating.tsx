@@ -8,7 +8,7 @@ import { InfoIcon } from '@/components/ui/icons'
 export const StarRatingData: FunctionComponent<AssetProps> = observer(({ currentData }: AssetProps) => {
     return (
         <>
-            <ReactTooltip id="star-rating" style={{ maxWidth: '400px', width: '100%', backgroundColor: 'black', opacity: 1, cursor: 'pointer' }} />
+            <ReactTooltip id="star-rating" opacity={1} style={{ maxWidth: '400px', width: '100%', backgroundColor: 'black' }} />
             <div className="flex flex-col items-center mb-3">
                 <div className="flex flex-row text-xl text-yellow-700 font-bold mb-2 items-center">
                     <a

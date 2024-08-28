@@ -10,7 +10,7 @@ export const AssetCompetitivenessLiquidity: FunctionComponent<AssetProps> = obse
 
     return (
        <>
-           <ReactTooltip id="price-liquidity" style={{ maxWidth: '400px', width: '100%', backgroundColor: 'black', opacity: 1}} />
+           <ReactTooltip id="price-liquidity" opacity={1} style={{ maxWidth: '400px', width: '100%', backgroundColor: 'black'}} />
            <div className="flex flex-row justify-between items-center mb-3">
                <div className="flex flex-col items-start">
                    <div className="flex flex-row font-bold text-lg mb-1 items-center">

@@ -109,6 +109,7 @@ export interface AssetMetadata {
     mint: string;
     class?: string;
     atlasOnly?: boolean;
+    isResource?: boolean;
 }
 
 export const exampleMessages: ExamplePrompts[] = [
@@ -581,7 +582,8 @@ export const assets: AssetMetadata[] = [
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/ammunition.png`,
         mint: 'ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK',
         class: 'consumable',
-        atlasOnly: true
+        atlasOnly: true,
+        isResource: true
     },
     {
         name: 'Carbon',
@@ -589,7 +591,8 @@ export const assets: AssetMetadata[] = [
         image: '',
         mint: 'CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X',
         class: 'raw material',
-        atlasOnly: true
+        atlasOnly: true,
+        isResource: true
     },
     {
         name: 'Steel',
@@ -597,6 +600,7 @@ export const assets: AssetMetadata[] = [
         image: '',
         mint: 'STEELXLJ8nfJy3P4aNuGxyNRbWPohqHSwxY75NsJRGG',
         class: 'compound material',
-        atlasOnly: true
+        atlasOnly: true,
+        isResource: true
     }
 ]
