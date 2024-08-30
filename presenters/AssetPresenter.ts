@@ -1,4 +1,4 @@
-import { StarRating } from "@/lib/types";
+import { ExampleDataProps, StarRating } from "@/lib/types";
 import { RootStore } from "@/stores/RootStore";
 import { assets } from '@/lib/metadata';
 import { ATLAS, USDC } from '@/lib/constants';
@@ -193,6 +193,23 @@ export class AssetPresenter {
         // console.log('Emitting partial data:', data);
         if (this.dataUpdateCallback) {
             this.dataUpdateCallback(data);
+        }
+    }
+
+    mockData(name: string): ExampleDataProps {
+        return {
+            assetName: name,
+            exampleData: {
+                starRating: 90,
+                totalBuyQuantity: 100,
+                totalSellQuantity: 150,
+                totalBuyPrice: 40,
+                totalSellPrice: 90,
+                volumeRating: 27,
+                demandRating: 51,
+                priceCompetitivenessRating: 75,
+                classLiquidity: 82,
+            }
         }
     }
 }

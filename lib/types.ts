@@ -9,6 +9,11 @@ export interface AssetProps {
   currency?: string;
 }
 
+export interface ExampleDataProps {
+  assetName: string;
+  exampleData: StarRating
+}
+
 export interface StarRating {
   totalBuyQuantity?: number;
   totalSellQuantity?: number;

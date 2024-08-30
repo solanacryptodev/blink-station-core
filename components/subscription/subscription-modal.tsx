@@ -62,7 +62,7 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
                                             src={ shdwDrive }
                                             width={ 1080 }
                                             height={ 720 }
-                                            alt='Image of Blink Station 1.'
+                                            alt='Image of Blink Station 10.'
                                         />
                                     </div>
                                 ) }

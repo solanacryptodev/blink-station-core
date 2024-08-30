@@ -39,6 +39,7 @@ export class SubscriptionPresenter {
 
             player: computed,
             account: computed,
+            freeAccount: computed,
             wallet: computed,
         } )
     }
@@ -56,6 +57,11 @@ export class SubscriptionPresenter {
 
     get account(): MembershipSubscription[] {
         return this.rootStore.subscriptionStore.playerAcct;
+    }
+
+    get freeAccount(): boolean {
+        console.log('Has free account:', this.rootStore.subscriptionStore.hasFreeAccount);
+        return this.rootStore.subscriptionStore.hasFreeAccount!;
     }
 
     get wallet(): Adapter {
@@ -113,7 +119,6 @@ export class SubscriptionPresenter {
                 subscribedOn: null,
                 membershipStartDate: null,
                 membershipEndDate: null,
-                paidInFull: false,
                 chatLogs: []
             }
             const added = await this.rootStore.subscriptionStore.addSubscription( subscription )
@@ -143,7 +148,6 @@ export class SubscriptionPresenter {
                     subscribedOn: formatDate( currentDate ),
                     membershipStartDate: currentDate,
                     membershipEndDate: addDaysToDate( currentDate, 30 ),
-                    paidInFull: false,
                     chatLogs: []
                 }
                 await this.rootStore.subscriptionStore.addSubscription( subscription );
@@ -178,7 +182,6 @@ export class SubscriptionPresenter {
                     upgradedAt: subscription.upgradedAt,
                     membershipStartDate: subscription.membershipStartDate,
                     membershipEndDate: subscription.membershipEndDate,
-                    paidInFull: subscription.paidInFull,
                 })
             }
         } catch ( error ) {

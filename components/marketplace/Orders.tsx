@@ -61,7 +61,7 @@ export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer((
 
     return (
         <>
-            <div className='container flex-col mx-auto bg-gradient-to-r from-[#18434D] via-neutral-900 to-[#18434D] shadow-lg rounded-lg overflow-hidden'>
+            <div className='container flex-col mx-auto min-w-fit bg-gradient-to-r from-[#18434D] via-neutral-900 to-[#18434D] shadow-lg rounded-lg overflow-hidden'>
                 {orders.length > 0 && orders.map((order) => (
                     <div key={ order.orderId } className='flex flex-col opacity-100 bg-[#152B33] p-6 m-8 shadow-lg rounded-lg'>
                         <div className='text-center text-lg mb-4 font-bold'>{ order.assetName.toUpperCase() }</div>
