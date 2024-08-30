@@ -7,7 +7,8 @@ import {
     connectToMongo,
     createCollection,
     createSubscription,
-    updateSubscription
+    updateSubscription,
+    travelerSubscription
 } from '@/app/db-actions';
 import { MembershipSubscription, MembershipSubscriptionWithoutId } from '@/lib/types';
 
@@ -17,17 +18,20 @@ export class SubscriptionStore {
     rootStore: RootStore;
     hasPlayerProfile: boolean;
     hasAccount: boolean;
+    hasFreeAccount: boolean;
     playerAcct: MembershipSubscription[];
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         this.hasPlayerProfile = false;
+        this.hasFreeAccount = false;
         this.hasAccount = false;
         this.playerAcct = [];
 
         makeObservable(this, {
             hasPlayerProfile: observable,
             hasAccount: observable,
+            hasFreeAccount: observable,
             playerAcct: observable,
 
             setSubscriptions: action.bound,
@@ -37,6 +41,7 @@ export class SubscriptionStore {
             setPlayerProfileStatus: action.bound,
             resetPlayerAccount: action.bound,
             setHasAccount: action.bound,
+            setHasFreeAccount: action.bound,
 
             getPlayerProfileStatus: computed,
             getActiveSubscriptions: computed,
@@ -68,12 +73,17 @@ export class SubscriptionStore {
         this.hasAccount = status;
     }
 
+    setHasFreeAccount(status: boolean): void {
+        this.hasFreeAccount = status;
+    }
+
     resetPlayerAccount(): void {
         this.playerAcct = [];
     }
 
     async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {
         const sub = await readSubscription(subscriptions.publicKey?.toString()!);
+        const freeSub = await travelerSubscription(subscriptions.publicKey?.toString()!);
         if (sub) {
             this.setHasAccount(true);
             const subWithoutId: MembershipSubscription = {
@@ -84,10 +94,13 @@ export class SubscriptionStore {
                 createdAt: sub.createdAt,
                 membershipStartDate: sub.membershipStartDate,
                 membershipEndDate: sub.membershipEndDate,
-                paidInFull: sub.paidInFull,
                 chatLogs: sub.chatLogs
             };
             this.playerAcct.push(subWithoutId);
+        }
+
+        if (freeSub) {
+            this.setHasFreeAccount(true);
         }
         return sub;
     }

@@ -57,6 +57,11 @@ export async function readSubscription(pubKey: string) {
     return await collection.findOne({ publicKey: pubKey });
 }
 
+export async function travelerSubscription(pubKey: string) {
+    const collection = await getMongoCollection();
+    return await collection.findOne({ publicKey: pubKey, subscriptionStatus: 'Traveler' });
+}
+
 export async function readAllSubscriptions() {
     const collection = await getMongoCollection();
     return await collection.find({}).toArray();
