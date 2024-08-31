@@ -94,7 +94,7 @@ export const PromptForm = observer(({
             await handleSubmitMessage(event);
         }
     }}>
-      <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
+      <div className={`relative border ${subscriptionPresenter.account.length === 0 ? 'border-red-500' : 'border-amber-500'} flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12`}>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
