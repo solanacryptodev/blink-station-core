@@ -1,10 +1,8 @@
 'use client'
 
-import * as React from 'react'
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Textarea from 'react-textarea-autosize'
-
 import { useActions, useUIState } from 'ai/rsc'
-
 import { UserMessage } from './stocks/message'
 import { type AI } from '@/lib/chat/actions'
 import { Button } from '@/components/ui/button'
@@ -16,10 +14,12 @@ import {
 } from '@/components/ui/tooltip'
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { observer } from "mobx-react-lite";
 import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 import { tokenizeString } from '@/lib/tokenizer';
+import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
+import Link from 'next/link'
 
 export const PromptForm = observer(({
   input,
@@ -28,55 +28,72 @@ export const PromptForm = observer(({
   input: string
   setInput: (value: string) => void
 }) => {
-  const subscriptionPresenter = SubscriptionPresenter.getInstance();
-  const router = useRouter()
-  const { formRef, onKeyDown } = useEnterSubmit()
-  const inputRef = React.useRef<HTMLTextAreaElement>(null)
-  const { submitUserMessage } = useActions()
-  const [_, setMessages] = useUIState<typeof AI>()
-  const inProduction = process.env.NEXT_PUBLIC_IN_PRODUCTION!
+      const subscriptionPresenter = SubscriptionPresenter.getInstance();
+      const chatLogPresenter = ChatLogPresenter.getInstance();
 
-  React.useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [])
+      const router = useRouter();
+      const path = usePathname();
+      const { formRef, onKeyDown } = useEnterSubmit()
+      const [isNavigating, setIsNavigating] = useState(false);
+      const inputRef = useRef<HTMLTextAreaElement>(null)
+      const { submitUserMessage } = useActions()
+      const pathname = usePathname();
+      const [_, setMessages] = useUIState<typeof AI>()
 
-  return (
-    <form
-      ref={formRef}
-      onSubmit={async (e: any) => {
-        e.preventDefault()
+      useEffect(() => {
+        if (inputRef.current) {
+          inputRef.current.focus()
+        }
+      }, [])
 
-        // Blur focus on mobile
-        if (window.innerWidth < 600) {
-          e.target['message']?.blur()
+    const handleGenerateID = async (event: FormEvent): Promise<string> => {
+        event.preventDefault()
+
+        let currentChatId = chatLogPresenter.currentChatId;
+        if (!currentChatId || !pathname.includes('/chat/')) {
+            currentChatId = chatLogPresenter.createNewChat();
+            console.log("Created new chat ID:", currentChatId);
+            setIsNavigating(true);
+            try {
+                router.push( `/chat/${ currentChatId }` );
+            } finally {
+                setIsNavigating(false);
+            }
         }
 
+        return currentChatId;
+    }
+
+    const handleSubmitMessage = async(event: FormEvent) => {
         const value = input.trim()
         setInput('')
         if (!value) return
 
-        // Optimistically add user message UI
+        event.preventDefault()
         setMessages(currentMessages => [
-          ...currentMessages,
-          {
-            id: nanoid(),
-            display: <UserMessage>{value}</UserMessage>
-          }
+            ...currentMessages,
+            {
+                id: nanoid(),
+                display: <UserMessage>{value}</UserMessage>
+            }
         ])
 
-        // Submit and get response message
         const responseMessage = await submitUserMessage(value)
+        chatLogPresenter.addMessageToChat(chatLogPresenter.currentChatId!, responseMessage)
 
-        // add token counter method here.
-        // console.log('value and response...', value)
-        // console.log('tokenized values...', tokenizeString(value));
+        setMessages(currentMessages => [...currentMessages, responseMessage])
+
         const tokens = tokenizeString(value);
         await subscriptionPresenter.deductFromTokenCount(tokens * 150);
-        setMessages(currentMessages => [...currentMessages, responseMessage])
-      }}
-    >
+    }
+
+    return (
+    <form ref={formRef} onSubmit={async (event) => {
+        const id = await handleGenerateID(event);
+        if ( id && pathname.includes('/chat/') ) {
+            await handleSubmitMessage(event);
+        }
+    }}>
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -84,9 +101,9 @@ export const PromptForm = observer(({
               variant="outline"
               size="icon"
               className="absolute left-0 top-[14px] size-8 rounded-full bg-background p-0 sm:left-4"
-              onClick={() => {
-                router.push('/new')
-              }}
+              // onClick={() => {
+              //   router.push('/new')
+              // }}
             >
               <IconPlus />
               <span className="sr-only">New Chat</span>

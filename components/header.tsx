@@ -22,8 +22,11 @@ import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletButton } from '@/components/ui/wallet-button';
 import { formatNumberWithCommas } from '@/lib/utils';
 import { SettingsPresenter } from "@/presenters/SettingsPresenter";
+import router from 'next/router'
+import { useRouter } from "next/navigation";
 
 function UserOrLogin() {
+    const router = useRouter();
     // const session = (await auth()) as Session
   return (
     <>
@@ -40,7 +43,9 @@ function UserOrLogin() {
         {/*  </div>*/}
         {/*)}*/}
         <div>
-            <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='rounded-full' />
+            <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='rounded-full cursor-pointer' onClick={() => {
+                router.push('/')
+            }} />
         </div>
           <div className="flex items-center">
               <IconSeparator className="size-6 text-muted-foreground/50" />
@@ -63,7 +68,7 @@ export const Header = observer(() => {
                   <>
                       <IconSeparator className="size-6 text-muted-foreground/50" />
                       <div className="rounded-md bg-black border-amber-500 border-2 ml-2 px-2 py-1">
-                          { formatNumberWithCommas(playerPresenter.tokensLeft) } Tokens
+                          { playerPresenter.tokensLeft <= 0 ? '0' : formatNumberWithCommas(playerPresenter.tokensLeft) } Tokens
                       </div>
                   </>
               )}

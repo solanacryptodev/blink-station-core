@@ -7,6 +7,8 @@ import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
 import Starfield from '@/components/ui/backgrounds/Starfield'
+import { SidebarDesktop } from '@/components/sidebar-desktop'
+// import { usePathname } from "next/navigation";
 
 const chakra = Chakra_Petch({
   weight: '400',
@@ -42,6 +44,9 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  // const pathname = usePathname()
+  // const isChatPage = pathname?.startsWith('/chat/')
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -65,7 +70,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 backgroundColor="black"
             />
             <Header />
-            <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
+            <main className="flex flex-col flex-1 bg-muted/50">
+                  <div className="relative flex h-[calc(100vh_-_theme(spacing.16))]">
+                    <SidebarDesktop />
+                    {children}
+                  </div>
+            </main>
           </div>
           <TailwindIndicator />
         </Providers>
