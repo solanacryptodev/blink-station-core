@@ -45,7 +45,7 @@ export enum WalletOrder {
     PHANTOM = 'Phantom',
     SOLFLARE = 'Solflare',
     LEDGER = 'Ledger',
-    COINBASE = 'Coinbase Wallet',
+    BACKPACK = 'Backpack',
 }
 
 export const walletOrder: string[] = Object.values(WalletOrder).map((wallet: string) => wallet);
@@ -54,7 +54,6 @@ export const MAIN_WALLETS = [
     new PhantomWalletAdapter().url,
     new SolflareWalletAdapter().url,
     new LedgerWalletAdapter().url,
-    new CoinbaseWalletAdapter().url,
 ];
 
 @singleton()

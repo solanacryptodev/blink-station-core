@@ -258,3 +258,7 @@ export const formatPriceForQuery = (price: string): string => {
   }
   return price;
 };
+
+export function wordRevealer(text: string): string[] {
+  return Array?.from(text);
+}

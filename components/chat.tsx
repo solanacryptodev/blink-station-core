@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils'
 import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
 import { EmptyScreen } from '@/components/empty-screen'
-import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useEffect, useState, useTransition } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
 import { Message, Session } from '@/lib/types'
@@ -16,9 +15,9 @@ import { WalletModal } from '@/components/wallet-modal';
 import { observer } from "mobx-react-lite";
 import { Alert } from "@/components/alert";
 import { SubscriptionModal } from "@/components/subscription/subscription-modal";
-import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 import { SettingsModal } from "@/components/settings-modal";
 import { UpgradeModal } from "@/components/subscription/upgrade-modal";
+import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -27,6 +26,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   missingKeys: string[]
 }
 
+/* Current home page */
 export const Chat = observer(({ id, className, session, missingKeys }: ChatProps) => {
   const router = useRouter()
   const path = usePathname()
@@ -34,9 +34,15 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
   const [messages] = useUIState()
   const [aiState] = useAIState()
   const playerPresenter = PlayerPresenter.getInstance();
-  const subscriptionPresenter = SubscriptionPresenter.getInstance();
+  const chatLogPresenter = ChatLogPresenter.getInstance();
 
-  const [_, setNewChatId] = useLocalStorage('newChatId', id)
+  // const [_, setNewChatId] = useLocalStorage('newChatId', id)
+
+  useEffect(() => {
+    if (id) {
+      chatLogPresenter.setID(id);
+    }
+  }, [chatLogPresenter, id]);
 
   useEffect(() => {
     const name = async () => {
@@ -46,14 +52,10 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
     }
 
     name()
-  }, [playerPresenter.isConnected]);
+  }, [playerPresenter, playerPresenter.isConnected]);
 
   // console.log('aiState...', aiState)
   // console.log('messages...', messages)
-
-  useEffect(() => {
-    setNewChatId(id)
-  })
 
   useEffect(() => {
     missingKeys.map(key => {

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { singleton } from "tsyringe";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { RootStore } from "@/stores/RootStore";
 import {
     readSubscription,
@@ -96,7 +96,9 @@ export class SubscriptionStore {
                 membershipEndDate: sub.membershipEndDate,
                 chatLogs: sub.chatLogs
             };
-            this.playerAcct.push(subWithoutId);
+            runInAction(() => {
+                this.playerAcct.push(subWithoutId);
+            });
         }
 
         if (freeSub) {
@@ -121,7 +123,9 @@ export class SubscriptionStore {
             // Update the local state
             const index = this.playerAcct.findIndex(sub => sub.publicKey === publicKey);
             if (index !== -1) {
-                this.playerAcct[index] = { ...this.playerAcct[index], ...update };
+                runInAction(() => {
+                    this.playerAcct[index] = { ...this.playerAcct[index], ...update };
+                })
             }
         }
         return updatedCount;

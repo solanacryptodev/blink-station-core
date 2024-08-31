@@ -7,6 +7,11 @@ export interface AtlassonProfile {
     description: string
 }
 
+export interface LoreData {
+    loreName: string;
+    loreAnalysis: string;
+}
+
 export interface LoreMetadata {
     name: string;
     description: string;
