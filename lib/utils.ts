@@ -260,5 +260,5 @@ export const formatPriceForQuery = (price: string): string => {
 };
 
 export function wordRevealer(text: string): string[] {
-  return Array.from(text);
+  return Array?.from(text);
 }
