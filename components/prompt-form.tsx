@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Textarea from 'react-textarea-autosize'
 import { useActions, useUIState } from 'ai/rsc'
 import { UserMessage } from './stocks/message'
@@ -19,7 +19,6 @@ import { observer } from "mobx-react-lite";
 import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 import { tokenizeString } from '@/lib/tokenizer';
 import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
-import Link from 'next/link'
 
 export const PromptForm = observer(({
   input,
@@ -31,45 +30,23 @@ export const PromptForm = observer(({
       const subscriptionPresenter = SubscriptionPresenter.getInstance();
       const chatLogPresenter = ChatLogPresenter.getInstance();
 
-      const router = useRouter();
-      const path = usePathname();
       const { formRef, onKeyDown } = useEnterSubmit()
-      const [isNavigating, setIsNavigating] = useState(false);
       const inputRef = useRef<HTMLTextAreaElement>(null)
       const { submitUserMessage } = useActions()
       const pathname = usePathname();
       const [_, setMessages] = useUIState<typeof AI>()
 
-      useEffect(() => {
+    useEffect(() => {
         if (inputRef.current) {
-          inputRef.current.focus()
+            inputRef.current.focus()
         }
-      }, [])
+    }, [])
 
-    const handleGenerateID = async (event: FormEvent): Promise<string> => {
-        event.preventDefault()
-
-        let currentChatId = chatLogPresenter.currentChatId;
-        if (!currentChatId || !pathname.includes('/chat/')) {
-            currentChatId = chatLogPresenter.createNewChat();
-            console.log("Created new chat ID:", currentChatId);
-            setIsNavigating(true);
-            try {
-                router.push( `/chat/${ currentChatId }` );
-            } finally {
-                setIsNavigating(false);
-            }
-        }
-
-        return currentChatId;
-    }
-
-    const handleSubmitMessage = async(event: FormEvent) => {
-        const value = input.trim()
+    const handleSubmitMessage = async(message: string) => {
+        const value = message.trim()
         setInput('')
         if (!value) return
 
-        event.preventDefault()
         setMessages(currentMessages => [
             ...currentMessages,
             {
@@ -89,10 +66,8 @@ export const PromptForm = observer(({
 
     return (
     <form ref={formRef} onSubmit={async (event) => {
-        const id = await handleGenerateID(event);
-        if ( id && pathname.includes('/chat/') ) {
-            await handleSubmitMessage(event);
-        }
+        event.preventDefault();
+        { pathname.includes('chat') && await handleSubmitMessage(input) }
     }}>
       <div className={`relative border ${subscriptionPresenter.account.length === 0 ? 'border-red-500' : 'border-amber-500'} flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12`}>
         <Tooltip>
@@ -130,7 +105,7 @@ export const PromptForm = observer(({
         <div className="absolute right-0 top-[13px] sm:right-4">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button type="submit" size="icon" disabled={input === ''}>
+              <Button type="submit" size="icon" disabled={input === ''} className={`${subscriptionPresenter.account.length === 0 ? 'bg-red-300' : 'bg-amber-300'}`}>
                 <IconArrowElbow />
                 <span className="sr-only">Send message</span>
               </Button>
