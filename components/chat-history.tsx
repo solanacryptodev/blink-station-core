@@ -15,7 +15,7 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
   return (
     <div className="flex flex-col h-full">
         <div className="flex items-center justify-between p-4 flex-col">
-            <h4 className="text-sm font-medium mb-3">Chat History</h4>
+            <h4 className="text-sm font-medium mb-3">Station Logs</h4>
             <div>Coming Soon</div>
         </div>
         <div className="mb-2 px-2">

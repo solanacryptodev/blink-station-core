@@ -16,11 +16,9 @@ import { observer } from 'mobx-react-lite'
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { exampleMessages } from '@/lib/metadata'
 import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
-import { router } from "next/client";
 import { ExamplePrompts } from "@/lib/types";
 import { tokenizeString } from "@/lib/tokenizer";
 import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 export interface ChatPanelProps {
@@ -48,28 +46,8 @@ export const ChatPanel = observer(({
   const [messages, setMessages] = useUIState<typeof AI>()
   const { submitUserMessage } = useActions();
   const pathname = usePathname();
-  const [isNavigating, setIsNavigating] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
   const { trackEvent } = useAmplitude();
-
-  const handleGenerateChatID = async ( event: React.MouseEvent<HTMLDivElement> ): Promise<string> => {
-    event.preventDefault()
-
-    let currentChatId = chatLogPresenter.currentChatId;
-    if (!currentChatId || !pathname.includes('/chat/')) {
-      currentChatId = chatLogPresenter.createNewChat();
-      console.log("Created new chat ID:", currentChatId);
-      setIsNavigating(true);
-      try {
-        console.log('router ready...')
-        await router?.push( `/chat/${ currentChatId }` );
-      } finally {
-        setIsNavigating(false);
-      }
-    }
-
-    return currentChatId;
-  }
 
   const startNewChat = async (example: ExamplePrompts) => {
     trackEvent('Example Prompt Clicked', {
@@ -93,7 +71,6 @@ export const ChatPanel = observer(({
     await subscriptionPresenter.deductFromTokenCount(tokens * 150);
   };
 
-
   return (
     <div className="fixed z-30 inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
       <ButtonScrollToBottom
@@ -112,13 +89,8 @@ export const ChatPanel = observer(({
                             index > 1 && 'hidden md:block'
                         }` }
                         onClick={async (event) => {
-                            console.log('clicked', example)
-                            const id = await handleGenerateChatID(event);
-                            console.log('id', id)
-                            if ( id && !pathname.includes('/chat/') ) {
-                              await startNewChat(example);
-                              console.log('new chat started')
-                            }
+                          event.preventDefault()
+                            { pathname.includes('chat') && await startNewChat( example ) }
                         }}
                     >
                       <div className="text-sm font-semibold">{ example.heading }</div>

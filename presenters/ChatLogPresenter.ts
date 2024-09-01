@@ -5,15 +5,19 @@ export class ChatLogPresenter {
     private static instance: ChatLogPresenter;
     chatHistory: Map<string, any> = new Map();
     currentChatId: string | null = null;
+    currentMessage: string = '';
 
-    private constructor() {
+    constructor() {
         makeObservable(this, {
             chatHistory: observable,
             currentChatId: observable,
+            currentMessage: observable,
 
             setID: action.bound,
+            setCurrentMessage: action.bound,
 
-            chatID: computed
+            chatID: computed,
+            message: computed,
         });
     }
 
@@ -28,6 +32,10 @@ export class ChatLogPresenter {
         return this.chatHistory.keys().next().value;
     }
 
+    get message(): string {
+        return this.currentMessage;
+    }
+
     createNewChat() {
         const chatId = `station-log-${nanoid()}`;
         this.chatHistory.set(chatId, { id: chatId, messages: [], title: 'New Chat' });
@@ -39,6 +47,11 @@ export class ChatLogPresenter {
     async getChat(chatId: string) {
         // In the future, this would fetch from MongoDB
         return this.chatHistory.get(chatId) || null;
+    }
+
+    setCurrentMessage(message: string) {
+        console.log('Current message:', message);
+        this.currentMessage = message;
     }
 
     setID(chatId: string) {

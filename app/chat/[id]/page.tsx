@@ -9,8 +9,6 @@ import { Session } from '@/lib/types'
 import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
 
 export default async function ChatPage({ params }: { params: { id: string } }) {
-  // console.log("ChatPage rendered with ID:", params.id);
-
   const session = await auth() as Session
   const missingKeys = await getMissingKeys()
   const chatLogPresenter = ChatLogPresenter.getInstance()
@@ -18,7 +16,7 @@ export default async function ChatPage({ params }: { params: { id: string } }) {
   let chat = await chatLogPresenter.getChat(params.id)
 
   if (!chat) {
-    // console.log("Chat not found, creating new chat");
+    // console.log("Chat not found in page.tsx, creating new chat");
     const newChatId = chatLogPresenter.createNewChat();
     chat = await chatLogPresenter.getChat(newChatId);
     if (!chat) {
@@ -26,12 +24,12 @@ export default async function ChatPage({ params }: { params: { id: string } }) {
       notFound();
     }
     // console.log("Redirecting to new chat:", newChatId);
-    // redirect(`/chat/${newChatId}`);
+    redirect(`/chat/${newChatId}`);
   }
 
   // console.log("Rendering chat with ID:", chat.id);
   return (
-      <AI initialAIState={{ chatId: chat.id, messages: chat.messages || [] }}>
+      <AI initialAIState={{ chatId: chat.id || '', messages: chat.messages || [] }}>
         <Chat
             id={chat.id}
             session={session}

@@ -4,10 +4,9 @@ import { cn } from '@/lib/utils'
 import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
 import { EmptyScreen } from '@/components/empty-screen'
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useState } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
 import { Message, Session } from '@/lib/types'
-import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
@@ -18,6 +17,7 @@ import { SubscriptionModal } from "@/components/subscription/subscription-modal"
 import { SettingsModal } from "@/components/settings-modal";
 import { UpgradeModal } from "@/components/subscription/upgrade-modal";
 import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
+import type { AI } from "@/lib/chat/actions";
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -28,13 +28,11 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 
 /* Current home page */
 export const Chat = observer(({ id, className, session, missingKeys }: ChatProps) => {
-  const router = useRouter()
-  const path = usePathname()
   const [input, setInput] = useState('')
-  const [messages] = useUIState()
   const [aiState] = useAIState()
   const playerPresenter = PlayerPresenter.getInstance();
   const chatLogPresenter = ChatLogPresenter.getInstance();
+  const [messages, setMessages] = useUIState<typeof AI>();
 
   // const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
