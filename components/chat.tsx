@@ -36,11 +36,11 @@ export const Chat = observer(({ id, className, session, missingKeys }: ChatProps
 
   // const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
-  useEffect(() => {
-    if (id) {
-      chatLogPresenter.setID(id);
-    }
-  }, [chatLogPresenter, id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     chatLogPresenter.setID(id);
+  //   }
+  // }, [chatLogPresenter, id]);
 
   useEffect(() => {
     const name = async () => {

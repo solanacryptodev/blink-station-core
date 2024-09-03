@@ -44,9 +44,9 @@ export class ChatLogPresenter {
     }
 
 
-    async getChat(chatId: string) {
+    async getChat() {
         // In the future, this would fetch from MongoDB
-        return this.chatHistory.get(chatId) || null;
+        return this.chatHistory.get(this.currentChatId!) || null;
     }
 
     setCurrentMessage(message: string) {
