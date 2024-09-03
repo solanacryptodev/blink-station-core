@@ -5,7 +5,7 @@ import { MembershipSubscription } from "@/lib/types";
 
 interface SubscriptionButtonProps {
     buttonText: string;
-    membershipType: MembershipSubscription['subscriptionStatus'];
+    membershipType: MembershipSubscription['subscriptionRank'];
 }
 
 export const UpgradeButton: FunctionComponent<{ data: SubscriptionButtonProps }> = observer(({data} : { data: SubscriptionButtonProps }) => {
@@ -18,7 +18,7 @@ export const UpgradeButton: FunctionComponent<{ data: SubscriptionButtonProps }>
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(10,3100, {
-                        subscriptionStatus: 'Specialist',
+                        subscriptionRank: 'Specialist',
                         tokenCount: 1000000
                     })}>
                     { data.buttonText }
@@ -29,7 +29,7 @@ export const UpgradeButton: FunctionComponent<{ data: SubscriptionButtonProps }>
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(20, 6100, {
-                        subscriptionStatus: 'Captain',
+                        subscriptionRank: 'Captain',
                         tokenCount: 3000000
                     })}>
                     { data.buttonText }
@@ -40,7 +40,7 @@ export const UpgradeButton: FunctionComponent<{ data: SubscriptionButtonProps }>
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(30,9100, {
-                        subscriptionStatus: 'Commander',
+                        subscriptionRank: 'Commander',
                         tokenCount: 5000000
                     })}>
                     { data.buttonText }

@@ -34,10 +34,10 @@ export const UserMessage = observer(({ children }: { children: React.ReactNode }
                 { !playerPresenter.isLoading && <Power size={ 18 } className="mr-2"/> }
                 { playerPresenter.isLoading && <SpinnerMessage/> }
                 <div>
-                    { playerPresenter.isLoading ? (
+                    { playerPresenter.isLoading || playerPresenter.playerName === 'undefined' ? (
                         'Loading...'
                     ) : playerPresenter.playerName ? (
-                        `${ playerPresenter.playerName } | Station ${ subscriptionPresenter.account[0].subscriptionStatus }`
+                        `${ playerPresenter.playerName } | Station ${ subscriptionPresenter.account[0]?.subscriptionRank! }`
                     ) : (
                         'No Name Detected'
                     ) }
@@ -158,7 +158,7 @@ export function SystemMessage( { children }: { children: React.ReactNode } ) {
 export function SpinnerMessage({message}: {message?: string}) {
     return (
         <div className="group relative flex md:-ml-12">
-            <div className="ml-4 flex flex-row items-center align-center text-amber-700">
+            <div className="ml-4 flex flex-row items-center align-center text-amber-500">
                 <div className="flex">{ spinner }</div>
                 <div className="flex">{ message }</div>
             </div>

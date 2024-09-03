@@ -41,6 +41,7 @@ export class SubscriptionPresenter {
             account: computed,
             freeAccount: computed,
             wallet: computed,
+            tokenCount: computed
         } )
     }
 
@@ -66,6 +67,10 @@ export class SubscriptionPresenter {
 
     get wallet(): Adapter {
         return this.rootStore.walletStore.wallet!;
+    }
+
+    get tokenCount(): number {
+        return this.rootStore.subscriptionStore.playerAcct[0]?.tokenCount;
     }
 
     activateSubscriptionModal( display: boolean ): void {
@@ -113,7 +118,7 @@ export class SubscriptionPresenter {
             const subscription: MembershipSubscription = {
                 playerName: this.rootStore.playerStore.playerName!,
                 publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
-                subscriptionStatus: membershipLevel.subscriptionStatus!,
+                subscriptionRank: membershipLevel.subscriptionRank!,
                 tokenCount: membershipLevel.tokenCount!,
                 createdAt: formatDate( date ),
                 subscribedOn: null,
@@ -142,7 +147,7 @@ export class SubscriptionPresenter {
                 const subscription: MembershipSubscription = {
                     playerName: this.rootStore.playerStore.playerName!,
                     publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
-                    subscriptionStatus: membershipLevel.subscriptionStatus!,
+                    subscriptionRank: membershipLevel.subscriptionRank!,
                     tokenCount: membershipLevel.tokenCount!,
                     createdAt: formatDate( currentDate ),
                     subscribedOn: formatDate( currentDate ),
@@ -166,7 +171,7 @@ export class SubscriptionPresenter {
                 const subscription: MembershipSubscription = {
                     playerName: this.rootStore.playerStore.playerName!,
                     publicKey: this.rootStore.walletStore.wallet?.publicKey?.toString()!,
-                    subscriptionStatus: membershipLevel.subscriptionStatus!,
+                    subscriptionRank: membershipLevel.subscriptionRank!,
                     tokenCount: membershipLevel.tokenCount!,
                     createdAt: formatDate( currentDate ),
                     upgradedAt: formatDate( currentDate ),
@@ -177,7 +182,7 @@ export class SubscriptionPresenter {
                 }
 
                 await this.rootStore.subscriptionStore.updateProfile(this.wallet.publicKey?.toString()!, {
-                    subscriptionStatus: subscription.subscriptionStatus,
+                    subscriptionRank: subscription.subscriptionRank,
                     tokenCount: subscription.tokenCount,
                     upgradedAt: subscription.upgradedAt,
                     membershipStartDate: subscription.membershipStartDate,

@@ -48,7 +48,7 @@ export interface TabPanelProps {
 export interface MembershipSubscription {
   playerName: string;
   publicKey: string;
-  subscriptionStatus: 'Traveler' | 'Specialist' | 'Captain' | 'Commander';
+  subscriptionRank: 'Traveler' | 'Specialist' | 'Captain' | 'Commander';
   tokenCount: number;
   createdAt?: string; // when the account was first created
   upgradedAt?: string; // when the player last upgraded or re-subscribed
