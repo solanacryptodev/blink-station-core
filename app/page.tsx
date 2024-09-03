@@ -22,7 +22,7 @@ export default async function IndexPage() {
   const homePhotos = [
       `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation3.png`,
       `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation5.png`,
-      `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation6.png`,
+      `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation8.png`,
       `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation7.png`
   ]
 

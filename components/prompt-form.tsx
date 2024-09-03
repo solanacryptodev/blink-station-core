@@ -72,11 +72,15 @@ export const PromptForm = observer(({
         { pathname.includes('chat') && await handleSubmitMessage(input) }
     }}>
       <div className={`relative border ${
-          subscriptionPresenter.account.length === 0
+          !subscriptionPresenter.wallet?.connected
               ? 'border-red-500'
-              : subscriptionPresenter.tokenCount <= 0
+              : subscriptionPresenter.account.length === 0
                   ? 'border-red-500'
-                  : 'border-amber-500'
+                  : !subscriptionPresenter.sageAccount
+                      ? 'bg-red-500'
+                  : subscriptionPresenter.tokenCount <= 0
+                      ? 'border-red-500'
+                      : 'border-amber-500'
       } flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12`}>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -90,8 +94,12 @@ export const PromptForm = observer(({
           tabIndex={0}
           onKeyDown={onKeyDown}
           placeholder={
-              subscriptionPresenter.account.length === 0
-                  ? "Create a Player Profile"
+              !subscriptionPresenter.wallet?.connected
+                  ? "Connect Your Wallet"
+                  : !subscriptionPresenter.sageAccount
+                      ? "Create a Player Profile in Sage"
+                  : subscriptionPresenter.account.length === 0
+                      ? "Create an account"
                   : subscriptionPresenter.tokenCount <= 0
                       ? "You've run out of tokens"
                       : "Write a message..."
@@ -114,10 +122,14 @@ export const PromptForm = observer(({
                   size="icon"
                   disabled={input === ''}
                   className={`${
-                      subscriptionPresenter.account.length === 0
+                      !subscriptionPresenter.wallet?.connected
                           ? 'bg-red-300'
+                          : !subscriptionPresenter.sageAccount
+                              ? 'bg-red-300'
+                          : subscriptionPresenter.account.length === 0
+                              ? 'bg-red-300'
                           : subscriptionPresenter.tokenCount <= 0
-                              ? 'bg-red-500'
+                              ? 'bg-red-300'
                               : 'bg-amber-300'
                   }`}
               >

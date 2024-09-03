@@ -43,7 +43,7 @@ export class SubscriptionStore {
             setHasAccount: action.bound,
             setHasFreeAccount: action.bound,
 
-            getPlayerProfileStatus: computed,
+            playerProfileStatus: computed,
             getActiveSubscriptions: computed,
             playerAccount: computed
         })
@@ -53,7 +53,7 @@ export class SubscriptionStore {
         await connectToMongo();
     }
 
-    get getPlayerProfileStatus(): boolean {
+    get playerProfileStatus(): boolean {
         return this.hasPlayerProfile;
     }
 
