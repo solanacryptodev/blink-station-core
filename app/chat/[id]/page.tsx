@@ -8,17 +8,21 @@ import { AI } from '@/lib/chat/actions'
 import { Session } from '@/lib/types'
 import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
 
+export const metadata = {
+  title: 'Blink Station 10 - Chat'
+}
+
 export default async function ChatPage({ params }: { params: { id: string } }) {
   const session = await auth() as Session
   const missingKeys = await getMissingKeys()
   const chatLogPresenter = ChatLogPresenter.getInstance()
 
-  let chat = await chatLogPresenter.getChat(params.id)
+  let chat = await chatLogPresenter.getChat()
 
   if (!chat) {
     // console.log("Chat not found in page.tsx, creating new chat");
     const newChatId = chatLogPresenter.createNewChat();
-    chat = await chatLogPresenter.getChat(newChatId);
+    chat = await chatLogPresenter.getChat();
     if (!chat) {
       console.error("Failed to create new chat");
       notFound();

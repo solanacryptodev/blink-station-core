@@ -41,7 +41,8 @@ export class SubscriptionPresenter {
             account: computed,
             freeAccount: computed,
             wallet: computed,
-            tokenCount: computed
+            tokenCount: computed,
+            sageAccount: computed
         } )
     }
 
@@ -54,6 +55,10 @@ export class SubscriptionPresenter {
 
     get player(): string {
         return this.rootStore.playerStore.playerName!;
+    }
+
+    get sageAccount(): boolean {
+        return this.rootStore.subscriptionStore.playerProfileStatus;
     }
 
     get account(): MembershipSubscription[] {

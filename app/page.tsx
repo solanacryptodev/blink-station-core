@@ -4,41 +4,31 @@ import { AI } from '@/lib/chat/actions'
 import { auth } from '@/auth'
 import { Session } from '@/lib/types'
 import { getMissingKeys } from '@/app/actions'
-import { Button } from "@/components/ui/button";
-import Link from 'next/link'
+import PhotoGrid from "@/components/photo-grid";
+import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
 
 export const metadata = {
   title: 'Blink Station 10'
 }
 
 export default async function IndexPage() {
+    const chatLogPresenter = ChatLogPresenter.getInstance()
   const id = `station-log-${nanoid()}`
+    chatLogPresenter.setID(id);
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
+  const shdwDrive = process.env.NEXT_PUBLIC_SHDW!
 
-  interface CenteredButtonProps {
-    href: string;
-    className?: string;
-    children: React.ReactNode;
-  }
-
-  const CenteredButton: React.FC<CenteredButtonProps> = ({ href, className, children }) => {
-    return (
-        <div className="flex items-center align-center justify-center min-w-full content-center">
-          <div className="w-full max-w-md px-4 justify-end text-right">
-            <Link href={href} passHref>
-              <Button className={`rounded bg-gradient-to-r from-[#15323F] to-[#102832] hover:from-[#0a191f] hover:to-[#0e232c] opacity-100 ${className || ''}`}>
-                {children}
-              </Button>
-            </Link>
-          </div>
-        </div>
-    );
-  };
+  const homePhotos = [
+      `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation3.png`,
+      `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation5.png`,
+      `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation8.png`,
+      `https://shdw-drive.genesysgo.net/${shdwDrive}/blinkstation7.png`
+  ]
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
-      <CenteredButton href={`/chat/${id}`} className="text-white">Enter Blink Station 10</CenteredButton>
+      <PhotoGrid id={id} photos={homePhotos} />
     </AI>
   )
 }
