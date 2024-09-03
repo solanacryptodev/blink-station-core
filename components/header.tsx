@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import { auth } from '@/auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
-  IconGitHub,
+  SettingsIcon,
   IconSeparator,
   IconVercel
 } from '@/components/ui/icons'
@@ -75,7 +75,7 @@ export const Header = observer(() => {
           </React.Suspense>
       </div>
         <div className="flex items-center justify-end space-x-2">
-            <IconGitHub />
+            <SettingsIcon />
         <span className="hidden ml-2 md:flex cursor-pointer" onClick={() => settingsPresenter.activateSettingsModal(true)}>Settings</span>
 
           {playerPresenter.isConnected ? (

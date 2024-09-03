@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { action, reaction, computed, makeObservable, observable, autorun, runInAction } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { singleton } from "tsyringe";
 import { Adapter, WalletAdapter } from "@solana/wallet-adapter-base";
 import { MAIN_WALLETS, walletOrder } from "@/stores/WalletStore";
@@ -43,9 +43,10 @@ export class PlayerPresenter {
             isConnected: computed,
             supportedWallets: computed,
             playerName: computed,
+            playerRank: computed,
             wallet: computed,
             tokensLeft: computed,
-            noName: computed
+            noName: computed,
         })
     }
 
@@ -90,6 +91,10 @@ export class PlayerPresenter {
     get playerName(): string {
         // console.log('player name...', this.playerName);
         return this.rootStore.playerStore.playerName as string;
+    }
+
+    get playerRank(): string {
+        return `Station ${ this.rootStore.subscriptionStore.playerAcct[ 0 ]?.subscriptionRank }`;
     }
 
     get wallet(): Adapter {

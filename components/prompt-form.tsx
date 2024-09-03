@@ -19,6 +19,8 @@ import { observer } from "mobx-react-lite";
 import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 import { tokenizeString } from '@/lib/tokenizer';
 import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
+import Image from "next/image";
+import * as React from "react";
 
 export const PromptForm = observer(({
   input,
@@ -69,29 +71,31 @@ export const PromptForm = observer(({
         event.preventDefault();
         { pathname.includes('chat') && await handleSubmitMessage(input) }
     }}>
-      <div className={`relative border ${subscriptionPresenter.account.length === 0 ? 'border-red-500' : 'border-amber-500'} flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12`}>
+      <div className={`relative border ${
+          subscriptionPresenter.account.length === 0
+              ? 'border-red-500'
+              : subscriptionPresenter.tokenCount <= 0
+                  ? 'border-red-500'
+                  : 'border-amber-500'
+      } flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12`}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute left-0 top-[14px] size-8 rounded-full bg-background p-0 sm:left-4"
-              // onClick={() => {
-              //   router.push('/new')
-              // }}
-            >
-              <IconPlus />
-              <span className="sr-only">New Chat</span>
-            </Button>
+              <Image src='/blinkIcon.jpg' width={30} height={30} alt='Blink Station X icon.' className='absolute left-0 top-[14px] size-8 rounded-full bg-background p-0 sm:left-4' />
           </TooltipTrigger>
-          <TooltipContent>New Chat</TooltipContent>
+          <TooltipContent>Atlasson</TooltipContent>
         </Tooltip>
         <Textarea
-          disabled={subscriptionPresenter.account.length === 0}
+          disabled={subscriptionPresenter.account.length === 0 || subscriptionPresenter.tokenCount <= 0}
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          placeholder={subscriptionPresenter.account.length === 0 ? "Create an account" : "Write a message..."}
+          placeholder={
+              subscriptionPresenter.account.length === 0
+                  ? "Create a Player Profile"
+                  : subscriptionPresenter.tokenCount <= 0
+                      ? "You've run out of tokens"
+                      : "Write a message..."
+          }
           className="min-h-[60px] w-full z-70 resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
           autoFocus
           spellCheck={false}
@@ -105,7 +109,18 @@ export const PromptForm = observer(({
         <div className="absolute right-0 top-[13px] sm:right-4">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button type="submit" size="icon" disabled={input === ''} className={`${subscriptionPresenter.account.length === 0 ? 'bg-red-300' : 'bg-amber-300'}`}>
+              <Button
+                  type="submit"
+                  size="icon"
+                  disabled={input === ''}
+                  className={`${
+                      subscriptionPresenter.account.length === 0
+                          ? 'bg-red-300'
+                          : subscriptionPresenter.tokenCount <= 0
+                              ? 'bg-red-500'
+                              : 'bg-amber-300'
+                  }`}
+              >
                 <IconArrowElbow />
                 <span className="sr-only">Send message</span>
               </Button>

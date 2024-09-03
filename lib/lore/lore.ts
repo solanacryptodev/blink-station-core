@@ -1,6 +1,6 @@
-import { LoreMetadata } from '@/lib/metadata';
+import { LoreMetadata } from '@/lib/lore-metadata';
 
-export const Lore: LoreMetadata[] = [
+export const StarAtlasLore: LoreMetadata[] = [
     {
         name: 'Star Atlas Lore',
         description: 'All lore relating to the Star Atlas game as described in the Star Atlas lore wiki.',
@@ -22,9 +22,7 @@ export const Lore: LoreMetadata[] = [
                                     'MUD controlled space provides proximity to raw materials that serve a core purpose in the component manufacturing ' +
                                     'process for distant astronautical travel and ballistics technology.',
                             }
-                        ]
-                    },
-                    {
+                        ],
                         USTUR: [
                             {
                                 name: 'The Ustur Faction',
@@ -36,9 +34,7 @@ export const Lore: LoreMetadata[] = [
                                     'to recall their origin. But it is thought that their individual bodies contain a sliver of the original parent AI in pursuit of transcendent ' +
                                     'awakening and experiencing the universe through an organic medium.'
                             }
-                        ]
-                    },
-                    {
+                        ],
                         ONI: [
                             {
                                 name: 'The ONI Faction',
@@ -53,40 +49,32 @@ export const Lore: LoreMetadata[] = [
                                     'The ONI Region has access to densely clustered raw materials within their controlled space. These materials are highly coveted ' +
                                     'in the crafting of advanced stealth and radar technologies, leading to the discovery of even greater breakthroughs for all sentient life.'
                             }
-                        ]
-                    },
-                    {
+                        ],
                         JORVIK: [
                             {
                                 name: 'The Jorvik (BYOS) Faction',
                                 lore: 'A faction of outlaws and pirates plaguing the medium and high-risk zones'
                             }
-                        ]
-                    },
-                    {
+                        ],
                         ECOS: [
                             {
                                 name: 'The ECOS Faction',
                                 lore: 'A faction of radicals who terraform via bombings in the medium and high-risk zones'
                             }
-                        ]
-                    },
-                    {
+                        ],
                         TUFA: [
                             {
                                 name: 'The TUFA Faction',
                                 lore: 'A faction of metagenic creatures, the scourge of the cataclysm'
                             }
-                        ]
-                    },
-                    {
+                        ],
                         PHOTOLI: [
                             {
                                 name: 'The Photoli Faction',
                                 lore: 'An ancient race of light-based creatures and source of extremely advanced technology'
                             }
                         ]
-                    }
+                    },
                 ],
                 history: [
                     {

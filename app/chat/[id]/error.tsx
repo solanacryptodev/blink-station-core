@@ -7,9 +7,9 @@ interface ErrorProps {
 
 export default function ErrorComponent({ error, reset }: ErrorProps) {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-black">
             <div className="w-full max-w-md">
-                <div>Something went wrong!</div>
+                <div className="text-white">Something went wrong!</div>
                 <div>
                     {error.message || "An unexpected error occurred."}
                 </div>

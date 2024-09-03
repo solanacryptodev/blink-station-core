@@ -89,7 +89,7 @@ export class SubscriptionStore {
             const subWithoutId: MembershipSubscription = {
                 playerName: sub.playerName,
                 publicKey: sub.publicKey,
-                subscriptionStatus: sub.subscriptionStatus,
+                subscriptionRank: sub.subscriptionStatus,
                 tokenCount: sub.tokenCount,
                 createdAt: sub.createdAt,
                 membershipStartDate: sub.membershipStartDate,

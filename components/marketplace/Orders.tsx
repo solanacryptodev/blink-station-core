@@ -8,15 +8,18 @@ import { Error } from '@/components/error';
 import { OpenOrders, ReturnedOrders } from "@/lib/types";
 import { FunctionComponent, useEffect, useState, useId } from "react";
 import { useAIState } from "ai/rsc";
+import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 
 export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer(({ userAsset }: { userAsset: OpenOrders[] }) => {
     const ordersPresenter = OrdersPresenter.getInstance();
+    const playerPresenter = PlayerPresenter.getInstance();
+    const playerName = JSON.stringify(playerPresenter.playerName, null, 2);
+    const stationRank = JSON.stringify(playerPresenter.playerRank, null, 2);
     const id = useId();
 
     const [orders, setOrders] = useState<ReturnedOrders[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
     const [aiState, setAIState] = useAIState()
 
     useEffect(() => {
@@ -42,7 +45,8 @@ export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer((
             const message = {
                 id,
                 role: 'system' as const,
-                content: `[Player has generated these open orders based on ${userAsset[0].assetName} and ${userAsset[0].ownerKey}]: ${ordersString}`
+                content: `[This player's Station Rank is ${stationRank} and their name is ${playerName}. They have generated these open orders 
+                based on ${userAsset[0].assetName} and ${userAsset[0].ownerKey}]: ${ordersString}. Use their rank and name in your response to their questions.`
             }
 
             if (aiState.messages[aiState.messages.length - 1]?.id === id) {
