@@ -8,7 +8,7 @@ import { wordRevealer } from '@/lib/utils'
 import { motion, Variants } from 'framer-motion';
 import { LoreData } from "@/lib/lore-metadata";
 import { StarAtlasLore } from "@/lib/lore/lore";
-import { Error } from "@/components/error";
+import { ChatError } from "@/components/chat-error";
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 
 export const Lore: FunctionComponent<{ lore: string }> = observer(({ lore }) => {
@@ -147,7 +147,7 @@ export const Lore: FunctionComponent<{ lore: string }> = observer(({ lore }) => 
             )}
 
             { error && (
-                <Error error={ error }/>
+                <ChatError error={ error }/>
             )}
         </>
     );

@@ -4,7 +4,7 @@
 
 import { observer } from "mobx-react-lite";
 import { OrdersPresenter } from "@/presenters/OrdersPresenter";
-import { Error } from '@/components/error';
+import { ChatError } from '@/components/chat-error';
 import { OpenOrders, ReturnedOrders } from "@/lib/types";
 import { FunctionComponent, useEffect, useState, useId } from "react";
 import { useAIState } from "ai/rsc";
@@ -92,7 +92,7 @@ export const Orders: FunctionComponent<{ userAsset: OpenOrders[] }> = observer((
             </div>
 
             {orders.length === 0 && error && (
-                <Error error={error} />
+                <ChatError error={error} />
             )}
         </>
     )
