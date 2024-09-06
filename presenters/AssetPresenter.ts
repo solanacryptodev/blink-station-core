@@ -200,15 +200,15 @@ export class AssetPresenter {
         return {
             assetName: name,
             exampleData: {
-                starRating: 90,
-                totalBuyQuantity: 100,
-                totalSellQuantity: 150,
-                totalBuyPrice: 40,
-                totalSellPrice: 90,
-                volumeRating: 27,
-                demandRating: 51,
-                priceCompetitivenessRating: 75,
-                classLiquidity: 82,
+                starRating: 122,
+                totalBuyQuantity: 658210349,
+                totalSellQuantity: 365212032,
+                totalBuyPrice: 155827,
+                totalSellPrice: 254585,
+                volumeRating: 100,
+                demandRating: 180,
+                priceCompetitivenessRating: 74,
+                classLiquidity: 100,
             }
         }
     }

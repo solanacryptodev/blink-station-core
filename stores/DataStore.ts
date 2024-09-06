@@ -1,10 +1,11 @@
 import { makeObservable } from "mobx";
 import {
-    totalBuyAndSellQuantities,
-    totalBuyAndSellPrices,
-    totalAssetExchanges,
+    averageSellPrice,
     lowestCurrentPrice,
-    averageSellPrice } from '@/app/data-actions';
+    totalAssetExchanges,
+    totalBuyAndSellPrices,
+    totalBuyAndSellQuantities
+} from '@/app/data-actions';
 import { RootStore } from "@/stores/RootStore";
 import NodeCache from "node-cache";
 
@@ -42,16 +43,15 @@ export class DataStore {
 
     async totalAssetExchanges(mint: string, currency: string) {
         const cacheKey = `totalAssetExchanges-${mint}-${currency}`;
-        const cachedResult = this.cache.get<number>(cacheKey);
-
-        if (cachedResult !== undefined) {
-            return cachedResult;
-        }
+        // const cachedResult = this.cache.get<number>(cacheKey);
+        //
+        // if (cachedResult !== undefined) {
+        //     return cachedResult;
+        // }
 
         try {
-            const result = await totalAssetExchanges(mint, currency);
-            this.cache.set(cacheKey, result);
-            return result;
+            // this.cache.set(cacheKey, result);
+            return await totalAssetExchanges( mint, currency );
         } catch (error) {
             console.error('Error in DataStore.totalAssetExchanges:', error);
             throw error;
