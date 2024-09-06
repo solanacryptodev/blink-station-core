@@ -7,15 +7,15 @@ import {
     totalBuyAndSellQuantities
 } from '@/app/data-actions';
 import { RootStore } from "@/stores/RootStore";
-import NodeCache from "node-cache";
+// import NodeCache from "node-cache";
 
 export class DataStore {
-    private cache: NodeCache;
+    // private cache: NodeCache;
     rootStore: RootStore;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
-        this.cache = new NodeCache({ stdTTL: 600 });
+        // this.cache = new NodeCache({ stdTTL: 600 });
 
         makeObservable(this, {})
     }
