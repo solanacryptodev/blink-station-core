@@ -45,20 +45,20 @@ export async function totalAssetExchanges(mint: string, currency: string): Promi
             const queryResultSet = await flipside.query.run({sql: sql, maxAgeMinutes: 1440});
 
             // Convert the result to a JSON string
-            const resultJson = JSON.stringify(queryResultSet, null, 2);
+            //const resultJson = JSON.stringify(queryResultSet, null, 2);
 
             // Define the output file path
-            const outputPath = path.join(process.cwd(), 'results.json');
+            // const outputPath = path.join(process.cwd(), 'results.json');
 
             // Write the results to a file
-            fs.writeFile(outputPath, resultJson, 'utf8', (err) => {
-                if (err) {
-                    console.error('Error writing results to file:', err);
-                    throw err;
-                }
-            });
+            // fs.writeFile(outputPath, resultJson, 'utf8', (err) => {
+            //     if (err) {
+            //         console.error('Error writing results to file:', err);
+            //         throw err;
+            //     }
+            // });
 
-            console.log(`Query results have been written to ${outputPath}`);
+            // console.log(`Query results have been written to ${outputPath}`);
 
             results = queryResultSet.records?.length!;
             // console.log('Number of results:', results);

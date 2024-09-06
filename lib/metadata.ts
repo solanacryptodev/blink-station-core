@@ -34,9 +34,9 @@ export const exampleMessages: ExamplePrompts[] = [
         message: `Tell me about the history of the Galia Expanse.`
     },
     {
-        heading: 'How many hostile sectors',
-        subheading: `and allied sectors are there?`,
-        message: `How many hostile sectors and allied sectors are there?`
+        heading: 'What is the story',
+        subheading: `behind the Cataclysm?`,
+        message: `What is the story behind the Cataclysm?`
     }
 ]
 
