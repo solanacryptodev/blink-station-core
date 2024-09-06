@@ -1,18 +1,13 @@
 import React from 'react'
-
 import { cn } from '@/lib/utils'
-import { ExternalLink } from '@/components/external-link'
+import { MusicPlayer } from "@/components/MusicPlayer";
 
-export function FooterText({ className, ...props }: React.ComponentProps<'p'>) {
+export function FooterText({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <p
-      className={cn(
-        'px-2 text-center text-sm leading-normal text-muted-foreground',
-        className
-      )}
+    <div className={cn( 'px-2 text-center text-sm leading-normal text-muted-foreground', className )}
       {...props}
     >
-      Music Player Coming Soon...
-    </p>
+      <MusicPlayer />
+    </div>
   )
 }

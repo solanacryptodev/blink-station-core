@@ -32,7 +32,7 @@ export async function totalAssetExchanges(mint: string, currency: string): Promi
             WHERE
                 program_id = 'traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg'
                     AND succeeded = 'true'
-                    AND block_timestamp >= '2024-08-15'                     
+                    AND block_timestamp >= '2024-09-04'                     
                     AND INNER_INSTRUCTION:instructions[4]:parsed:type = 'transferChecked'
                     AND INNER_INSTRUCTION:instructions[4]:parsed:info:mint = '${mint}'
                     AND INNER_INSTRUCTION:instructions[2]:parsed:info:mint = '${currency}'                
