@@ -29,7 +29,7 @@ export const MusicPlayer = observer(() => {
                 </div>
 
                 <div className="flex justify-center">
-                    Now Playing: { playlist[ songIndex ].name }
+                    Now Playing: { playlist[ songIndex ]?.name }
                 </div>
             </div>
         </>
