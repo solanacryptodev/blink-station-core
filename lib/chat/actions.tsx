@@ -8,7 +8,7 @@ import {
   streamUI,
   createStreamableValue
 } from 'ai/rsc'
-import { openai } from '@ai-sdk/openai'
+import { openai, createOpenAI } from '@ai-sdk/openai'
 
 import {
   spinner,
@@ -32,7 +32,6 @@ import { BlinkSkeleton } from '@/components/marketplace/BlinkSkeleton'
 import { Lore } from '@/components/lore/Lore'
 import { LoreSkeleton } from '@/components/lore/LoreSkeleton'
 import { AssetAnalysis } from '@/components/assets/analysis/AssetAnalysis'
-import { AssetAnalysisSkeleton } from '@/components/assets/analysis/AssetAnalysisSkeleton'
 import {
   formatNumber,
   runAsyncFnWithoutBlocking,
@@ -41,9 +40,11 @@ import {
 } from '@/lib/utils'
 import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
-import { Chat, Message } from '@/lib/types'
+import { Chat, MembershipSubscription, Message } from '@/lib/types'
 import { auth } from '@/auth'
 import { Atlasson } from '@/lib/chat/Atlasson';
+import { retrievePlayerApiKey } from '@/app/db-actions';
+import { decryptApiKey } from "@/app/encryption-actions";
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -115,8 +116,14 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(content: string) {
+async function submitUserMessage(content: string, pubkey: string) {
   'use server'
+
+  const playerData = await retrievePlayerApiKey(pubkey);
+  const decrypt = await decryptApiKey(playerData!, pubkey);
+  const model = createOpenAI({
+    apiKey: decrypt ? decrypt : process.env.OPENAI_API_KEY!,
+  })
 
   const aiState = getMutableAIState<typeof AI>()
 
@@ -136,7 +143,7 @@ async function submitUserMessage(content: string) {
   let textNode: undefined | React.ReactNode
 
   const result = await streamUI({
-    model: openai('gpt-4o-mini-2024-07-18'),
+    model: model.chat('gpt-4o-mini-2024-07-18'),
     initial: <SpinnerMessage />,
     system: `\ 
     ${Atlasson.description}
@@ -155,9 +162,6 @@ async function submitUserMessage(content: string) {
       history, factions, and the lore of the Galia Expanse.
     If a user wants an asset analysis for a particular asset in the Galactic Marketplace, call \`get_asset_analysis\`. This provides them with the
       Scarcity Score and the Galactic Demand Index (GDI) for that asset.  
-    If you want to show trending stocks, call \`list_stocks\`.
-    If you want to show events, call \`get_events\`.
-    If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
     
     Besides that, you can also chat with users and do some calculations if needed.`,
     messages: [
@@ -788,11 +792,11 @@ export const getUIStateFromAIState = (aiState: Chat) => {
       display:
         message.role === 'tool' ? (
           message.content.map(tool => {
-            return tool.toolName === 'listStocks' ? (
+            return tool.toolName === 'getAssetAnalysis' ? (
               <BotCard>
                 {/* TODO: Infer types based on the tool result*/}
                 {/* @ts-expect-error */}
-                <Stocks props={tool.result} />
+                <AssetAnalysis asset={tool.result} />
               </BotCard>
             ) : tool.toolName === 'showStockPrice' ? (
               <BotCard>

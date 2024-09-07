@@ -17,9 +17,6 @@ const chakra = Chakra_Petch({
 })
 
 export const metadata = {
-  metadataBase: process.env.VERCEL_URL
-    ? new URL(`https://${process.env.VERCEL_URL}`)
-    : undefined,
   title: {
     default: 'Blink Station 10',
     template: `%s `

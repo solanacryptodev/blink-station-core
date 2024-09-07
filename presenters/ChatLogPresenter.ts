@@ -36,17 +36,18 @@ export class ChatLogPresenter {
         return this.currentMessage;
     }
 
-    createNewChat() {
-        const chatId = `station-log-${nanoid()}`;
+    createNewChat(chatId: string) {
         this.chatHistory.set(chatId, { id: chatId, messages: [], title: 'New Chat' });
-        this.currentChatId = chatId;
+        this.setID(chatId);  // Set the current chat ID when creating a new chat
         return chatId;
     }
 
-
     async getChat() {
-        // In the future, this would fetch from MongoDB
-        return this.chatHistory.get(this.currentChatId!) || null;
+        // Make sure currentChatId is set before trying to get the chat
+        if (!this.currentChatId) {
+            return null;
+        }
+        return this.chatHistory.get(this.currentChatId) || null;
     }
 
     setCurrentMessage(message: string) {

@@ -6,8 +6,8 @@ import getConfig from "next/config";
 
 const { serverRuntimeConfig } = getConfig();
 
-const dbName = 'BlinkStation10';
-const collectionName = 'blinkSubscriptions';
+const dbName = serverRuntimeConfig.DB_NAME!;
+const collectionName = serverRuntimeConfig.COLLECTION_NAME!;
 const uri = process.env.MONGO_URI!;
 
 const client = new MongoClient(uri, { serverApi: {
@@ -27,7 +27,7 @@ export async function connectToMongo() {
     try {
         await client.connect();
         await client.db(dbName).command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } catch ( error ) {
         console.log("Unable to connect to MongoDB", error);
     } finally {
@@ -59,7 +59,7 @@ export async function readSubscription(pubKey: string) {
 
 export async function travelerSubscription(pubKey: string) {
     const collection = await getMongoCollection();
-    return await collection.findOne({ publicKey: pubKey, subscriptionStatus: 'Traveler' });
+    return await collection.findOne({ publicKey: pubKey, subscriptionRank: 'Traveler' });
 }
 
 export async function readAllSubscriptions() {
@@ -74,6 +74,15 @@ export async function updateSubscription(pubKey: string, update: Partial<Members
         { $set: update }
     );
     return result.modifiedCount;
+}
+
+export async function retrievePlayerApiKey(pubKey: string): Promise<string | null> {
+    const collection = await getMongoCollection();
+    const result = await collection.findOne(
+        { publicKey: pubKey },
+        { projection: { key: 1, _id: 0 } }
+    );
+    return result ? result.key : null;
 }
 
 export async function deleteSubscription(id: string) {

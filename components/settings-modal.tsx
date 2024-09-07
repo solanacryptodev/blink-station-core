@@ -5,11 +5,14 @@ import { SettingsPresenter } from "@/presenters/SettingsPresenter";
 import { Separator } from "@/components/ui/separator";
 import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 import { useClickAway } from "react-use";
+import { useEnterSubmit } from "@/lib/hooks/use-enter-submit";
 
 export const SettingsModal: FunctionComponent = observer(() => {
     const settingsPresenter = SettingsPresenter.getInstance();
     const subscriptionPresenter = SubscriptionPresenter.getInstance();
     const ref = useRef<HTMLDivElement>(null);
+    const { onKeyDown } = useEnterSubmit()
+    const inputRef = useRef<HTMLTextAreaElement>(null)
 
     useClickAway(ref, () => {
         settingsPresenter.activateSettingsModal(false);
@@ -37,6 +40,36 @@ export const SettingsModal: FunctionComponent = observer(() => {
                                     }
                                     }>Upgrade
                                 </div>
+                            </div>
+
+                            <div className="text-lg mb-4">AI Controls</div>
+                            <div className="flex flex-row w-full items-center">
+                                <div className="mr-3 w-full">
+                                    <textarea
+                                        disabled={ !subscriptionPresenter.freeAccount }
+                                        ref={ inputRef }
+                                        tabIndex={ 1 }
+                                        onKeyDown={ onKeyDown }
+                                        placeholder="Enter your OpenAI API key"
+                                        className="min-h-[40px] w-full z-70 rounded-lg resize-none bg-black p-3 focus-within:outline-none"
+                                        autoFocus
+                                        spellCheck={ false }
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        value={ settingsPresenter.currentKey }
+                                        onChange={(e) => settingsPresenter.setApiKey(e.target.value)}
+                                    />
+                                </div>
+
+                                <div>
+                                    <button
+                                        disabled={!subscriptionPresenter.freeAccount}
+                                        className="text-lg border-amber-500 border-2 rounded-lg z-75 cursor-pointer p-2"
+                                        onClick={() => settingsPresenter.saveApiKey()}>
+                                        Save
+                                    </button>
+                                </div>
+
                             </div>
 
                             <div className="text-lg mb-4">Music Player Controls</div>

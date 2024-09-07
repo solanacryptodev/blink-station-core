@@ -57,6 +57,7 @@ export interface MembershipSubscription {
   membershipEndDate?: Date | null;
   paidInFull?: boolean; // manually updated and reset when subscription is accounted for in Mongo
   lastSeenOn?: string; // only used to track when a player was actually using the chat features of the app. Daily active users.
+  key?: string;
   chatLogs?: Message[];
 }
 

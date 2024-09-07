@@ -57,7 +57,7 @@ export const PromptForm = observer(({
             }
         ])
 
-        const responseMessage = await submitUserMessage(value)
+        const responseMessage = await submitUserMessage(value, subscriptionPresenter.wallet.publicKey?.toString())
         chatLogPresenter.addMessageToChat(chatLogPresenter.currentChatId!, responseMessage)
 
         setMessages(currentMessages => [...currentMessages, responseMessage])
