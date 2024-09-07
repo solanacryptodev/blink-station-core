@@ -11,6 +11,7 @@ import {
     travelerSubscription
 } from '@/app/db-actions';
 import { MembershipSubscription, MembershipSubscriptionWithoutId } from '@/lib/types';
+import { storeEncryptedApiKey } from "@/app/encryption-actions";
 
 @singleton()
 export class SubscriptionStore {
@@ -42,6 +43,7 @@ export class SubscriptionStore {
             resetPlayerAccount: action.bound,
             setHasAccount: action.bound,
             setHasFreeAccount: action.bound,
+            setApiKey: action.bound,
 
             playerProfileStatus: computed,
             getActiveSubscriptions: computed,
@@ -81,6 +83,10 @@ export class SubscriptionStore {
         this.playerAcct = [];
     }
 
+    async setApiKey(wallet: string, currentKey: string): Promise<number> {
+        return await storeEncryptedApiKey(wallet!, currentKey!);
+    }
+
     async setSubscriptions(subscriptions: Partial<MembershipSubscription>) {
         const sub = await readSubscription(subscriptions.publicKey?.toString()!);
         const freeSub = await travelerSubscription(subscriptions.publicKey?.toString()!);
@@ -89,15 +95,17 @@ export class SubscriptionStore {
             const subWithoutId: MembershipSubscription = {
                 playerName: sub.playerName,
                 publicKey: sub.publicKey,
-                subscriptionRank: sub.subscriptionStatus,
+                subscriptionRank: sub.subscriptionRank,
                 tokenCount: sub.tokenCount,
                 createdAt: sub.createdAt,
                 membershipStartDate: sub.membershipStartDate,
                 membershipEndDate: sub.membershipEndDate,
+                key: sub.key,
                 chatLogs: sub.chatLogs
             };
             runInAction(() => {
                 this.playerAcct.push(subWithoutId);
+                // console.log('player acct: ', this.playerAcct)
             });
         }
 

@@ -6,6 +6,8 @@ module.exports = {
     HELIUS_RPC_URL: process.env.HELIUS_RPC_URL,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     EMPTY_NODE_WALLET: process.env.NEXT_PUBLIC_NODE?.split(',').map(Number),
+    DB_NAME: process.env.DB_NAME,
+    COLLECTION_NAME: process.env.COLLECTION_NAME
     // MONGO_URI: process.env.MONGO_URI
   },
   images: {

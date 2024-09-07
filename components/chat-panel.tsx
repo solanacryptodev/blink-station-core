@@ -62,7 +62,7 @@ export const ChatPanel = observer(({
       }
     ])
 
-    const responseMessage = await submitUserMessage(example.message);
+    const responseMessage = await submitUserMessage(example.message, subscriptionPresenter.wallet.publicKey?.toString()!);
     chatLogPresenter.addMessageToChat(chatLogPresenter.currentChatId!, responseMessage);
 
     setMessages( currentMessages => [...currentMessages, responseMessage ])

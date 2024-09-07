@@ -1,5 +1,4 @@
-import { type Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
 import { auth } from '@/auth'
 import { getMissingKeys } from '@/app/actions'
@@ -17,25 +16,24 @@ export default async function ChatPage({ params }: { params: { id: string } }) {
   const missingKeys = await getMissingKeys()
   const chatLogPresenter = ChatLogPresenter.getInstance()
 
+  chatLogPresenter.setID(params.id);  // Set the current chat ID
   let chat = await chatLogPresenter.getChat()
 
   if (!chat) {
-    // console.log("Chat not found in page.tsx, creating new chat");
-    const newChatId = chatLogPresenter.createNewChat();
-    chat = await chatLogPresenter.getChat();
+    // Create a new chat if it doesn't exist
+    chatLogPresenter.createNewChat(params.id);
+    chat = await chatLogPresenter.getChat()
+
     if (!chat) {
-      console.error("Failed to create new chat");
+      console.error("Failed to create chat for ID:", params.id);
       notFound();
     }
-    // console.log("Redirecting to new chat:", newChatId);
-    redirect(`/chat/${newChatId}`);
   }
 
-  // console.log("Rendering chat with ID:", chat.id);
   return (
-      <AI initialAIState={{ chatId: chat.id || '', messages: chat.messages || [] }}>
+      <AI initialAIState={{ chatId: params.id, messages: chat.messages || [] }}>
         <Chat
-            id={chat.id}
+            id={params.id}
             session={session}
             initialMessages={chat.messages || []}
             missingKeys={missingKeys}

@@ -66,7 +66,7 @@ export class SubscriptionPresenter {
     }
 
     get freeAccount(): boolean {
-        console.log('Has free account:', this.rootStore.subscriptionStore.hasFreeAccount);
+        // console.log('Has free account:', this.rootStore.subscriptionStore.hasFreeAccount);
         return this.rootStore.subscriptionStore.hasFreeAccount!;
     }
 
@@ -129,6 +129,7 @@ export class SubscriptionPresenter {
                 subscribedOn: null,
                 membershipStartDate: null,
                 membershipEndDate: null,
+                key: '',
                 chatLogs: []
             }
             const added = await this.rootStore.subscriptionStore.addSubscription( subscription )
@@ -158,6 +159,7 @@ export class SubscriptionPresenter {
                     subscribedOn: formatDate( currentDate ),
                     membershipStartDate: currentDate,
                     membershipEndDate: addDaysToDate( currentDate, 30 ),
+                    key: '',
                     chatLogs: []
                 }
                 await this.rootStore.subscriptionStore.addSubscription( subscription );
@@ -183,6 +185,7 @@ export class SubscriptionPresenter {
                     membershipStartDate: currentDate,
                     membershipEndDate: addDaysToDate(currentDate, 30),
                     paidInFull: false,
+                    key: '',
                     chatLogs: []
                 }
 
@@ -248,6 +251,7 @@ export class SubscriptionPresenter {
             tx = await this.rootStore.walletStore.wallet?.sendTransaction( transaction, CONNECTION, {
                 preflightCommitment: 'confirmed'
             })!;
+            if ( tx ) toast.success( 'Thank you for subscribing.' );
         } catch ( error ) {
             toast.error( 'Transaction failed. Please try again.' );
             console.log( 'Error:', error );
