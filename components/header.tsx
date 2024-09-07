@@ -1,58 +1,36 @@
 'use client'
 
 import * as React from 'react'
-import Link from 'next/link'
-
-import { cn } from '@/lib/utils'
-import { auth } from '@/auth'
-import { Button, buttonVariants } from '@/components/ui/button'
 import {
   SettingsIcon,
   IconSeparator,
   IconVercel
 } from '@/components/ui/icons'
 // import { UserMenu } from '@/components/user-menu'
-import { SidebarMobile } from './sidebar-mobile'
-import { SidebarToggle } from './sidebar-toggle'
-import { ChatHistory } from './chat-history'
-import { Session } from '@/lib/types'
 import Image from "next/image";
 import { observer } from "mobx-react-lite";
 import { PlayerPresenter } from "@/presenters/PlayerPresenter";
 import { WalletButton } from '@/components/ui/wallet-button';
 import { formatNumberWithCommas } from '@/lib/utils';
 import { SettingsPresenter } from "@/presenters/SettingsPresenter";
-import router from 'next/router'
 import { useRouter } from "next/navigation";
 
 function UserOrLogin() {
-    const router = useRouter();
-    // const session = (await auth()) as Session
-  return (
-    <>
-        {/*{session?.user ? (*/}
-        {/*  <>*/}
-        {/*    <SidebarMobile>*/}
-        {/*      <ChatHistory userId={session.user.id} />*/}
-        {/*    </SidebarMobile>*/}
-        {/*    <SidebarToggle />*/}
-        {/*  </>*/}
-        {/*) : (*/}
-        {/*  <div>*/}
-        {/*    <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='rounded-full' />*/}
-        {/*  </div>*/}
-        {/*)}*/}
-        <div>
-            <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='rounded-full cursor-pointer' onClick={() => {
-                router.push('/')
-            }} />
-        </div>
-          <div className="flex items-center">
-              <IconSeparator className="size-6 text-muted-foreground/50" />
-              <div>Blink Station 10</div>
-          </div>
-    </>
-  )
+     const router = useRouter();
+
+      return (
+        <>
+            <div>
+                <Image src='/blinkIcon.jpg' width={50} height={50} alt='Blink Station X icon.' className='rounded-full cursor-pointer' onClick={() => {
+                    router.push('/')
+                }} />
+            </div>
+              <div className="flex items-center">
+                  <IconSeparator className="size-6 text-muted-foreground/50" />
+                  <div>Blink Station 10</div>
+              </div>
+        </>
+      )
 }
 
 export const Header = observer(() => {
@@ -68,7 +46,11 @@ export const Header = observer(() => {
                   <>
                       <IconSeparator className="size-6 text-muted-foreground/50" />
                       <div className="rounded-md bg-black border-amber-500 border-2 ml-2 px-2 py-1">
-                          { playerPresenter.tokensLeft <= 0 ? '0' : formatNumberWithCommas(playerPresenter.tokensLeft) } Tokens
+                          {settingsPresenter.isApiKeySet?.length > 0 ? (
+                              'Personal Key Activated'
+                          ) : (
+                              `${playerPresenter.tokensLeft <= 0 ? '0' : formatNumberWithCommas(playerPresenter.tokensLeft)} Tokens`
+                          )}
                       </div>
                   </>
               )}

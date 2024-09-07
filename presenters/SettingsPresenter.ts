@@ -23,7 +23,8 @@ export class SettingsPresenter {
 
             account: computed,
             modal: computed,
-            wallet: computed
+            wallet: computed,
+            isApiKeySet: computed
         })
     }
 
@@ -44,6 +45,10 @@ export class SettingsPresenter {
 
     get modal(): boolean {
         return this.settingsModal;
+    }
+
+    get isApiKeySet(): string {
+        return this.rootStore.subscriptionStore.playerAcct[0].key!
     }
 
     activateSettingsModal( display: boolean ): void {

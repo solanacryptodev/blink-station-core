@@ -100,6 +100,7 @@ export class SubscriptionStore {
                 createdAt: sub.createdAt,
                 membershipStartDate: sub.membershipStartDate,
                 membershipEndDate: sub.membershipEndDate,
+                key: sub.key,
                 chatLogs: sub.chatLogs
             };
             runInAction(() => {
