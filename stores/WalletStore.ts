@@ -124,7 +124,7 @@ export class WalletStore {
 
     setConnecting(connecting: boolean) {
         this.connecting = connecting;
-        console.log('connecting...', this.connecting);
+        // console.log('connecting...', this.connecting);
     }
 
     setConnected(connected: boolean) {

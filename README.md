@@ -5,7 +5,7 @@
 
 <p align="center">
   An open-source AI chatbot app built to help you navigate the 
-Galia Expanse in the SAU. Built with Next.js, Typescript, Mobx, the Vercel AI SDK, multiple
+Galia Expanse in the Star Atlas Universe. Built with Next.js, Typescript, Mobx, the Vercel AI SDK, multiple
 SA programs and powered by the Solana blockchain.
 </p>
 
@@ -35,21 +35,9 @@ while in-character. This includes lore about history, characters, factions, and 
 for access to current and future feature releases. You will be able to communicate with
 Atlasson in-character if you so desire. Future iterations will allow you to interact more
 with things like the crafting program.
-- [ ] <strong>Marketplace Economic Analyzer (MEA):</strong> This tool will
+- [x] <strong>Marketplace Asset Analyzer (MAA):</strong> This tool will
   provide up-to-date market analysis allowing you to spot trends, economic
-  opportunities and much more. The MEA tool at launch will include the...
-  - Galactic Demand Index (GDI): Use this tool to gather data about which marketplace 
-    assets are in high demand and which aren't.
-  - Scarcity Pulse Analyzer (SPA): Use this tool to gather data about supply for a 
-    particular asset.
-  - Arbitrage Opportunity Assessment: an automated arbitrage identifier
-    system designed to give you an economic edge by identifying
-    price discrepancies between different markets.
-- [ ] <strong>Sage Sector Scanner (S3):</strong> S3 v1 will serve as the launchpad of
-one of the primary products of Blink Station 10. 
-  - Planetary Resource Analysis
-  - Fleet Movement Analysis
-  - Starbase Progression Analysis
+  opportunities and much more.
 
 
 ## Coming Soon
@@ -57,7 +45,12 @@ one of the primary products of Blink Station 10.
 The long-term vision of Blink Station 10 is to give you an edge by
 leveraging the power of artificial intelligence to save you time. This will be done by
 building the following features. This list is a WIP and will grow as new 
-and current programs are open-sourced to the SA community.
+and current programs are open-sourced to the Star Atlas community.
+- <strong>Sage Sector Scanner (S3):</strong> S3 v1 will serve as the launchpad of
+  one of the primary products of Blink Station 10.
+  - Planetary Resource Analysis
+  - Fleet Movement Analysis
+  - Starbase Progression Analysis
 - <strong>Vector Database Integration:</strong> this will allow for long-term
 planning, strategy and deep analysis of events in the Galia Expanse over time. This will
 strengthen the analytical ability of Atlasson to provide historical data of on-chain events.

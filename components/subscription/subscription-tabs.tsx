@@ -71,7 +71,7 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                     <div className="flex flex-col">
                         <div className="mb-4">
                             As a station specialist, you gain access to everything in the Traveler tier, but you also gain access to the live tools of Blink Station 10.
-                            This includes, but is not limited to, the Marketplace Economic Analyzer (MEA) and 1,000,000 tokens to communicate with Atlasson.
+                            This includes, but is not limited to, the Marketplace Asset Analyzer (MAA) and 1,000,000 tokens to communicate with Atlasson.
                         </div>
                         <div className="self-end">
                             { !subscriptionPresenter.upgradeModal ? <SubscriptionButton data={{ buttonText: 'Join Blink Station 10 | 10 USDC / 3,100 ATLAS', membershipType: 'Specialist' }} />
