@@ -19,7 +19,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
                     onClick={ () => subscriptionPresenter.joinFreePlayer({
                         subscriptionRank: 'Traveler',
-                        tokenCount: 2000
+                        tokenCount: 15000
                     })}>
                     { data.buttonText }
                 </button>

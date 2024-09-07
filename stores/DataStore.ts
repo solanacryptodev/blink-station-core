@@ -21,7 +21,7 @@ export class DataStore {
     }
 
     async initialize() {
-        console.log('Initializing DataStore...');
+        //console.log('Initializing DataStore...');
     }
 
     async lowestCurrentPrice(mint: string, currency: string) {
