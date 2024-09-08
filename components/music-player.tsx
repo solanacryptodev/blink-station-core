@@ -9,16 +9,24 @@ export const MusicPlayer = observer(() => {
         { name: 'Nova - Futurescapes', src: `https://shdw-drive.genesysgo.net/${process.env.NEXT_PUBLIC_SHDW!}/Nova%20-%20Futurescapes.mp3` },
     ], []);
     const [songIndex, setSongIndex] = useState(0);
-    const { load, paused, togglePlayPause, setVolume } = useAudioPlayer();
+    const { load, paused, togglePlayPause, setVolume, stop } = useAudioPlayer();
 
     useEffect(() => {
-        load(playlist[songIndex].src, {
+        const isLastSong = songIndex === playlist.length - 1;
+
+        load(playlist[songIndex]?.src, {
             autoplay: true,
             initialVolume: 0.3,
-            onend: () => setSongIndex(songIndex + 1)
+            onend: () => {
+                if (isLastSong) {
+                    stop();
+                } else {
+                    setSongIndex(songIndex + 1);
+                }
+            }
         });
         setVolume(0.3);
-    }, [songIndex, load, playlist, setVolume]);
+    }, [songIndex, load, playlist, setVolume, stop]);
 
     return (
         <>
@@ -29,9 +37,9 @@ export const MusicPlayer = observer(() => {
                 </div>
 
                 <div className="flex justify-center">
-                    Now Playing: { playlist[ songIndex ]?.name }
+                    Now Playing: { playlist[songIndex]?.name }
                 </div>
             </div>
         </>
     )
-} )
+})
