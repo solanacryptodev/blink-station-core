@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { RootStore } from "@/stores/RootStore";
 import { toast } from "sonner";
 
@@ -64,7 +64,9 @@ export class SettingsPresenter {
         const dataStored = await this.rootStore.subscriptionStore.setApiKey(this.wallet, this.currentKey)
         if (dataStored !== 0) {
             toast.success('Your key has been saved.');
-            this.currentKey = ''
+            runInAction(() => {
+                this.currentKey = ''
+            })
         }
     }
 }

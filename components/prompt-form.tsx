@@ -21,6 +21,8 @@ import { tokenizeString } from '@/lib/tokenizer';
 import { ChatLogPresenter } from "@/presenters/ChatLogPresenter";
 import Image from "next/image";
 import * as React from "react";
+import { retrievePlayerApiKey } from "@/app/db-actions";
+import { decryptApiKey } from "@/app/encryption-actions";
 
 export const PromptForm = observer(({
   input,
@@ -48,6 +50,7 @@ export const PromptForm = observer(({
         const value = message.trim()
         setInput('')
         if (!value) return
+        let decrypt = null;
 
         setMessages(currentMessages => [
             ...currentMessages,
@@ -57,7 +60,12 @@ export const PromptForm = observer(({
             }
         ])
 
-        const responseMessage = await submitUserMessage(value, subscriptionPresenter.wallet.publicKey?.toString())
+        if ( subscriptionPresenter.account[0]?.key?.length! > 0 ) {
+            const playerData = await retrievePlayerApiKey(subscriptionPresenter.wallet.publicKey?.toString()!);
+            decrypt = await decryptApiKey( playerData!, subscriptionPresenter.wallet.publicKey?.toString()! );
+        }
+
+        const responseMessage = await submitUserMessage(value, decrypt)
         chatLogPresenter.addMessageToChat(chatLogPresenter.currentChatId!, responseMessage)
 
         setMessages(currentMessages => [...currentMessages, responseMessage])
