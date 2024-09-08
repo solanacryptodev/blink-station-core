@@ -24,16 +24,8 @@ export function ChatList({ messages, session, isShared }: ChatList) {
               <ExclamationTriangleIcon />
             </div>
             <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
-              <p className="text-muted-foreground leading-normal">
-                Please{' '}
-                <Link href="/login" className="underline">
-                  log in
-                </Link>{' '}
-                or{' '}
-                <Link href="/signup" className="underline">
-                  sign up
-                </Link>{' '}
-                to save and revisit your chat history!
+              <p className="text-muted-foreground leading-normal text-amber-600">
+                {`"The universe may be infinite, but AI gives us the power to explore it all at once." - Arkenna Brel, Chief Engineer of the Abydan Expansion Fleet.`}
               </p>
             </div>
           </div>

@@ -20,6 +20,8 @@ import { ExamplePrompts } from "@/lib/types";
 import { tokenizeString } from "@/lib/tokenizer";
 import { SubscriptionPresenter } from "@/presenters/SubscriptionPresenter";
 import { usePathname } from "next/navigation";
+import { retrievePlayerApiKey } from "@/app/db-actions";
+import { decryptApiKey } from "@/app/encryption-actions";
 
 export interface ChatPanelProps {
   id?: string
@@ -50,6 +52,7 @@ export const ChatPanel = observer(({
   const { trackEvent } = useAmplitude();
 
   const startNewChat = async (example: ExamplePrompts) => {
+    let decrypt = null
     trackEvent('Example Prompt Clicked', {
       exampleMessage: example.message}
     );
@@ -62,7 +65,12 @@ export const ChatPanel = observer(({
       }
     ])
 
-    const responseMessage = await submitUserMessage(example.message, subscriptionPresenter.wallet.publicKey?.toString()!);
+    if ( subscriptionPresenter.account[0]?.key?.length! > 0 ) {
+      const playerData = await retrievePlayerApiKey(subscriptionPresenter.wallet.publicKey?.toString()!);
+      decrypt = await decryptApiKey( playerData!, subscriptionPresenter.wallet.publicKey?.toString()! );
+    }
+
+    const responseMessage = await submitUserMessage(example.message, decrypt);
     chatLogPresenter.addMessageToChat(chatLogPresenter.currentChatId!, responseMessage);
 
     setMessages( currentMessages => [...currentMessages, responseMessage ])

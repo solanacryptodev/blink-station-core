@@ -116,13 +116,11 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(content: string, pubkey: string) {
+async function submitUserMessage(content: string, decryptedString: string) {
   'use server'
 
-  const playerData = await retrievePlayerApiKey(pubkey);
-  const decrypt = await decryptApiKey(playerData!, pubkey);
   const model = createOpenAI({
-    apiKey: decrypt ? decrypt : process.env.OPENAI_API_KEY!,
+    apiKey: decryptedString ? decryptedString : process.env.OPENAI_API_KEY!,
   })
 
   const aiState = getMutableAIState<typeof AI>()
