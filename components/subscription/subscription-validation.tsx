@@ -6,7 +6,7 @@ export const SubscriptionValidation: FunctionComponent = observer(() => {
 
     return (
         <>
-            <div>One Moment Please...</div>
+            <div className="text-white">One Moment Please...</div>
         </>
     )
 })

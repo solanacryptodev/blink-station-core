@@ -39,17 +39,17 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
                 >
 
                         <div className="fixed inset-0 opacity-100 flex items-center justify-center z-50">
-                            <div ref={ ref } className="bg-[#194555] rounded-lg p-6 w-full max-w-3xl max-h-[80vh] overflow-y-auto">
+                            <div ref={ ref } className="bg-gradient-to-r from-[#121B23] to-[#0F4F59] rounded-lg p-6 w-full max-w-3xl max-h-[80vh] overflow-y-auto">
                                 <div className="flex justify-between items-center mb-4">
                                     <div className="flex">
                                         { subscriptionPresenter.displaySubscriptionView ?
-                                            <h2 className="text-xl font-bold">Choose Your Path</h2> :
-                                            <h2 className="text-xl font-bold">Validation Sequence Initiated.</h2>
+                                            <h2 className="text-xl text-white font-bold">Choose Your Path</h2> :
+                                            <h2 className="text-xl text-white font-bold">Validation Sequence Initiated.</h2>
                                         }
                                     </div>
                                     <button
                                         onClick={ () => subscriptionPresenter.activateSubscriptionModal( false ) }
-                                        className="text-gray-500 hover:text-white"
+                                        className="text-black hover:text-white"
                                         aria-label="Close"
                                     >
                                         <X size={ 24 }/>
@@ -67,7 +67,7 @@ export const SubscriptionModal: FunctionComponent = observer(() => {
                                     </div>
                                 ) }
 
-                                <div className="flex flex-col">
+                                <div className="flex flex-col text-white text-lg">
                                     <div className="flex justify-start mb-4">
                                         Blink Station 10 was built for players within the Star Atlas ecosystem. A
                                         station
