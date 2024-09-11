@@ -495,7 +495,7 @@ export const assets: AssetMetadata[] = [
         param: 'ammunition',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/ammunition.png`,
         mint: 'ammoK8AkX2wnebQb35cDAZtTkvsXQbi82cGeTnUvvfK',
-        class: 'consumable',
+        class: 'consumables',
         atlasOnly: true,
         isResource: true
     },
