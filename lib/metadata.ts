@@ -500,24 +500,6 @@ export const assets: AssetMetadata[] = [
         isResource: true
     },
     {
-        name: 'Carbon',
-        param: 'carbon',
-        image: '',
-        mint: 'CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X',
-        class: 'raw material',
-        atlasOnly: true,
-        isResource: true
-    },
-    {
-        name: 'Steel',
-        param: 'steel',
-        image: '',
-        mint: 'STEELXLJ8nfJy3P4aNuGxyNRbWPohqHSwxY75NsJRGG',
-        class: 'compound material',
-        atlasOnly: true,
-        isResource: true
-    },
-    {
         name: 'Fuel',
         param: 'fuel',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/FUEL.png`,
@@ -543,5 +525,419 @@ export const assets: AssetMetadata[] = [
         class: 'consumables',
         atlasOnly: true,
         isResource: true
-    }
+    },
+    {
+        name: 'Carbon',
+        param: 'carbon',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Arco',
+        param: 'arco',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'ARCoQ9dndpg6wE2rRexzfwgJR3NoWWhpcww3xQcQLukg',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Biomass',
+        param: 'biomass',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'MASS9GqtJz6ABisAxcUn3FeR4phMqH1XfG6LPKJePog',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Copper Ore',
+        param: 'copperore',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'CUore1tNkiubxSwDEtLc3Ybs1xfWLs8uGjyydUYZ25xc',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Diamond',
+        param: 'diamond',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'DMNDKqygEN3WXKVrAD4ofkYBc4CKNRhFUbXP4VK7a944',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Hydrogen',
+        param: 'hydrogen',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'HYDR4EPHJcDPcaLYUcNCtrXUdt1PnaN4MvE655pevBYp',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Iron Ore',
+        param: 'ironore',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'FeorejFjRRAfusN9Fg3WjEZ1dRCf74o6xwT5vDt3R34J',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Lumanite',
+        param: 'lumanite',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'LUMACqD5LaKjs1AeuJYToybasTXoYQ7YkxJEc4jowNj',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Nitrogen',
+        param: 'nitrogen',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'Nitro6idW5JCb2ysUPGUAvVqv3HmUR7NVH7NdybGJ4L',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Rochinol',
+        param: 'rochinol',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'RCH1Zhg4zcSSQK8rw2s6rDMVsgBEWa4kiv1oLFndrN5',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Silica',
+        param: 'silica',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'SiLiCA4xKGkyymB5XteUVmUeLqE4JGQTyWBpKFESLgh',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Titanium Ore',
+        param: 'titaniumore',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'tiorehR1rLfeATZ96YoByUkvNFsBfUUSQWgSH2mizXL',
+        class: 'raw material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Steel',
+        param: 'steel',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'STEELXLJ8nfJy3P4aNuGxyNRbWPohqHSwxY75NsJRGG',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Aerogel',
+        param: 'aerogel',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'aeroBCMu6AX6bCLYd1VQtigqZh8NGSjn54H1YSczHeJ',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Crystal Lattice',
+        param: 'crystallattice',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'CRYSNnUd7cZvVfrEVtVNKmXiCPYdZ1S5pM5qG2FDVZHF',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Copper Wire',
+        param: 'copperwire',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'cwirGHLB2heKjCeTy4Mbp4M443fU4V7vy2JouvYbZna',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Copper',
+        param: 'copper',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'CPPRam7wKuBkYzN5zCffgNU17RKaeMEns4ZD83BqBVNR',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Electronics',
+        param: 'electronics',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'ELECrjC8m9GxCqcm4XCNpFvkS8fHStAvymS6MJbe3XLZ',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Graphene',
+        param: 'graphene',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'GRAPHKGoKtXtdPBx17h6fWopdT5tLjfAP8cDJ1SvvDn4',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Hydrocarbon',
+        param: 'hydrocarbon',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'HYCBuSWCJ5ZEyANexU94y1BaBPtAX2kzBgGD2vES2t6M',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Iron',
+        param: 'iron',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'ironxrUhTEaBiR9Pgp6hy4qWx6V2FirDoXhsFP25GFP',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Magnet',
+        param: 'magnet',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'MAGNMDeDJLvGAnriBvzWruZHfXNwWHhxnoNF75AQYM5',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Polymer',
+        param: 'polymer',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'PoLYs2hbRt5iDibrkPT9e6xWuhSS45yZji5ChgJBvcB',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Titanium',
+        param: 'titanium',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'TTNM1SMkM7VKtyPW6CNBZ4cg3An3zzQ8NVLS2HpMaWL',
+        class: 'compound material',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Energy Substrate',
+        param: 'energysubstrate',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'SUBSVX9LYiPrzHeg2bZrqFSDSKkrQkiCesr6SjtdHaX',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Electromagnet',
+        param: 'electromagnet',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'EMAGoQSP89CJV5focVjrpEuE4CeqJ4k1DouQW7gUu7yX',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Framework',
+        param: 'framework',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'FMWKb7YJA5upZHbu5FjVRRoxdDw2FYFAu284VqUGF9C2',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Field Stabilizer',
+        param: 'fieldstabilizer',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'FiELD9fGaCgiNMfzQKKZD78wxwnBHTwjiiJfsieb6VGb',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Particle Accelerator',
+        param: 'particleaccelerator',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'PTCLSWbwZ3mqZqHAporphY2ofio8acsastaHfoP87Dc',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Power Source',
+        param: 'powersource',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'PoWRYJnw3YDSyXgNtN3mQ3TKUMoUSsLAbvE8Ejade3u',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Radiation Absorber',
+        param: 'radiationabsorber',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'RABSXX6RcqJ1L5qsGY64j91pmbQVbsYRQuw1mmxhxFe',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Strange Emitter',
+        param: 'strangeemitter',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'EMiTWSLgjDVkBbLFaMcGU6QqFWzX9JX6kqs1UtUjsmJA',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Super Conductor',
+        param: 'superconductor',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'CoNDDRCNxXAMGscCdejioDzb6XKxSzonbWb36wzSgp5T',
+        class: 'component',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Survey Data Unit',
+        param: 'superconductor',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/resources_default.png`,
+        mint: 'SDUsgfSZaDhhZ76U3ZgvtFiXsfnHbf2VrzYxjBZ5YbM',
+        class: 'data',
+        atlasOnly: true,
+        isResource: true
+    },
+    {
+        name: 'Gold 5 Card Pack',
+        param: 'gold5cardpack',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'CPG5JB1Z83TsYYCaVJLLpWVcoBBAnQ2T2nzmR9tbi3WU',
+        class: 'crew pack',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Gold 1 Card Pack',
+        param: 'gold1cardpack',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'CPG1B4jv6D2cZRkfXWawxSrE9SvhxdiDT1yKP4cNmHSe',
+        class: 'crew pack',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Presale 10 Card Pack',
+        param: 'presale10cardpack',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'CRWPXjZw73dMW3pG7UMhVWDrfk5NnzMCMuWj6hVLMCYm',
+        class: 'crew pack',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Platinum 1 Card Pack',
+        param: 'platinum1cardpack',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'CPP1iv66iqZYeGEYuGAmjTbRJMbNazCWu8r2Ln5TUsc5',
+        class: 'crew pack',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Platinum 5 Card Pack',
+        param: 'platinum5cardpack',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'CPP5rhCt7tvjco6vbVMawzg4WHmr3Thr67y7PcBcbfSz',
+        class: 'crew pack',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Silver 1 Card Pack',
+        param: 'silver1cardpack',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'CPS1gTEio7PqnAmDmWuCfiTBbtDRRsA8cwdQe3TqgGsf',
+        class: 'crew pack',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Silver 5 Card Pack',
+        param: 'silver5cardpack',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'CPS5deX4R2BkA1X4SRrk5V2LqmT7CXwNdnC5syrpAmDK',
+        class: 'crew pack',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Anna Tolle',
+        param: 'annatolle',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'HzeBiGCyGESHS3d5ndQmvz7q7Nz8Py6PV5xFjRL4cQGk',
+        class: 'crew card',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Berpek Ula Eko',
+        param: 'berpekulaeko',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'BErpeKhadb2H6kN8QJs977XfipH4wiVC6fdVfjW6vKRs',
+        class: 'crew card',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Gagli.doer',
+        param: 'gaglidoer',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'GagLi67riLvTvr6wSSrFw5AZbdVTfUPGjJ1VdBDTcZ5L',
+        class: 'crew card',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Sammy Banx',
+        param: 'sammybanx',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'BswdGxfurGpSKPPhHUP6d9uzdY3bAG8o3CJnFUQLanzw',
+        class: 'crew card',
+        atlasOnly: false,
+        isResource: false
+    },
+    {
+        name: 'Sigmund Nok',
+        param: 'sigmundnok',
+        image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/BS10CrewImage.png`,
+        mint: 'siGnokzWQqFQMoc1k6sEg5NeWnfnEU3Ypxb2LLnM9Sm',
+        class: 'crew card',
+        atlasOnly: false,
+        isResource: false
+    },
 ]
