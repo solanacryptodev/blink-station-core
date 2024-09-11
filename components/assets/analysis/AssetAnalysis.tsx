@@ -77,7 +77,7 @@ export const AssetAnalysis: FunctionComponent<{ asset: string }> = observer(({ a
         if (!error && !isLoading && ((selectedCurrency === 'ATLAS' && atlasData) || (selectedCurrency === 'USDC' && usdcData))) {
             assetData = JSON.stringify(selectedCurrency === 'ATLAS' ? atlasData : usdcData, null, 2);
 
-            console.log('Updating AI state with asset data:', assetData);
+            // console.log('Updating AI state with asset data:', assetData);
             const message = {
                 id,
                 role: 'system' as const,
