@@ -504,7 +504,7 @@ export const assets: AssetMetadata[] = [
         param: 'fuel',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/FUEL.png`,
         mint: 'fueL3hBZjLLLJHiFH9cqZoozTG3XQZ53diwFPwbzNim',
-        class: 'consumables',
+        class: 'consumable',
         atlasOnly: true,
         isResource: true
     },
@@ -513,7 +513,7 @@ export const assets: AssetMetadata[] = [
         param: 'food',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/FOOD.png`,
         mint: 'foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG',
-        class: 'consumables',
+        class: 'consumable',
         atlasOnly: true,
         isResource: true
     },
@@ -522,7 +522,7 @@ export const assets: AssetMetadata[] = [
         param: 'toolkit',
         image: `https://shdw-drive.genesysgo.net/${shdwStorageAcct}/TOOL.png`,
         mint: 'tooLsNYLiVqzg8o4m3L2Uetbn62mvMWRqkog6PQeYKL',
-        class: 'consumables',
+        class: 'consumable',
         atlasOnly: true,
         isResource: true
     },
