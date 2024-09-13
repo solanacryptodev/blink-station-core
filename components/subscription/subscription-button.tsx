@@ -28,7 +28,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
             {data.membershipType === 'Specialist' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.subscribePlayer(10, 3100, {
+                    onClick={ () => subscriptionPresenter.subscribePlayer(10, 1100, {
                         subscriptionRank: 'Specialist',
                         tokenCount: 1000000
                     })}>
@@ -39,7 +39,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
             {data.membershipType === 'Captain' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.subscribePlayer(20, 6100, {
+                    onClick={ () => subscriptionPresenter.subscribePlayer(20, 3100, {
                         subscriptionRank: 'Captain',
                         tokenCount: 3000000
                     })}>
@@ -50,7 +50,7 @@ export const SubscriptionButton: FunctionComponent<{ data: SubscriptionButtonPro
             {data.membershipType === 'Commander' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.subscribePlayer(30, 9100, {
+                    onClick={ () => subscriptionPresenter.subscribePlayer(30, 5100, {
                         subscriptionRank: 'Commander',
                         tokenCount: 5000000
                     })}>

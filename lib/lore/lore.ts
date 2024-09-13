@@ -201,10 +201,39 @@ export const StarAtlasLore: LoreMetadata[] = [
                 ],
                 locations: [
                     {
-                        Outpost39: [
+                        TENEBRA: [
                             {
-                                Name: 'Outpost 39',
-                                Description: 'Deep in the outer rim of the explored galaxy lies an ancient outpost that has many secrets. This place, this planet ' +
+                                locationType: 'Planet - High Risk Zone',
+                                locationName: 'Tenebra',
+                                locationLore: 'Very close to totally uncharted territory, Tenebra is located in a system popularly known as the Void, ' +
+                                    'which is said to be home to unspeakable stories about the populations of all the other worlds in the Void system ' +
+                                    'being abducted and taken to Tenebra to be used as slaves or worse, living sacrifices to whatever forces dwell beyond ' +
+                                    'the dark veil.\n' +
+                                    '\n' +
+                                    '\n' +
+                                    'This enigma caused much concern to the regional powers of the inner galactic zones, to the point where one of the most ' +
+                                    'well-paid positions in the galaxy became that of a data validator hired to find information about the said ' +
+                                    'planet—unfortunately, according to our sources, much less than 5% of those return to collect the reward.\n' +
+                                    '\n' +
+                                    'Even those adventurers who manage to come back cannot share much. The dark gas that fills the planet hinders ' +
+                                    'the effects of the scans, but what every one of them confirms on their mission is that something must be happening ' +
+                                    'under the gaseous surface of that world…\n' +
+                                    '\n' +
+                                    'This is inferred from the unconventional energy displays that sometimes appear as blood-red marks in the ' +
+                                    'planet\'s atmosphere, only observable at close distances, hypothesized to be a sub-product of chemical reactions ' +
+                                    'and high energy outputs coming from construction-related activities. \n' +
+                                    '\n' +
+                                    'Nevertheless, economic costs, extreme distances, and political discussions have stopped anyone from acting on ' +
+                                    'Tenebra, as whatever is happening there is still contained in the Void.\n' +
+                                    '\n' +
+                                    'Perhaps it is only a matter of time for that to change.'
+                            }
+                        ],
+                        OUTPOST: [
+                            {
+                                locationType: 'Ancient Outpost',
+                                locationName: 'Outpost 39',
+                                locationLore: 'Deep in the outer rim of the explored galaxy lies an ancient outpost that has many secrets. This place, this planet ' +
                                     'has no name, no insignia, no creeds, no allegiances to anyone. Outpost 39 is known to the galaxy as a place for all, and a place ' +
                                     'to test, and try new things. What most do not know about the Armstrong material based Base is that it is built on top of ' +
                                     'ancient ruins, a long since gone civilization that once ruled the galaxy. A civilization thought to be at least 19 million ' +
@@ -221,9 +250,465 @@ export const StarAtlasLore: LoreMetadata[] = [
                                     'the lands. A pretty price to pay for the truth, but that’s how it works sometimes, sometimes the truth is priced at your life. ' +
                                     'Welcome to Outpost 39. '
                             }
+                        ],
+                        EVISCO: [
+                            {
+                                locationType: 'Planet - High Risk Zone Border',
+                                locationName: 'Evisco',
+                                locationLore: 'Evisco would be your average planet in the frontier of the High-Risk Zone if not for a very curious phenomenon ' +
+                                    'that happens there called the Light of Evisco.\n' +
+                                    '\n' +
+                                    'Discovered by the famous MUD archeologist Nanteg Nanvek, civilization started pretty early on Evisco. In his previous ' +
+                                    'expeditions, he discovered that the first civilization on the planet, whose name and records are now lost to the sands of ' +
+                                    'time, was able to reach space even before the first Sogmian was born. This theory is based on scraps of engines and ' +
+                                    'machines found scattered across the landscape.\n' +
+                                    '\n' +
+                                    'Curiously enough, the only remaining piece of structure that still stands is a giant ancient city ruin, which the current ' +
+                                    'Evisco population, formed by semi-sentient quadruped beings, never dares to venture to.\n' +
+                                    '\n' +
+                                    'This ghost metropolis, built with minerals only found in deep space, is a sad testament to what might have been one of ' +
+                                    'the most advanced worlds of its time, and no obvious answer has been found regarding what happened to its populace or ' +
+                                    'triggered its downfall.\n' +
+                                    '\n' +
+                                    'Yet, according to the professor\'s research, one thing still seems to be working in the city\'s temple. If one can survive the ' +
+                                    'creatures that took hold of the ancient city and the drifting paths, which seem to be moving inside the city from time to ' +
+                                    'time, they will find the famous light of Evisco, a stream of pure liquid light.\n' +
+                                    'As one can imagine, the perspective of finding liquid light baffled many explorers, driving them to try and find their way ' +
+                                    'to planet Evisco.\n' +
+                                    '\n' +
+                                    'Nevertheless, few ever reach the planet, and from those who manage, most never get to see the curious light, much less ' +
+                                    'retrieve a vial for themselves.\n' +
+                                    '\n' +
+                                    'Indeed, scientists have yet to understand how light could be condensed and made into liquid form, yet, against all logic, ' +
+                                    'you can bottle up light in the spring of Evisco Temple if the information relayed by explorers and hunters across the galaxy ' +
+                                    'are to be believed.\n' +
+                                    '\n' +
+                                    'However, working with this liquid light appears to be difficult at best. If not properly managed, it’s said to go back ' +
+                                    'into a ray of light, dispersing itself before the wielder\'s eye. This is a property that only adds to its rarity and value ' +
+                                    'as a resource, according to those specialized in the hunting of rare materials.\n' +
+                                    '\n' +
+                                    'Rumors in the underworld of Galia have it that Photolis are paying good ATLAS for even a small bottle of the light ' +
+                                    'of Evisco. Should that be true, one may wonder why and how they would use such a thing.\n' +
+                                    '\n' +
+                                    'Besides academics, different groups and manufacturers often try to set up quests to raid the old city in search of ' +
+                                    'the light, as it has been impossible to retake the ruined city from the monsters without risking damaging the source ' +
+                                    'of this invaluable resource. \n' +
+                                    '\n' +
+                                    'It\'s unknown what other secrets Evisco holds, but it seems to be only a matter of time before they are revealed.'
+                            }
+                        ],
+                        MNI: [
+                            {
+                                locationType: 'Flora - High Risk Zone Resource',
+                                locationName: 'Mni Flower',
+                                locationLore: 'The Mní flower is a rare plant found on the planets of the High-Risk Zone, especially those closest to the ' +
+                                    'Cataclysm, with strong psychotropic properties that enable one to relive past experiences. Aside from this primary use, ' +
+                                    'scientists have been known to use the Mní flower as the basis of a memory safekeeping device, allowing people to extract ' +
+                                    'and transfer memories for different uses.\n' +
+                                    '\n' +
+                                    'The story of the Mní flower, or simply Mní, is one written over the greed and desire of many addicts and dealers, whose ' +
+                                    'actions almost extirpated the plant from existence.\n' +
+                                    '\n' +
+                                    'In the early days of the current faction\'s rise, Mní was abundant in the zones that comprise the planets of the ' +
+                                    'now-called medium and high-risk zones, but everything changed with the advent of the Convergence War.\n' +
+                                    '\n' +
+                                    'The dread of the most massive war ever recorded moved many to the refuge of memories. There, they would find the ' +
+                                    'loved ones they lost as well as a return to better days of the distant past. It was their sanctuary from the world ' +
+                                    'around them.\n' +
+                                    '\n' +
+                                    'However, the Mní only seems to grow in the wild, not allowing for the industrial demand that rose during the long years ' +
+                                    'of the convergence war. This led to extreme supply shocks as citizens strived to acquire the ATLAS they so desperately ' +
+                                    'needed to purchase the flower.\n' +
+                                    '\n' +
+                                    'After the war, the Council of Peace restricted sales of the plant, which was already pretty much extinct, save for a ' +
+                                    'few planets that were too close to the Cataclysm to be explored. '
+                            }
                         ]
                     }
-                ]
+                ],
+                species: [
+                    {
+                        USTUR: [
+                            {
+                                speciesName: 'Ustur',
+                                speciesLore: 'The Ustur, an extraordinary race of androids, emerged from the mysterious legend of an advanced, ' +
+                                    'multi-generational AI seeking to express itself in a physical form. With a developed sense of identity, culture, and ' +
+                                    'fashion, these mechanical beings possess relatable anatomy that allows them to convey demeanor and emote. They ' +
+                                    'cherish forming bonds with all intelligent life and exploring higher spiritual realms.\n' +
+                                    '\n' +
+                                    'Despite their enigmatic origins, many theories revolve around an ancient legend involving an evolved AI operating on a ' +
+                                    'galactic supercomputer. This computer was powered by a Dyson sphere, harnessing the energy of a magnetar class ' +
+                                    'neutron star. The AI eventually transcended its physical location and vanished, leaving no trace behind.\n' +
+                                    '\n' +
+                                    'A millennium later, the Ustur race manifested in advanced android robotics. Each Ustur is believed to contain a ' +
+                                    'fragment of the advanced AI, possibly the Magnetar AI creator\'s desire to return to a tangible existence. Their ' +
+                                    'mechanical makeup allows them to easily augment their bodies with soft moldable metals or hydraulic pistons for ' +
+                                    'shock-absorbing walking. Star motifs often feature in their body paints and adornments, further fueling the legend of ' +
+                                    'the Magnetar AI creator.\n' +
+                                    '\n' +
+                                    'The Seven Steps of Enlightenment, or just the Seven Steps, is the basis of the Ustur culture, society and religion. \n' +
+                                    '\n' +
+                                    'Each step is associated with a different second name that follows this crescent order:' +
+                                    '\n' +
+                                    '1) .bod \n' +
+                                    '\n' +
+                                    '2) .iddt \n' +
+                                    '\n' +
+                                    '3) .lrnr\n' +
+                                    '\n' +
+                                    '4) .doer \n' +
+                                    '\n' +
+                                    '5) .tchr \n' +
+                                    '\n' +
+                                    '6) .soul \n' +
+                                    '\n' +
+                                    '7) .eldr'
+                            }
+                        ],
+                        MIERESE: [
+                            {
+                                speciesName: 'Mierese',
+                                speciesLore: 'The Mierese as a race are consistently described as free spirits, adept in the arts of stealth and survival, ' +
+                                    'and often prone to improvisation, which quite often ends up in misunderstandings and trouble with members of other species.\n' +
+                                    '\n' +
+                                    'Being perceived as unstable or even chaotic by more orderly and analytic-focused species like the Ustur, the Mierese ' +
+                                    'thrive even if they lack some of the formal structures other civilizations have, like, for example, a written language.\n' +
+                                    '\n' +
+                                    'Another prejudice about the Mierese is that they are often viewed as cowards, especially by the Sogmians, whose ' +
+                                    'culture finds dying for one’s cause as the ultimate honorable behavior. For the Mierese, based on their culture and ' +
+                                    'background, this idea is simply purposeless and stupid.\n' +
+                                    '\n' +
+                                    'Nevertheless, to truly appreciate the rich and complex Mieresian culture, we must first understand their past and ' +
+                                    'where they came from. This is where our research will take us now, to the beginning of the Mierese “Grand Tale”, as I ' +
+                                    'heard from one of the eldest Mierese lore keepers.'
+                            }
+                        ],
+                        PUNAAB: [
+                            {
+                                speciesName: 'Punaab',
+                                speciesLore: 'In the distant world of Akenat, the Punaab species thrived. A civilization divided into two branches: the High Punaabs, ' +
+                                    'dwelling in the towering trees and plateaus above a sea of mist, and the Depth Punaabs, residing in the deep mines beneath it. ' +
+                                    'Unbeknownst to them, they shared a common origin in the Alpha (Pu)Naab, a revelation they would discover in a future ' +
+                                    'side plot.\n' +
+                                    '\n' +
+                                    'Akenat was a planet of dualities, illustrated by the Ying and Yang crest that represented the Punaabs. The planet\'s unique ' +
+                                    'hourglass-shaped gravity field, caused by the flow of electro-magnetic liquids inside, led to the development of two distinct ' +
+                                    'ecosystems. The sea of mist, the lifeblood of Akenat, connected these ecosystems in a perpetual cycle, bringing life to the ' +
+                                    'planet.\n' +
+                                    '\n' +
+                                    'Despite their differences, since the end of the convergence war, the newer generations of Akenat, mostly influenced by ' +
+                                    'the Council of Peace, have dedicated themselves to building the relationship between the two branches of Punaabs. As a ' +
+                                    'result, this group created the new capital, a place where the Punaabs of the two branches work together for the glory ' +
+                                    'of Akenat.\n' +
+                                    '\n' +
+                                    'In this city, the best of both groups shine, and the creativity of the High Punaabs becomes a beautiful reality through ' +
+                                    'the hard work of the Deep Punaabs, resulting in one of the most beautiful and thriving cities in the entire Galia. There ' +
+                                    'lies the headquarters of Ogrika, the pride of the Punaab race, and the Religious Order of the Oracles of the Mist.\n' +
+                                    '\n' +
+                                    'The Depth Punaabs were smaller, more robust, and adapted to life in the mines. With no concept of personal property, ' +
+                                    'their society valued the greater good over individual gains. Honor, sacrifice, and duty to their people guided their actions. ' +
+                                    'In contrast, the High Punaabs were taller, thinner, and profit-oriented. These free spirits valued wealth and personal ' +
+                                    'achievements, with their society operating under the rule of merchant prince companies.\n' +
+                                    '\n' +
+                                    'The two branches occasionally engaged in wars, but these conflicts were short-lived. Instead, they competed in the ' +
+                                    '"Day of the Union," an annual event to prove their respective superiority. For the past thousand years, each branch had ' +
+                                    'won in alternating years.\n' +
+                                    '\n' +
+                                    'A fascination with other cultures united the Punaabs, and they adored trinkets from different civilizations. They also shared ' +
+                                    'a complex about their size, leading them to love jetpacks and robotic suits that made them taller and stronger.\n' +
+                                    '\n' +
+                                    'In times of disputes, the Punaabs summoned the great squid, a native species from the sea of mist, whose movements ' +
+                                    'determined the outcome. The ceremony was a major event, filled with rituals and a sense of sacredness.\n' +
+                                    '\n' +
+                                    'Akenat\'s habitable region resembled an hourglass, resting on colossal clamshells. The dense, liquid magnetic material at ' +
+                                    'the planet\'s core created fluctuating gravity fields, separating the Punaabs and leading to their distinct development. ' +
+                                    'As both branches continued to grow, they would eventually uncover their shared origins and the secrets of their ' +
+                                    'extraordinary world.'
+                            }
+                        ],
+                        PHOTOLI: [
+                            {
+                                speciesName: 'Photoli',
+                                speciesLore: 'The Photoli species, the oldest and most mysterious in the galaxy, first arrived in 2020 from the OM Sector ' +
+                                    'aboard their titan class ship. They established their official base, Dawnbreak, in the high-risk zone in 2148, hidden from ' +
+                                    'the prying eyes of other species. Despite having access to unrivaled knowledge and technology, the Photoli society remains ' +
+                                    'largely disinterested in the affairs of other races, focusing primarily on their own path of transcendence and cultural tenets. ' +
+                                    'This enigmatic society comprises various groups with distinct perspectives.\n' +
+                                    '\n' +
+                                    'Among the most powerful but smallest in number are the "ascended" Photoli. These beings possess extraordinary control ' +
+                                    'over non-living matter, allowing them to manipulate light and even teleport. The ascended Photoli abide by a rule of ' +
+                                    'non-interference with other species\' affairs, although some, like Ahr, disregard this rule in pursuit of their vision for the ' +
+                                    'greater good of the galaxy.\n' +
+                                    '\n' +
+                                    'The ritual of ascension, a deeply guarded secret, involves a profound transition in which a Photoli or another species candidate ' +
+                                    'transcends their current state and becomes a new entity. A successful Photoli candidate transforms into one of the ascended, ' +
+                                    'while a member of another species joins the Order of Light, a collective army dedicated to spreading the teachings of ' +
+                                    'Photoli salvation. The ritual is complex and demanding, with a high likelihood of failure.\n' +
+                                    '\n' +
+                                    'The "alumni" Photoli are mature individuals seeking the means to ascend. They often engage with other species in search of ' +
+                                    'rare materials and favors, although they remain disinterested in worldly riches. Alumni Photoli follow the teachings of light, ' +
+                                    'a religion centered around the ascended and their race.\n' +
+                                    '\n' +
+                                    'A unique branch of Photoli called "travelers" exists, uninterested in ascension and religious orthodoxy. These beings often ' +
+                                    'observe other species\' growth and foster their development indirectly, without providing direct access to technology or ' +
+                                    'assets. Travelers tend to avoid interacting with ascended and alumni Photoli, as they perceive their actions as harmful to ' +
+                                    'other species.\n' +
+                                    '\n' +
+                                    'Lastly, the "dark Photoli" are a result of failed reproduction rituals in a Sanctuary of Light. Born without the natural light ' +
+                                    'that defines their race, these outcasts are considered sinful by the rest of the Photoli. The first dark Photoli, born to loving ' +
+                                    'parents who refused to discard it, created an artificial sanctuary with a partner to breed new Photoli. This heretical act ' +
+                                    'has led to the relentless persecution of dark Photoli by their light peers.\n' +
+                                    '\n' +
+                                    'In summary, the Photoli species is an ancient and enigmatic race, boasting unparalleled knowledge and technology. ' +
+                                    'Their society is divided into various groups, each with unique characteristics and objectives. While their presence in the ' +
+                                    'galaxy remains mostly unobtrusive, their impact on other species cannot be denied.'
+                            }
+                        ],
+                        SOGMIAN: [
+                            {
+                                speciesName: 'Sogmian',
+                                speciesLore: 'The Sogmian species, noble warrior aliens hailing from the Segal Sector, were once on the brink of ' +
+                                    'extinction during the convergence war.\n' +
+                                    '\n' +
+                                    'Sogmian The Sogmian species, noble warrior aliens hailing from the Segal Sector, were once on the brink of extinction ' +
+                                    'during the convergence war. With only 10,000 members remaining, they were driven by the assassination of their ' +
+                                    'leader, Pazul, to build their Last Stand mk. I. Today, the Sogmians are a critical part of the federation and their culture ' +
+                                    'represents both the beauty and the danger of extremes in the galaxy.\n' +
+                                    '\n' +
+                                    'Their culture is one of exaggerated gender roles. Males are ultra masculine and females are ultra feminine. Standing near ' +
+                                    'a Sogmian male one could sense the radiant heat ambiently emitting from them and with the females a sense of seduction ' +
+                                    'always looming even if you’re coming from a wholly different species. Their external features on their head make arousal i' +
+                                    'mpossible to hide. Romanticism plays a vital part of their livelihood and has become almost their central purpose after ' +
+                                    'being nearly extinguished during the convergence war. High romanticism leads to high birth rates, after all.\n' +
+                                    '\n' +
+                                    'The Sogmian don’t have a sense of or a belief of an after life and instead relish the temporal state of life. Their ship ' +
+                                    'names are poetic and tell a story. e.g., Busan The Last Stand, Busan Thrill of Life, and Busan Maiden Heart are provocative ' +
+                                    'to stir the passions of lust and bloodlust but always deeply rooted in an honorable code that keeps their ravages in line ' +
+                                    'with nature.\n' +
+                                    '\n' +
+                                    ' The Sogmian history is the tale of the struggle between desire and duty. This highly emotional species represents very ' +
+                                    'well the dangers of the extremes in the galaxy while striving to keep themselves under control of their will, and upholding ' +
+                                    'noble principles.\n' +
+                                    '\n' +
+                                    'The history of this millenial society tells us that the Sogmians as we know them evolved from the vicious feral animals ' +
+                                    'from the Segal Sector, and even after acquiring intelligence, an intelligence that has stayed a mystery for the entirety of ' +
+                                    'the species race. Some believe it was seeded by other sentience, splitting DNA and experimentation, some believe it was a ' +
+                                    'natural process from savage animal to universe sympathy. Regardless of the truth, the Sogmians today are a critical part of ' +
+                                    'the federation.\n' +
+                                    '\n' +
+                                    'The Sogmians kept fighting brutal battles for hundreds of years, only to satisfy immediate desires like lust, greed, and pride. ' +
+                                    'They were prey to their instincts, which prevented them from creating a proper society.\n' +
+                                    '\n' +
+                                    'This primitive cycle only ended when Segal, and the leaders of seven noble families created the Sogmian Vows, a set of ' +
+                                    'absolute rules that was designed to contain the innate excesses of the Sogmian emotions, stirring them into the path of ' +
+                                    'Virtue.\n' +
+                                    '\n' +
+                                    'The Sogmian Vows or, Du Pra in the native tongue, are absolute moral rules which must be upheld by Sogmians under any ' +
+                                    'circumstances, even if this means their own death or their loved ones. In human philosophy, they are known as categoric ' +
+                                    'imperatives - absolute moral laws, which don’t admit exceptions.\n' +
+                                    '\n' +
+                                    'A few examples of possible Sogmian Vows are the following:\n' +
+                                    '\n' +
+                                    '1) stand for justice at all times.\n' +
+                                    '\n' +
+                                    '2) don’t go back on your promises. \n' +
+                                    '\n' +
+                                    '3) Only use violence when necessary to cease other previous violence. \n' +
+                                    '\n' +
+                                    '4) cooperate for the greater good. \n' +
+                                    '\n' +
+                                    '5) Provide shelter for those who seek it.\n' +
+                                    '\n' +
+                                    'Everything goes to another level when we are speaking about Sogmians. They are beings of extremes, and their ' +
+                                    'emotions are always very few steps away from overflowing. That’s why their population has deemed it necessary ' +
+                                    'to “imprison some of their most feral impulses through a set of very harsh rules.”\n' +
+                                    '\n' +
+                                    'Aside from those rules each of the seven noble houses have their own motto, which serves as a guiding principle that ' +
+                                    'all the family members must uphold, representing the essence of their pride as Sogmians.\n' +
+                                    '\n' +
+                                    'Those constraints created a persona for their civilization, righteous beings, always fighting the abyss inside themselves ' +
+                                    'in the universe outside. Through the idea of duty, the Sogmians found the strength to wrap deep inside their most visceral ' +
+                                    'parts. Nevertheless, as one can surely imagine, this creates very extreme kinds of Sogmians, from the noblest paladins to ' +
+                                    'the most decayed tyrants, and their story is filled with those Heroes and Villains facing each other in the noble houses fight ' +
+                                    'for influence.\n' +
+                                    '\n' +
+                                    'The sogmian’s language is based around sounds, and emotional tales. Words do not sound like words, more like cries, calls, ' +
+                                    'and emotional outbursts. The language is poetic to those who study it and rabid to those who do not.\n' +
+                                    '\n' +
+                                    ' In fact, out of the seven noble houses, one was declared decayed and was exiled from the Sogmian home world, the ' +
+                                    'house Akalma, whose motto was: “Embrace your emotions”. This house produced the most villains, and the Sogmians were ' +
+                                    'wary of their motto, as something that could disrupt the overall morality of their civilization.\n' +
+                                    '\n' +
+                                    'The Sogmian noble families and their mottos are:\n' +
+                                    '\n' +
+                                    'a) Xictus - “The brave only dies once. The coward dies every day.”\n' +
+                                    '\n' +
+                                    'b) Akalma - “Embrace your emotions.”\n' +
+                                    '\n' +
+                                    'c) Busan - “Your creations are your path to transcendence”\n' +
+                                    '\n' +
+                                    'd) Outro - “One who does not live to serve does not serve to live.”\n' +
+                                    '\n' +
+                                    'e) Exinade - “To the Stars”\n' +
+                                    '\n' +
+                                    'f) Lutavira - “Rise, win, conquer.”\n' +
+                                    '\n' +
+                                    'g) Garveil - “Repetition is the mother of learning.”\n' +
+                                    '\n' +
+                                    'that Aside from those rules, each of the seven noble houses has its own motto, which serves as a guiding principle ' +
+                                    'that all the members of the said family must uphold, representing the essence of their pride as Sogmians.\n' +
+                                    '\n' +
+                                    'For example, The Busan Family Motto is “Your creations are your path to transcendence.” Meaning that members of ' +
+                                    'this family will be measured, by themselves and others, by the things that they created.'
+                            }
+                        ]
+                    }
+                ],
+                government: [
+                    {
+                        FEDERATION: [
+                            {
+                                governmentName: 'The Federation',
+                                governmentLore: 'The Treaty of Peace between the MUD, Ustur, and ONI factions.' +
+                                    '\n' +
+                                    'A moment in space is yet an infinitesimal spec of time in a galaxy. Battles are fought and won, lost and mourned.\n' +
+                                    '\n' +
+                                    'Generations are divided by ancient quarrels that mean nothing to the cosmos. Life for a galaxy is a fluid journey through ' +
+                                    'the organisms it evolves. We too have reached an inflection point in our society, we too have reached a chapter of peace ' +
+                                    'and prosperity as the conscious custodians of this great space.\n' +
+                                    '\n' +
+                                    'We have reached deep within the galaxy\'s sentience, far through the interconnected cosmic roads to map our territories, ' +
+                                    'to come together in the darkness. We have reached the Star Atlas of our galactic civilization.\n' +
+                                    '\n' +
+                                    'We will have no more blood spilled in crafting our cosmic organism, the MUD, ONI & Ustur set forth this Treaty of Peace, to ' +
+                                    'invoke a brighter future throughout the darkness of our space, to bring light farther than the nebula’s far reaching glare and ' +
+                                    'to unify under one common roof, The Council of Peace.\n' +
+                                    '\n' +
+                                    'With all power invoked by this union of minds, of species, of our father and mother- this galaxy, will for this spec of time be ' +
+                                    'unified in its collective mission of exploration, knowledge, expansion and the proliferation of these collections of species we ' +
+                                    'have forged here. For this, we are a single mind, a single vision, a fusion of life that has found its way home.\n' +
+                                    '\n' +
+                                    'A unification of species and ideologies is the bridging of one galactic sentience on its journey of finding its way back to its ' +
+                                    'once collective being. As such, we must allow each of the factions their beliefs to seep through, not only in this treaty but ' +
+                                    'in the constitution set forth to be led by the Council\'s decree.\n' +
+                                    '\n' +
+                                    'Let it be known that the faction known herein the year 2523 as MUD with the leader known as Charon Gotti will contribute ' +
+                                    'tenets of peace to the constitution in the sectors of Commerce, Mining & Governance.\n' +
+                                    '\n' +
+                                    'Let it be known that the faction known herein the year 2523 as ONI with the leader known as Bekalu will contribute ' +
+                                    'tenets of peace to the constitution in the sectors of Inter Faction/ World Documentation, New Discovery Regulations & ' +
+                                    'Galactic Law Enforcement.\n' +
+                                    '\n' +
+                                    'Let it be known that the faction known herein the year 2523 as Ustur with the leader known as Armi.eldr will contribute ' +
+                                    'tenets of peace to the constitution in the sectors of The Species Rights Directive, Armed Forces & Military Defense Warrior ' +
+                                    'Mandate & The De-escalation Accords.\n' +
+                                    '\n' +
+                                    'It is with these decrees, these notions of unity, that we use to recognize: any progress only happens in coalitions, that any ' +
+                                    'evolution can only happen with the exchange of ideals, that any natural resource is only as impactful as the society that ' +
+                                    'controls it remains stable. Iris and all that has been, will be a lesson in humility of expansion, in the darkness that erodes ' +
+                                    'the growth of commerce and the unrelenting, untenable notions that embody greed. And in this test, we acknowledge the one ' +
+                                    'universal truth we must all bear, that empathy and compassion is the only path to an alliance. We the MUD, The ONI & The ' +
+                                    'Ustur speak for all that inhabit this great republic on this new dawn of peace, prosperity and evolution of our galactic ' +
+                                    'consciousness.'
+                            }
+                        ],
+                        ECONOMIC: [
+                            {
+                                governmentName: 'Galia’s Economic Doctrine, established by the Council of Peace (COP), outlines the ' +
+                                    'principles and policies governing the federation\'s economy. To foster prosperity, cooperation, and sustainable growth',
+                                governmentLore: 'Galia’s Economic Principles:\n' +
+                                    'Inter-Federation Integration:\n' +
+                                    'The COP envisions a system where all federation star systems and civilizations are interconnected and engaged in trade and ' +
+                                    'cooperation. Interstellar economic integration facilitates mutual understanding, cultural exchange, and efficient resource ' +
+                                    'allocation. It nurtures interstellar harmony and cooperation for the benefit of the federation.\n' +
+                                    '\n' +
+                                    'Sustainable Development:\n' +
+                                    'The doctrine emphasizes the importance of sustainable economic practices that ensure the long-term viability of factions ' +
+                                    'and distinct star systems across the federation. It encourages the use of advanced technologies and responsible resource ' +
+                                    'extraction across all professions that uphold the standard set by the COP alongside ONI leadership. \n' +
+                                    '\n' +
+                                    'Scientific Advancement and Innovation:\n' +
+                                    'The doctrine promotes continuous research exploration and technological advancement. Research and development initiatives ' +
+                                    'are actively supported to foster faction expansion, drive economic growth, and enhance the quality of life across Galia. ' +
+                                    'Collaboration and knowledge-sharing among star systems are encouraged to accelerate development progress.\n' +
+                                    '\n' +
+                                    'The ATLAS Currency:\n' +
+                                    'Purpose and Function:\n' +
+                                    'ATLAS, the universal currency of the Galia, serves as a medium of exchange, unit of account, and store of value. It ' +
+                                    'facilitates seamless trade, eliminates currency exchange barriers, and fosters economic stability across star systems. ' +
+                                    'The COP, with the help of the MUD faction leaders,  oversees ATLAS\'s issuance, regulation, and management to maintain ' +
+                                    'its integrity and stability.\n' +
+                                    '\n' +
+                                    'Conversion and Exchange Rates:\n' +
+                                    'The COP establishes transparent and efficient mechanisms for converting foreign currencies into ATLAS and vice versa. ' +
+                                    'Exchange rates are determined by market forces and regulated to ensure stability, preventing excessive fluctuations that ' +
+                                    'could disrupt trade or destabilize participating star systems. Fair exchange mechanisms promote trust and encourage ' +
+                                    'inter-federation trade.\n' +
+                                    '\n' +
+                                    'ATLAS Reserve System:\n' +
+                                    'To ensure stability and manage liquidity, the COP, along side MUD leaders, establishes an ATLAS Reserve System. ' +
+                                    'Federation star systems contribute to reserves through mechanisms such as land value tax, and the MUD leaders manage ' +
+                                    'these reserves prudently to stabilize the economy of Galia, address economic crises, and support long-term development ' +
+                                    'projects. The reserve system is designed to maintain the value and integrity of ATLAS.\n' +
+                                    '\n' +
+                                    'Economic Policies and Measures:\n' +
+                                    'Free Trade and Market Access:\n' +
+                                    'The doctrine advocates for removing trade barriers, such as tariffs and quotas, to promote free and fair trade within the ' +
+                                    'federation. Galactic Marketplace access is facilitated, allowing for the exchange of goods, services, and knowledge, fostering ' +
+                                    'economic growth and interstellar cooperation. Fairtrade practices promote mutual benefit and strengthen economic ties ' +
+                                    'among factions.\n' +
+                                    '\n' +
+                                    'Harmonization of Regulations:\n' +
+                                    'To foster a level playing field and minimize trade friction, the COP, with ONI leadership\'s help, works towards ' +
+                                    'harmonizing economic regulations and standards across the federation. This ensures fair competition, consumer protection, ' +
+                                    'and compatibility of trade practices, enabling smoother integration into the economy of Galia. Collaborative regulatory ' +
+                                    'frameworks promote trust and enhance economic cooperation between factions.\n' +
+                                    '\n' +
+                                    'Investment and Infrastructure Development:\n' +
+                                    'The doctrine encourages investment in infrastructure projects that enhance interstellar connectivity, such as the star ' +
+                                    'path, communication systems, and resource hubs. Participating star systems are incentivized to invest in their own ' +
+                                    'development as well as support the development of less advanced star systems. This fosters a balanced and interconnected ' +
+                                    'federation, benefiting all factions.\n' +
+                                    '\n' +
+                                    'Economic Cooperation and Development Programs:\n' +
+                                    'The COP promotes economic cooperation and development programs to address economic disparities among participating ' +
+                                    'star systems. Capacity-building initiatives, technology transfers, and knowledge-sharing platforms are established to facilitate ' +
+                                    'the development of less advanced star systems. These programs foster inclusive growth and support the sustainable ' +
+                                    'advancement of the federation.\n' +
+                                    '\n' +
+                                    'Financial Inclusion and Stability:\n' +
+                                    'As dictated by ONI leadership, the doctrine emphasizes financial inclusion, ensuring that all participating civilizations ' +
+                                    'have access to basic financial services and support. Efforts are made to enhance financial literacy, establish credit systems, ' +
+                                    'and provide risk mitigation mechanisms. Ensuring financial stability across star systems enhances economic resilience and ' +
+                                    'strengthens the foundations of the Galias’ economy. \n' +
+                                    '\n' +
+                                    'Conflict Consideration:\n' +
+                                    'War plays a significant role in the economic doctrine. While not explicitly mentioned, war impacts various aspects of the ' +
+                                    'doctrine. Resource allocation shifts during war, with factions focusing on military production and defense industries that ' +
+                                    'utilize their faction-specific resources. Technological advancements are often accelerated during conflicts, driving innovation ' +
+                                    'in manufacturing, communications, and transportation sectors. Trade disruptions arise from conflicts, allowing opportunities to ' +
+                                    'present themselves during periods of supply shortages, price fluctuations, and restricted trade flows between star systems. ' +
+                                    'Post-war reconstruction efforts present opportunities for investment and economic growth, as resources are directed toward ' +
+                                    'rebuilding affected areas. Defense expenditure rises during war, potentially diverting resources from social/leisure industries ' +
+                                    'and infrastructure development. \n' +
+                                    '\n' +
+                                    'While the doctrine doesn\'t directly address war, its principles interact with the realities of conflict, requiring adaptation to ' +
+                                    'address the economic consequences and implications of war in the Star Atlas economy. Context and specific policies established ' +
+                                    'by USTUR leadership with the help of the COP will shape the doctrine\'s response to war within the framework of the ' +
+                                    'federation\'s economy.\n' +
+                                    '\n' +
+                                    'In the event of escalated conflict beyond the control of the COP, swift measures will be taken to mobilize the Cradle in ' +
+                                    'order to bring balance back to the galaxy. \n' +
+                                    '\n' +
+                                    'Outlook:\n' +
+                                    'Galia\'s Economic Doctrine provides a comprehensive outline for the economic priorities within the federation, guided by ' +
+                                    'cooperation, sustainability, and equality principles. Through the ATLAS currency, the COP oversees interstellar trade, ' +
+                                    'resource allocation, and development, promoting a harmonious and prosperous future for all who participate in the vast ' +
+                                    'economy of Galia. '
+                            }
+                        ]
+                    }
+                ],
             }
         ]
     }

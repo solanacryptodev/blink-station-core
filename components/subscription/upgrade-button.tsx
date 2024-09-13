@@ -17,7 +17,7 @@ export const UpgradeButton: FunctionComponent<{ data: SubscriptionButtonProps }>
             {data.membershipType === 'Specialist' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(10, 3100, {
+                    onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(10, 1100, {
                         subscriptionRank: 'Specialist',
                         tokenCount: 1000000
                     })}>
@@ -28,7 +28,7 @@ export const UpgradeButton: FunctionComponent<{ data: SubscriptionButtonProps }>
             {data.membershipType === 'Captain' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(20, 6100, {
+                    onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(20, 3100, {
                         subscriptionRank: 'Captain',
                         tokenCount: 3000000
                     })}>
@@ -39,7 +39,7 @@ export const UpgradeButton: FunctionComponent<{ data: SubscriptionButtonProps }>
             {data.membershipType === 'Commander' && (
                 <button
                     className="bg-[#90724A] text-white py-2 px-4 rounded-lg hover:bg-[#54422D] border-4 border-[#8F6B34]"
-                    onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(30, 9100, {
+                    onClick={ () => subscriptionPresenter.upgradeOrReSubscribePlayer(30, 5100, {
                         subscriptionRank: 'Commander',
                         tokenCount: 5000000
                     })}>
