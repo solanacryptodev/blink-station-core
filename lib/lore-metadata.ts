@@ -12,8 +12,8 @@ export interface LoreMetadata {
             factions: FactionLore[];
             history: HistoryLore[];
             locations: LocationLore[];
-            // species: SpeciesLore[];
-            // government: Government[];
+            species: SpeciesLore[];
+            government: GovernmentLore[];
             // ships: Ships[];
             // characters: Characters[];
         }

@@ -74,8 +74,8 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                             This includes, but is not limited to, the Marketplace Asset Analyzer (MAA) and 1,000,000 tokens to communicate with Atlasson.
                         </div>
                         <div className="self-end">
-                            { !subscriptionPresenter.upgradeModal ? <SubscriptionButton data={{ buttonText: 'Join Blink Station 10 | 10 USDC / 3,100 ATLAS', membershipType: 'Specialist' }} />
-                                : <UpgradeButton data={{ buttonText: 'Upgrade to a Station Specialist | 10 USDC / 3,100 ATLAS', membershipType: 'Specialist' }} />
+                            { !subscriptionPresenter.upgradeModal ? <SubscriptionButton data={{ buttonText: 'Join Blink Station 10 | 10 USDC / 1,100 ATLAS', membershipType: 'Specialist' }} />
+                                : <UpgradeButton data={{ buttonText: 'Upgrade to a Station Specialist | 10 USDC / 1,100 ATLAS', membershipType: 'Specialist' }} />
                             }
                         </div>
                     </div>
@@ -87,8 +87,8 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                             This tool will give you an edge in the Galia Expanse as the game grows. This tier also includes 3,000,000 tokens to communicate with Atlasson.
                         </div>
                         <div className="self-end">
-                            { !subscriptionPresenter.upgradeModal ? <SubscriptionButton data={{ buttonText: 'Join Blink Station 10 | 20 USDC / 6,100 ATLAS', membershipType: 'Captain' }} />
-                                : <UpgradeButton data={{ buttonText: 'Upgrade to a Station Captain | 20 USDC / 6,100 ATLAS', membershipType: 'Captain' }} /> }
+                            { !subscriptionPresenter.upgradeModal ? <SubscriptionButton data={{ buttonText: 'Join Blink Station 10 | 20 USDC / 3,100 ATLAS', membershipType: 'Captain' }} />
+                                : <UpgradeButton data={{ buttonText: 'Upgrade to a Station Captain | 20 USDC / 3,100 ATLAS', membershipType: 'Captain' }} /> }
                         </div>
                     </div>
                 </TabPanel>
@@ -99,8 +99,8 @@ export const SubscriptionTabs: FunctionComponent<{ data: TabProps }> = observer(
                             You will also gain early access to upcoming tool releases as Blink Station 10 grows.
                         </div>
                         <div className="self-end">
-                            { !subscriptionPresenter.upgradeModal ? <SubscriptionButton data={{ buttonText: 'Join Blink Station 10 | 30 USDC / 9,100 ATLAS', membershipType: 'Commander' }} />
-                                : <UpgradeButton data={{ buttonText: 'Upgrade to a Station Commander | 30 USDC / 9,100 ATLAS', membershipType: 'Commander' }} /> }
+                            { !subscriptionPresenter.upgradeModal ? <SubscriptionButton data={{ buttonText: 'Join Blink Station 10 | 30 USDC / 5,100 ATLAS', membershipType: 'Commander' }} />
+                                : <UpgradeButton data={{ buttonText: 'Upgrade to a Station Commander | 30 USDC / 5,100 ATLAS', membershipType: 'Commander' }} /> }
                         </div>
                     </div>
                 </TabPanel>
