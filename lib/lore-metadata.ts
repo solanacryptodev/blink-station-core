@@ -1,6 +1,7 @@
 export interface LoreData {
     loreName: string;
     loreAnalysis: string;
+    loreExtras?: string;
 }
 
 export interface LoreMetadata {
@@ -11,11 +12,20 @@ export interface LoreMetadata {
             factions: FactionLore[];
             history: HistoryLore[];
             locations: LocationLore[];
+            // species: SpeciesLore[];
+            // government: Government[];
+            // ships: Ships[];
+            // characters: Characters[];
         }
     ];
 }
 
 type FactionName = 'MUD' | 'USTUR' | 'ONI' | 'JORVIK' | 'ECOS' | 'TUFA' | 'PHOTOLI';
+type LocationName = 'OUTPOST' | 'TENEBRA' | 'EVISCO' | 'MNI';
+type SpeciesName = 'USTUR' | 'MIERESE' | 'PUNAAB' | 'PHOTOLI' | 'SOGMIAN';
+type Government = 'FEDERATION' | 'ECONOMIC';
+type Ships = 'MANUFACTURER' | 'CONFIGURATION';
+type Characters = 'HUGH' | 'SAAND';
 
 interface FactionData {
     name: string;
@@ -39,10 +49,29 @@ export type HistoryLore = {
 });
 
 interface LocationData {
-    Name: string;
-    Description: string;
+    locationType: string;
+    locationName: string;
+    locationLore: string;
 }
 
 export type LocationLore = {
-    [locationName: string]: [LocationData];
+    [K in LocationName]: [LocationData];
+};
+
+interface SpeciesData {
+    speciesName: string;
+    speciesLore: string;
+}
+
+export type SpeciesLore = {
+    [K in SpeciesName]: [SpeciesData];
+};
+
+interface GovernmentData {
+    governmentName: string;
+    governmentLore: string;
+}
+
+export type GovernmentLore = {
+    [K in Government]: [GovernmentData];
 };

@@ -201,10 +201,39 @@ export const StarAtlasLore: LoreMetadata[] = [
                 ],
                 locations: [
                     {
-                        Outpost39: [
+                        TENEBRA: [
                             {
-                                Name: 'Outpost 39',
-                                Description: 'Deep in the outer rim of the explored galaxy lies an ancient outpost that has many secrets. This place, this planet ' +
+                                locationType: 'Planet - High Risk Zone',
+                                locationName: 'Tenebra',
+                                locationLore: 'Very close to totally uncharted territory, Tenebra is located in a system popularly known as the Void, ' +
+                                    'which is said to be home to unspeakable stories about the populations of all the other worlds in the Void system ' +
+                                    'being abducted and taken to Tenebra to be used as slaves or worse, living sacrifices to whatever forces dwell beyond ' +
+                                    'the dark veil.\n' +
+                                    '\n' +
+                                    '\n' +
+                                    'This enigma caused much concern to the regional powers of the inner galactic zones, to the point where one of the most ' +
+                                    'well-paid positions in the galaxy became that of a data validator hired to find information about the said ' +
+                                    'planet—unfortunately, according to our sources, much less than 5% of those return to collect the reward.\n' +
+                                    '\n' +
+                                    'Even those adventurers who manage to come back cannot share much. The dark gas that fills the planet hinders ' +
+                                    'the effects of the scans, but what every one of them confirms on their mission is that something must be happening ' +
+                                    'under the gaseous surface of that world…\n' +
+                                    '\n' +
+                                    'This is inferred from the unconventional energy displays that sometimes appear as blood-red marks in the ' +
+                                    'planet\'s atmosphere, only observable at close distances, hypothesized to be a sub-product of chemical reactions ' +
+                                    'and high energy outputs coming from construction-related activities. \n' +
+                                    '\n' +
+                                    'Nevertheless, economic costs, extreme distances, and political discussions have stopped anyone from acting on ' +
+                                    'Tenebra, as whatever is happening there is still contained in the Void.\n' +
+                                    '\n' +
+                                    'Perhaps it is only a matter of time for that to change.'
+                            }
+                        ],
+                        OUTPOST: [
+                            {
+                                locationType: 'Ancient Outpost',
+                                locationName: 'Outpost 39',
+                                locationLore: 'Deep in the outer rim of the explored galaxy lies an ancient outpost that has many secrets. This place, this planet ' +
                                     'has no name, no insignia, no creeds, no allegiances to anyone. Outpost 39 is known to the galaxy as a place for all, and a place ' +
                                     'to test, and try new things. What most do not know about the Armstrong material based Base is that it is built on top of ' +
                                     'ancient ruins, a long since gone civilization that once ruled the galaxy. A civilization thought to be at least 19 million ' +
@@ -220,6 +249,79 @@ export const StarAtlasLore: LoreMetadata[] = [
                                     'But the one thing that is true is the Outpost does not want this to be tested, and has decreed death to any who excavates ' +
                                     'the lands. A pretty price to pay for the truth, but that’s how it works sometimes, sometimes the truth is priced at your life. ' +
                                     'Welcome to Outpost 39. '
+                            }
+                        ],
+                        EVISCO: [
+                            {
+                                locationType: 'Planet - High Risk Zone Border',
+                                locationName: 'Evisco',
+                                locationLore: 'Evisco would be your average planet in the frontier of the High-Risk Zone if not for a very curious phenomenon ' +
+                                    'that happens there called the Light of Evisco.\n' +
+                                    '\n' +
+                                    'Discovered by the famous MUD archeologist Nanteg Nanvek, civilization started pretty early on Evisco. In his previous ' +
+                                    'expeditions, he discovered that the first civilization on the planet, whose name and records are now lost to the sands of ' +
+                                    'time, was able to reach space even before the first Sogmian was born. This theory is based on scraps of engines and ' +
+                                    'machines found scattered across the landscape.\n' +
+                                    '\n' +
+                                    'Curiously enough, the only remaining piece of structure that still stands is a giant ancient city ruin, which the current ' +
+                                    'Evisco population, formed by semi-sentient quadruped beings, never dares to venture to.\n' +
+                                    '\n' +
+                                    'This ghost metropolis, built with minerals only found in deep space, is a sad testament to what might have been one of ' +
+                                    'the most advanced worlds of its time, and no obvious answer has been found regarding what happened to its populace or ' +
+                                    'triggered its downfall.\n' +
+                                    '\n' +
+                                    'Yet, according to the professor\'s research, one thing still seems to be working in the city\'s temple. If one can survive the ' +
+                                    'creatures that took hold of the ancient city and the drifting paths, which seem to be moving inside the city from time to ' +
+                                    'time, they will find the famous light of Evisco, a stream of pure liquid light.\n' +
+                                    'As one can imagine, the perspective of finding liquid light baffled many explorers, driving them to try and find their way ' +
+                                    'to planet Evisco.\n' +
+                                    '\n' +
+                                    'Nevertheless, few ever reach the planet, and from those who manage, most never get to see the curious light, much less ' +
+                                    'retrieve a vial for themselves.\n' +
+                                    '\n' +
+                                    'Indeed, scientists have yet to understand how light could be condensed and made into liquid form, yet, against all logic, ' +
+                                    'you can bottle up light in the spring of Evisco Temple if the information relayed by explorers and hunters across the galaxy ' +
+                                    'are to be believed.\n' +
+                                    '\n' +
+                                    'However, working with this liquid light appears to be difficult at best. If not properly managed, it’s said to go back ' +
+                                    'into a ray of light, dispersing itself before the wielder\'s eye. This is a property that only adds to its rarity and value ' +
+                                    'as a resource, according to those specialized in the hunting of rare materials.\n' +
+                                    '\n' +
+                                    'Rumors in the underworld of Galia have it that Photolis are paying good ATLAS for even a small bottle of the light ' +
+                                    'of Evisco. Should that be true, one may wonder why and how they would use such a thing.\n' +
+                                    '\n' +
+                                    'Besides academics, different groups and manufacturers often try to set up quests to raid the old city in search of ' +
+                                    'the light, as it has been impossible to retake the ruined city from the monsters without risking damaging the source ' +
+                                    'of this invaluable resource. \n' +
+                                    '\n' +
+                                    'It\'s unknown what other secrets Evisco holds, but it seems to be only a matter of time before they are revealed.'
+                            }
+                        ],
+                        MNI: [
+                            {
+                                locationType: 'Flora - High Risk Zone Resource',
+                                locationName: 'Mni Flower',
+                                locationLore: 'The Mní flower is a rare plant found on the planets of the High-Risk Zone, especially those closest to the ' +
+                                    'Cataclysm, with strong psychotropic properties that enable one to relive past experiences. Aside from this primary use, ' +
+                                    'scientists have been known to use the Mní flower as the basis of a memory safekeeping device, allowing people to extract ' +
+                                    'and transfer memories for different uses.\n' +
+                                    '\n' +
+                                    'The story of the Mní flower, or simply Mní, is one written over the greed and desire of many addicts and dealers, whose ' +
+                                    'actions almost extirpated the plant from existence.\n' +
+                                    '\n' +
+                                    'In the early days of the current faction\'s rise, Mní was abundant in the zones that comprise the planets of the ' +
+                                    'now-called medium and high-risk zones, but everything changed with the advent of the Convergence War.\n' +
+                                    '\n' +
+                                    'The dread of the most massive war ever recorded moved many to the refuge of memories. There, they would find the ' +
+                                    'loved ones they lost as well as a return to better days of the distant past. It was their sanctuary from the world ' +
+                                    'around them.\n' +
+                                    '\n' +
+                                    'However, the Mní only seems to grow in the wild, not allowing for the industrial demand that rose during the long years ' +
+                                    'of the convergence war. This led to extreme supply shocks as citizens strived to acquire the ATLAS they so desperately ' +
+                                    'needed to purchase the flower.\n' +
+                                    '\n' +
+                                    'After the war, the Council of Peace restricted sales of the plant, which was already pretty much extinct, save for a ' +
+                                    'few planets that were too close to the Cataclysm to be explored. '
                             }
                         ]
                     }

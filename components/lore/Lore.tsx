@@ -22,7 +22,7 @@ export const Lore: FunctionComponent<{ lore: string }> = observer(({ lore }) => 
     const id = useId();
     const playerName = JSON.stringify(playerPresenter.playerName, null, 2);
     const stationRank = JSON.stringify(playerPresenter.playerRank, null, 2);
-    console.log('player name and rank outside of useEffect...', playerName, stationRank)
+    // console.log('player name and rank outside of useEffect...', playerName, stationRank)
     const [aiState, setAIState] = useAIState();
     const prevLoreRef = useRef<string | null>(null);
 
@@ -67,7 +67,7 @@ export const Lore: FunctionComponent<{ lore: string }> = observer(({ lore }) => 
     }, [fetchLore]);
 
     useEffect(() => {
-        console.log('player name and rank inside of useEffect...', playerName, stationRank)
+        // console.log('player name and rank inside of useEffect...', playerName, stationRank)
         if (!error && !isLoading && foundLore && lore !== prevLoreRef.current) {
             const loreString = JSON.stringify(foundLore, null, 2);
             // console.log('Updating AI state with lore:', loreString);
@@ -92,8 +92,11 @@ export const Lore: FunctionComponent<{ lore: string }> = observer(({ lore }) => 
         }
     }, [error, foundLore, id, isLoading, lore, setAIState, playerName, stationRank]);
 
-    const revealLoreName = wordRevealer(foundLore?.loreName || '')
-    const revealLoreAnalysis = wordRevealer(foundLore?.loreAnalysis || '')
+    const revealLoreName = wordRevealer(foundLore?.loreName || '');
+    const revealLoreAnalysis = foundLore?.loreAnalysis || '';
+
+    const paragraphs = revealLoreAnalysis.split('\n\n').filter(paragraph => paragraph.trim() !== '');
+
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -105,33 +108,35 @@ export const Lore: FunctionComponent<{ lore: string }> = observer(({ lore }) => 
 
     return (
         <>
-            { !error && (
+            {!error && (
                 <motion.div
-                    key={ animationKey }
+                    key={animationKey}
                     className='container flex-col mx-auto bg-gradient-to-r from-gray-900 via-neutral-900 to-gray-900 shadow-lg rounded-lg overflow-hidden'
-                    variants={ containerVariants }
+                    variants={containerVariants}
                     initial="hidden"
                     animate="reveal"
                 >
                     <div className='flex flex-col bg-gray-800 p-6 m-8 shadow-lg rounded-lg'>
                         <div className='text-3xl text-center font-bold underline mb-2'>Galia Expanse Database</div>
-                        <motion.div className='text-2xl text-center text-amber-100 mb-3' variants={ charVariants }>
+                        <motion.div className='text-2xl text-center text-amber-100 mb-3' variants={charVariants}>
                             <h1>
-                                { revealLoreName?.map( ( char, index ) =>
-                                    <motion.span key={ index } variants={ charVariants }>
-                                        { char }
+                                {revealLoreName?.map((char, index) =>
+                                    <motion.span key={index} variants={charVariants}>
+                                        {char}
                                     </motion.span>
-                                ) }
+                                )}
                             </h1>
                         </motion.div>
-                        <motion.div className='text-xl text-center text-amber-100' variants={ charVariants }>
-                            <p>
-                                { revealLoreAnalysis?.map( ( char, index ) =>
-                                    <motion.span key={ index } variants={ charVariants }>
-                                        { char }
-                                    </motion.span>
-                                ) }
-                            </p>
+                        <motion.div className='text-xl text-amber-100 space-y-4' variants={containerVariants}>
+                            {paragraphs.map((paragraph, index) => (
+                                <motion.p key={index} className='text-left' variants={charVariants}>
+                                    {wordRevealer(paragraph).map((char, charIndex) => (
+                                        <motion.span key={charIndex} variants={charVariants}>
+                                            {char}
+                                        </motion.span>
+                                    ))}
+                                </motion.p>
+                            ))}
                         </motion.div>
                     </div>
                 </motion.div>

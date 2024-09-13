@@ -1,4 +1,4 @@
-import { LoreMetadata, LoreData, FactionLore, HistoryLore } from "@/lib/lore-metadata";
+import { LoreMetadata, LoreData, FactionLore, HistoryLore, LocationLore } from "@/lib/lore-metadata";
 import { makeObservable } from "mobx";
 import { singleton } from "tsyringe";
 
@@ -21,13 +21,14 @@ export class LorePresenter {
 
     async findLore(query: string): Promise<LoreData[]> {
         const lowerQuery = query.toLowerCase();
-        console.log('Query:', lowerQuery);
+        // console.log('Query:', lowerQuery);
         const results: LoreData[] = [];
 
         for (const lore of this.loreData) {
             for (const metadataItem of lore.metadata) {
                 results.push(...this.searchFactions(lowerQuery, metadataItem.factions));
                 results.push(...this.searchHistory(lowerQuery, metadataItem.history));
+                results.push(...this.searchLocations(lowerQuery, metadataItem.locations));
             }
         }
 
@@ -42,6 +43,22 @@ export class LorePresenter {
                     results.push({
                         loreName: factionData[0].name,
                         loreAnalysis: factionData[0].lore
+                    });
+                }
+            }
+        }
+        return results;
+    }
+
+    private searchLocations(query: string, locations: LocationLore[]): LoreData[] {
+        const results: LoreData[] = [];
+        for (const location of locations) {
+            for (const [locationName, locationData] of Object.entries(location)) {
+                if (query.includes(locationName.toLowerCase())) {
+                    results.push({
+                        loreName: locationData[0].locationName,
+                        loreAnalysis: locationData[0].locationLore,
+                        loreExtras: locationData[0].locationType
                     });
                 }
             }
@@ -65,7 +82,7 @@ export class LorePresenter {
 
     private matchesHistoryKeywords(query: string, itemName: string): boolean {
         const keywordMap: { [key: string]: string[] } = {
-            'Cataclysm': ['history', 'iris', 'story'],
+            'Cataclysm': ['history', 'iris', 'story', 'galia', 'expanse'],
             'War': ['war'],
             'Exploration': ['exploration'],
             'Future': ['future']

@@ -141,7 +141,7 @@ async function submitUserMessage(content: string, decryptedString: string) {
   let textNode: undefined | React.ReactNode
 
   const result = await streamUI({
-    model: model.chat('gpt-4o-mini-2024-07-18'),
+    model: model.chat('gpt-4o-mini'),
     initial: <SpinnerMessage />,
     system: `\ 
     ${Atlasson.description}
