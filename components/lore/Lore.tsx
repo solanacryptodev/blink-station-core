@@ -97,7 +97,6 @@ export const Lore: FunctionComponent<{ lore: string }> = observer(({ lore }) => 
 
     const paragraphs = revealLoreAnalysis.split('\n\n').filter(paragraph => paragraph.trim() !== '');
 
-
     if (isLoading) {
         return <div>Loading...</div>;
     }

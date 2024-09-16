@@ -112,9 +112,10 @@ export const AssetAnalysis: FunctionComponent<{ asset: string }> = observer(({ a
         }
     };
 
-    if ( subscriptionPresenter.freeAccount ) {
-        return <ExampleAssetAnalysis data={assetPresenter.mockData(asset)} />
-    }
+    // TODO: Add free account support in the future
+    // if ( subscriptionPresenter.freeAccount ) {
+    //     return <ExampleAssetAnalysis data={assetPresenter.mockData(asset)} />
+    // }
 
     return (
         <>

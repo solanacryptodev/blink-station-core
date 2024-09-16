@@ -122,10 +122,21 @@ export class LorePresenter {
 
     private matchesHistoryKeywords(query: string, itemName: string): boolean {
         const keywordMap: { [key: string]: string[] } = {
-            'Cataclysm': ['history', 'iris', 'story', 'galia', 'expanse'],
+            'Cataclysm': ['history', 'iris', 'story', 'galia expanse'],
             'War': ['war'],
             'Exploration': ['exploration'],
             'Future': ['future']
+        };
+        return keywordMap[itemName]?.some(keyword => query.includes(keyword)) || false;
+    }
+
+    private matchesSpeciesKeywords(query: string, itemName: string): boolean {
+        const keywordMap: { [key: string]: string[] } = {
+            'MIERESE': ['mierese', 'mierese species'],
+            'USTUR': ['ustur', 'ustur species'],
+            'PUNAAB': ['punaab', 'punaab species'],
+            'PHOTOLI': ['photoli', 'photoli species'],
+            'SOGMIAN': ['sogmian', 'sogmian species'],
         };
         return keywordMap[itemName]?.some(keyword => query.includes(keyword)) || false;
     }
