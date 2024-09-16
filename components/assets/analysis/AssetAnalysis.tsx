@@ -104,9 +104,9 @@ export const AssetAnalysis: FunctionComponent<{ asset: string }> = observer(({ a
     }, [error, atlasData, usdcData, id, isLoading, setAIState, playerName, stationRank, selectedCurrency, asset]);
 
     const handleCurrencyChange = (currency: 'USDC' | 'ATLAS') => {
-        if (subscriptionPresenter.freeAccount) {
-            return;
-        }
+        // if (subscriptionPresenter.freeAccount) {
+        //     return;
+        // }
         setSelectedCurrency(currency);
         if (currency === 'USDC' && usdcData === null) {
             fetchData('USDC');
@@ -120,7 +120,7 @@ export const AssetAnalysis: FunctionComponent<{ asset: string }> = observer(({ a
 
     return (
         <>
-            {!subscriptionPresenter.freeAccount && (
+            {subscriptionPresenter.account && (
                 <div className="container flex-col mx-auto bg-gradient-to-r from-[#18434D] via-neutral-900 to-[#18434D] shadow-lg rounded-lg overflow-hidden p-4">
                     <div className="flex flex-col items-center mb-4">
                         <div className="flex space-x-2 mb-3">
