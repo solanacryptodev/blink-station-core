@@ -91,7 +91,7 @@ export class AssetPresenter {
 
     private async fetchLowestCurrentPrice(mint: string, currency: string): Promise<StarRating> {
         const data = await this.rootStore.dataStore.lowestCurrentPrice(mint, currency);
-        return { lowestSellPrice: data.lowestSellPrice };
+        return { lowestSellPrice: data.lowestSellPrice === undefined ? 1 : data.lowestSellPrice };
     }
 
     private async fetchTotalBuyAndSellQuantities(mint: string, currency: string): Promise<StarRating> {
@@ -113,7 +113,7 @@ export class AssetPresenter {
 
     private async fetchAverageSellPrice(mint: string, currency: string): Promise<StarRating> {
         const data = await this.rootStore.dataStore.averageSellPrice(mint, currency);
-        return { averageSellPrice: data.averageSellPrice };
+        return { averageSellPrice: isNaN(data.averageSellPrice!) ? 1 : data.averageSellPrice };
     }
 
     private async fetchTotalTradingVolume(mint: string, currency: string): Promise<StarRating> {
@@ -174,15 +174,19 @@ export class AssetPresenter {
         // console.log('Calculating ratings with data:', data);
         const vr = (data.totalTradingVolume! / data.averageClassVolume!) * 100;
         const dr = (data.totalBuyQuantity! / data.totalSellQuantity!) * 100;
+        const zeroedDr = (data.totalBuyQuantity!);
         const pcr = ((data.averageSellPrice! - data.lowestSellPrice!) / data.averageSellPrice!) * 100;
         const lr = (data.totalBuyPrice! / data.averageClassBuyPrice!) * 100;
-        const sr = (isNaN(vr) ? 0 : vr * 0.4) + (dr * 0.3) + (lr * 0.2) + (pcr * 0.1);
+        const sr = (isNaN(vr) ? 0 : vr * 0.4) +
+                     (data.totalSellQuantity === 0 ? zeroedDr * 0.3 : dr * 0.3) +
+                     (lr * 0.2) +
+                     (pcr * 0.1);
         // console.log('Ratings:', vr, dr, pcr, lr, sr);
 
         return {
             ...data,
             volumeRating: data.totalTradingVolume === undefined || data.totalTradingVolume === 0 ? 0 : vr,
-            demandRating: dr,
+            demandRating: data.totalSellQuantity === 0 ? zeroedDr : dr,
             priceCompetitivenessRating: pcr,
             classLiquidity: lr,
             starRating: sr
