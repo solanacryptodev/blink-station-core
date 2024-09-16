@@ -58,9 +58,10 @@ export const AssetAnalysis: FunctionComponent<{ asset: string }> = observer(({ a
     }, [asset, assetPresenter]);
 
     useEffect(() => {
-        if (subscriptionPresenter.freeAccount) {
-            return;
-        }
+        // TODO: add this back when ready
+        // if (subscriptionPresenter.freeAccount) {
+        //     return;
+        // }
 
         const foundAsset = assets.find((_asset) => _asset.name.toLowerCase() === asset.toLowerCase());
         if (foundAsset) {
